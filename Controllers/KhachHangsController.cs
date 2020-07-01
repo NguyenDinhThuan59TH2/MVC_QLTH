@@ -86,7 +86,7 @@ namespace FreeTime1.Controllers
                     khachHang.Anh = FileName;
                 }
                 int count = db.KhachHangs.Count() + 1;
-                khachHang.MaKH = "QL" + count.ToString();
+                khachHang.MaKH = "KH" + count.ToString();
                 db.KhachHangs.Add(khachHang);
                 db.SaveChanges();
                 return RedirectToAction("Index");

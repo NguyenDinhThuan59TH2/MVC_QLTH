@@ -121,89 +121,87 @@ ALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_DonHangXuat_HangDonHangXuat FOREIG
 ALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_Hang_DonHangXuat FOREIGN KEY (MaH) REFERENCES Hang(MaH)
 
 INSERT INTO NguoiDung VALUES
-	('ND111','Codau8tuoi','246810',N'Admin',N'Võ Hữu Huy','0905700699','Huy.jpg',N'Vũng Tàu','1'),
-	('ND112','Codau9tuoi','cobanthan',N'Quản Lý',N'Võ Hữu Thuận','0905700699','Thuan.jpg',N'Đà Lạt','1'),
-	('ND113','Codau10tuoi','caychoidot',N'Nhân Viên',N'Võ Hữu Vang','0905700699','Vang.jpg',N'Hà Tĩnh','1'),
-	('ND114','Codau11tuoi','cailaptop',N'Admin',N'Võ Hữu Lương','0905700699','Lương.jpg',N'Hồ Chí Minh','1'),
-	('ND115','Codau12tuoi','caimaytinh',N'Admin',N'Võ Hữu Nghi','0905700699','Nghi.jpg',N'Cà Mau','1')
+	('QL1','admin','$MYHASH$V1$10000$mb6sZl2WmoJcfPNeJ/PVKEhtLAKHUK/DppE1mhKkpfxCW7G/',N'Quản lý',N'Admin','999999','MacDinh.png',N'Dia chi','1')
 
 INSERT INTO MauHang VALUES
-	('MH111',N'Mẫu Hàng 1',N'Đơn Vị 1',N'Anh1.jpg',N'Khong chu thich'),
-	('MH112',N'Mẫu Hàng 2',N'Đơn Vị 2',N'Anh2.jpg',N'Khong chu thich'),
-	('MH113',N'Mẫu Hàng 3',N'Đơn Vị 3',N'Anh3.jpg',N'Khong chu thich'),
-	('MH114',N'Mẫu Hàng 4',N'Đơn Vị 4',N'Anh5.jpg',N'Khong chu thich'),
-	('MH115',N'Mẫu Hàng 5',N'Đơn Vị 5',N'Anh6.jpg',N'Khong chu thich')
+	('MH1',N'Oishi Snack Phô Mai 1',N'Gói',N'Default.jpg',N'Khong chu thich'),
+	('MH2',N'bánh quy Cosy Marie',N'Gói',N'banhquyCosyMarie.jpg',N'Khong chu thich'),
+	('MH3',N'Bia Heineken 24 Lon',N'Thùng',N'bia-heineken-thung-24-lon-330ml.jpg',N'Khong chu thich'),
+	('MH4',N'Đường trắng biên hòa 1KG',N'Gói',N'Duong-trang-BIen-Hoa-1kg.jpg',N'Khong chu thich'),
+	('MH5',N'Nước mắm Nam Ngư 270ml',N'Chai',N'nuoc-mam-nam-ngu.jpg',N'Khong chu thich'),
+	('MH6',N'Rượu cúng',N'Chai',N'Default.jpg',N'Khong chu thich')
 
 
 Insert into NhomHang Values
-	('NH111',N'Nhóm Hàng 1'),
-	('NH112',N'Nhóm Hàng 2'),
-	('NH113',N'Nhóm Hàng 3'),
-	('NH114',N'Nhóm Hàng 4'),
-	('NH115',N'Nhóm Hàng 5')
+	('NH1',N'Bánh Kẹo'),
+	('NH2',N'Bia Rượu'),
+	('NH3',N'Gia Dụng'),
+	('NH4',N'Vàng Mã'),
+	('NH5',N'Nước Giải Khát')
 
 
 
 Insert into MauHangNhomHang values
-	('MH111','NH111'),
-	('MH112','NH112'),
-	('MH113','NH113'),
-	('MH114','NH114'),
-	('MH115','NH115')
+	('MH111','NH1'),
+	('MH112','NH2'),
+	('MH113','NH3'),
+	('MH114','NH4'),
+	('MH115','NH5')
 
 
 insert into NhaCungCap values
-	('NCC111',N'Nhà cung cấp 1',N'Việt Nam',N'Nha Trang,Khánh Hòa','77779999','Ncc1@gmail.com'),
-	('NCC112',N'Nhà cung cấp 2',N'Thái Lan',N'Bang koc','77779999','Ncc2@gmail.com'),
-	('NCC113',N'Nhà cung cấp 3',N'Mexico',N'Urafe','77779999','Ncc3@gmail.com'),
-	('NCC114',N'Nhà cung cấp 4',N'Lào',N'LeLeLe','77779999','Ncc3@gmail.com'),
-	('NCC115',N'Nhà cung cấp 5',N'Việt Nam',N'Nha Trang,Khánh Hòa','77779999','Ncc5@gmail.com')
+	('NCC1',N'Thúy Hương',N'Việt Nam',N'Nha Trang,Khánh Hòa','0972111640','thuyhuongstore@gmail.com'),
+	('NCC2',N'Lâm Bân',N'Thái Lan',N'Bang koc','0888186566','Ncc2@gmail.com'),
+	('NCC3',N'Bình Đường',N'Mexico',N'Urafe','0921219990','Ncc3@gmail.com'),
+	('NCC4',N'Cảnh Hùng',N'Lào',N'LeLeLe','0375323640','Ncc3@gmail.com'),
+	('NCC5',N'Đình Thuận',N'Việt Nam',N'Nha Trang,Khánh Hòa','0364321274','Ncc5@gmail.com')
 
 
 insert into KhachHang values
-	('KH111',N'Ngô Nguyễn Tường Nghi',N'Nghi.jpg',N'Diên Khánh, Khánh Hòa','12121212','Nghi@gmail.com','1999/3/2','1'),
-	('KH112',N'Ngô Bá Khá',N'Khá.jpg',N'Nha Trang, Khánh Hòa','12121213','Kha@gmail.com','1998/3/12','1'),
-	('KH113',N'Ngô Uyên Ương',N'Ương.jpg',N'Đà lạt','12121214','Uong@gmail.com','1997/12/2','0'),
-	('KH114',N'Ngô Văn Giàu',N'Giàu.jpg',N'Cà Mau','12121215','Giau@gmail.com','1999/6/6','0'),
-	('KH115',N'Ngô Nguyễn Cát Tường',N'Tuong.jpg',N'Hà Nội','12121216','Tuong@gmail.com','1999/3/2','1')
+	('KH1',N'Ngô Nguyễn Tường Nghi',N'MacDinh.png',N'Diên Khánh, Khánh Hòa','0972111640','Nghi@gmail.com','1999/3/2','1'),
+	('KH2',N'Ngô Bá Khá',N'MacDinh.png',N'Nha Trang, Khánh Hòa','0888186566','Kha@gmail.com','1998/3/12','1'),
+	('KH3',N'Ngô Uyên Ương',N'MacDinh.png',N'Đà lạt','0921219990','Uong@gmail.com','1997/12/2','0'),
+	('KH4',N'Ngô Văn Giàu',N'MacDinh.png',N'Cà Mau','0375323640','Giau@gmail.com','1999/6/6','0'),
+	('KH5',N'Ngô Nguyễn Cát Tường',N'MacDinh.png',N'Hà Nội','0364321274','Tuong@gmail.com','1999/3/2','1')
 
 
 insert into Hang values
-	('H111','MH111','NCC111','2020/12/12','2020/5/8','12000000','10','13000000'),
-	('H112','MH112','NCC112','2020/12/12','2020/5/8','2000000','10','3000000'),
-	('H113','MH113','NCC113','2020/12/12','2020/5/8','10000000','10','12000000'),
-	('H114','MH114','NCC114','2020/12/12','2020/5/8','12000000','10','13000000'),
-	('H115','MH115','NCC115','2020/12/12','2020/5/8','12000000','10','13000000')
+	('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','10','10000'),
+	('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','10','30000'),
+	('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','10','15000'),
+	('H4','MH2','NCC4','2021/12/12','2020/5/8','120000','10','130000'),
+	('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','10','300000'),
+	('H6','NH4','NCC5','2021/09/12','2020/5/8','300000','10','330000')
 
 
 insert into DonHangNhap values 
-	('DHN111','NCC111','2020/8/12','15%',N'Kiểu giảm giá 1'),
-	('DHN112','NCC112','2020/8/12','15%',N'Kiểu giảm giá 2'),
-	('DHN113','NCC113','2020/8/12','15%',N'Kiểu giảm giá 2'),
-	('DHN114','NCC114','2020/8/12','15%',N'Kiểu giảm giá 1'),
-	('DHN115','NCC115','2020/8/12','15%',N'Kiểu giảm giá 1')
+	('DHN1','NCC1','2020/8/12','10',N'%'),
+	('DHN2','NCC2','2020/8/12','10000',N'VNĐ'),
+	('DHN3','NCC3','2020/8/12','20000',N'VNĐ'),
+	('DHN4','NCC4','2020/8/12','15%',N'%'),
+	('DHN5','NCC5','2020/8/12','25%',N'%')
 
 
 insert into DonHangXuat values 
-	('DHX111','KH111','2020/11/11','10%',N'Kiểu giảm giá 1'),
-	('DHX112','KH112','2020/11/11','0%',N'Kiểu giảm giá 2'),
-	('DHX113','KH113','2020/11/11','10%',N'Kiểu giảm giá 1'),
-	('DHX114','KH114','2020/11/11','10%',N'Kiểu giảm giá 1'),
-	('DHX115','KH115','2020/11/11','10%',N'Kiểu giảm giá 1')
+	('DHX1','KH1','2020/11/11','10',N'%'),
+	('DHX2','KH2','2020/11/11','10000',N'VNĐ'),
+	('DHX3','KH3','2020/11/11','20000',N'VNĐ'),
+	('DHX4','KH4','2020/11/11','15%',N'%'),
+	('DHX5','KH5','2020/11/11','25%',N'%')
 
 insert into HangDonHangNhap values
-	('DHN111','H111','10'),
-	('DHN112','H112','10'),
-	('DHN113','H113','10'),
-	('DHN114','H114','10'),
-	('DHN115','H115','10')
+	('DHN1','H1','10'),
+	('DHN2','H2','10'),
+	('DHN3','H3','10'),
+	('DHN4','H4','10'),
+	('DHN5','H5','10')
 
 insert into HangDonHangXuat values
-	('DHX111','H111','5'),
-	('DHX112','H111','6'),
-	('DHX113','H111','7'),
-	('DHX114','H111','8'),
-	('DHX115','H111','9')
+	('DHX1','H1','5'),
+	('DHX2','H2','6'),
+	('DHX3','H3','7'),
+	('DHX4','H4','8'),
+	('DHX5','H5','9')
 
 select * from KhachHang
 select * from NhaCungCap
