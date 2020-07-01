@@ -142,15 +142,15 @@ Insert into NhomHang Values
 
 
 Insert into MauHangNhomHang values
-	('MH111','NH1'),
-	('MH112','NH2'),
-	('MH113','NH3'),
-	('MH114','NH4'),
-	('MH115','NH5')
+	('MH1','NH1'),
+	('MH2','NH2'),
+	('MH3','NH3'),
+	('MH4','NH4'),
+	('MH5','NH5')
 
 
 insert into NhaCungCap values
-	('NCC1',N'Thúy Hương',N'Việt Nam',N'Nha Trang,Khánh Hòa','0972111640','thuyhuongstore@gmail.com'),
+	('NCC1',N'Thúy Hương',N'Việt Nam',N'Nha Trang,Khánh Hòa','0972111640','thuy@gmail.com'),
 	('NCC2',N'Lâm Bân',N'Thái Lan',N'Bang koc','0888186566','Ncc2@gmail.com'),
 	('NCC3',N'Bình Đường',N'Mexico',N'Urafe','0921219990','Ncc3@gmail.com'),
 	('NCC4',N'Cảnh Hùng',N'Lào',N'LeLeLe','0375323640','Ncc3@gmail.com'),
@@ -171,23 +171,23 @@ insert into Hang values
 	('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','10','15000'),
 	('H4','MH2','NCC4','2021/12/12','2020/5/8','120000','10','130000'),
 	('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','10','300000'),
-	('H6','NH4','NCC5','2021/09/12','2020/5/8','300000','10','330000')
+	('H6','MH4','NCC5','2021/09/12','2020/5/8','300000','10','330000')
 
 
 insert into DonHangNhap values 
 	('DHN1','NCC1','2020/8/12','10',N'%'),
 	('DHN2','NCC2','2020/8/12','10000',N'VNĐ'),
 	('DHN3','NCC3','2020/8/12','20000',N'VNĐ'),
-	('DHN4','NCC4','2020/8/12','15%',N'%'),
-	('DHN5','NCC5','2020/8/12','25%',N'%')
+	('DHN4','NCC4','2020/8/12','15',N'%'),
+	('DHN5','NCC5','2020/8/12','25',N'%')
 
 
 insert into DonHangXuat values 
 	('DHX1','KH1','2020/11/11','10',N'%'),
 	('DHX2','KH2','2020/11/11','10000',N'VNĐ'),
 	('DHX3','KH3','2020/11/11','20000',N'VNĐ'),
-	('DHX4','KH4','2020/11/11','15%',N'%'),
-	('DHX5','KH5','2020/11/11','25%',N'%')
+	('DHX4','KH4','2020/11/11','15',N'%'),
+	('DHX5','KH5','2020/11/11','25',N'%')
 
 insert into HangDonHangNhap values
 	('DHN1','H1','10'),
