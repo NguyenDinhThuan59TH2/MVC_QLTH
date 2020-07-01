@@ -9,6 +9,44 @@
     <link rel="stylesheet" type="text/css" href="~/Content/search.css">
     <link rel="stylesheet" type="text/css" href="~/Content/grid.css">
     <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/noti.css">
+}
+
+@section scripts {
+    <script src="~/Scripts/noti.js"></script>
+}
+
+@if (ViewBag.TaoThanhCong != null)
+{
+    <div class="noti">
+        <div class="noti-content">
+            <div class="noti-header">
+                Thông báo!
+                <div class="noti-close">
+                    đóng
+                </div>
+            </div>
+            <div class="noti-body">
+                @ViewBag.TaoThanhCong
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.XoaThanhCong != null)
+{
+    <div class="noti">
+        <div class="noti-content">
+            <div class="noti-header">
+                Thông báo!
+                <div class="noti-close">
+                    đóng
+                </div>
+            </div>
+            <div class="noti-body">
+                @ViewBag.XoaThanhCong
+            </div>
+        </div>
+    </div>
 }
 
 <h2 class="text-title">Người dùng</h2>
@@ -123,30 +161,30 @@
             grid.Column("TaiKhoan","Tài khoản"  ),
             grid.Column("ChucVu","Chức vụ"),
             grid.Column("HoTen","Họ tên", format:
-                @<div>
-                    <img src="~/Images/NguoiDungs/@item.Anh" class="grid-avatar" />
-                    @item.HoTen
-                </div>
-            ),
-            grid.Column("SDT","Số điện thoại"),
-            grid.Column("DiaChi","Địa chỉ"),
-            grid.Column("GioiTinh","Giới tính",  format: @item => @item.GioiTinh == true ? "Nam" : "Nữ" ),
-            grid.Column("", "", format:
-                @<div>
-                    <a href="@Url.Action("Edit", new { id = item.MaND })" class="btn btn-primary btn-sm">
-                        <i class="fa fa-pencil"></i>
-                        <span>Sửa</span>
-                    </a>
-                    <a href="@Url.Action("Delete", new { id = item.MaND })" class="btn btn-danger btn-sm">
-                        <i class="fa fa-plus"></i>
-                        <span>Xóa</span>
-                    </a>
-                    <a href="@Url.Action("Details", new { id = item.MaND })" class="btn btn-info btn-sm">
-                        <i class="fa fa-info"></i>
-                        <span>Xem thêm</span>
-                    </a>
-                </div>
-            ),
-        }
-    )
+@<div>
+    <img src="~/Images/NguoiDungs/@item.Anh" class="grid-avatar" />
+    @item.HoTen
+</div>
+),
+grid.Column("SDT","Số điện thoại"),
+grid.Column("DiaChi","Địa chỉ"),
+grid.Column("GioiTinh","Giới tính",  format: @item => @item.GioiTinh == true ? "Nam" : "Nữ" ),
+grid.Column("", "", format:
+@<div>
+    <a href="@Url.Action("Edit", new { id = item.MaND })" class="btn btn-primary btn-sm">
+        <i class="fa fa-pencil"></i>
+        <span>Sửa</span>
+    </a>
+    <a href="@Url.Action("Delete", new { id = item.MaND })" class="btn btn-danger btn-sm">
+        <i class="fa fa-plus"></i>
+        <span>Xóa</span>
+    </a>
+    <a href="@Url.Action("Details", new { id = item.MaND })" class="btn btn-info btn-sm">
+        <i class="fa fa-info"></i>
+        <span>Xem thêm</span>
+    </a>
+</div>
+),
+}
+)
 </div>
