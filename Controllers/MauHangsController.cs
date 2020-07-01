@@ -78,7 +78,8 @@ namespace FreeTime1.Controllers
                 mauHang.MaMH = "MH" + count.ToString();
                 db.MauHangs.Add(mauHang);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.TaoThanhCong = "Thêm mẫu hàng " + mauHang.TenMH + " thành công!";
+                return View("Index", db.MauHangs.ToList());
             }
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
             return View(mauHang);
@@ -151,7 +152,8 @@ namespace FreeTime1.Controllers
             MauHang mauHang = db.MauHangs.Find(id);
             db.MauHangs.Remove(mauHang);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.XoaThanhCong = "Xóa mẫu hàng " + mauHang.TenMH + " thành công!";
+            return View("Index", db.MauHangs.ToList());
         }
 
         protected override void Dispose(bool disposing)

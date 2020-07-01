@@ -89,7 +89,8 @@ namespace FreeTime1.Controllers
                 khachHang.MaKH = "QL" + count.ToString();
                 db.KhachHangs.Add(khachHang);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.TaoThanhCong = "Thêm khách hàng " + khachHang.HoTen + " thành công!";
+                return View("Index", db.KhachHangs.ToList());
             }
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
             return View(khachHang);
@@ -162,7 +163,9 @@ namespace FreeTime1.Controllers
             KhachHang khachHang = db.KhachHangs.Find(id);
             db.KhachHangs.Remove(khachHang);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.XoaThanhCong = "Xóa khách hàng " + khachHang.HoTen + " thành công!";
+            return View("Index", db.KhachHangs.ToList());
+            
         }
 
         protected override void Dispose(bool disposing)
