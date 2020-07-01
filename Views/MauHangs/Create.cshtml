@@ -1,0 +1,61 @@
+﻿@model FreeTime1.Models.MauHang
+
+@{
+    ViewBag.Title = "Mẫu hàng mới";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+}
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+<h2 class="text-title">Mẫu hàng mới</h2>
+@using (Html.BeginForm("Create", "MauHangs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form">
+        <div class="form-group">
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.TenMH)
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.TenMH, new { htmlAttributes = new { @class = "form-input" } })
+                    @Html.ValidationMessageFor(model => model.TenMH, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.DonVi)
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.DonVi, new { htmlAttributes = new { @class = "form-input" } })
+                    @Html.ValidationMessageFor(model => model.DonVi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.ChuThich)
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.ChuThich, new { htmlAttributes = new { @class = "form-input" } })
+                    @Html.ValidationMessageFor(model => model.ChuThich, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-footer">
+        <div>
+            <input type="submit" value="Tạo mẫu hàng" class="btn btn-success btn-sm" />
+        </div>
+    </div>
+}
+

@@ -1,0 +1,222 @@
+﻿@model FreeTime1.Models.DonHangXuat
+
+@{
+    ViewBag.Title = "Thêm đơn hàng xuất";
+    WebGrid grid = new WebGrid();
+    if (Model != null && Model.HangDonHangXuats != null)
+    {
+        grid = new WebGrid(Model.HangDonHangXuats, canPage: true, defaultSort: "MaH", rowsPerPage: 10);
+    }
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/gird.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
+}
+
+@if (@Model == null)
+{
+    <div>
+        <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+            <i class="fa fa-arrow-left"></i>
+            <span>
+                Quay về
+            </span>
+        </a>
+    </div>
+    <h2 class="text-title">Đơn hàng xuất mới</h2>
+    using (Html.BeginForm("CreateDocument", "DonHangXuats", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form">
+            <div class="form-group">
+                <div class="form-field">
+                    <div class="form-label">
+                        Khách hàng
+                    </div>
+                    <div>
+                        @Html.DropDownList("MaKH", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MaKH, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.KieuGiamGia)
+                    </div>
+                    <div>
+                        <div class="form-radio-group">
+                            @Html.RadioButtonFor(model => model.KieuGiamGia, true, true) VNĐ
+                            @Html.RadioButtonFor(model => model.KieuGiamGia, false, false) %
+                            @Html.ValidationMessageFor(model => model.KieuGiamGia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.GiamGia)
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.GiamGia, new { htmlAttributes = new { @class = "form-input" } })
+                        @Html.ValidationMessageFor(model => model.GiamGia, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.NgayXuat)
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(model => model.NgayXuat, new { @class = "form-input", type = "date" })
+                        @Html.ValidationMessageFor(model => model.NgayXuat, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <input type="submit" value="Tạo" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div>
+        <div>
+            <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+                <i class="fa fa-arrow-left"></i>
+                <span>
+                    Kết thúc
+                </span>
+            </a>
+            <a href="@Url.Action("DeleteDocument", new { MaDHX = Model.MaDHX })" class="btn btn-danger btn-sm">
+                <i class="fa fa-trash-o"></i>
+                <span>
+                  Xóa đơn hàng
+                </span>
+            </a>
+        </div>
+        <h2 class="text-title">Đơn hàng xuất @Model.MaDHX</h2>
+        <div class="partition partition-col">
+            <div class="partition-col">
+                <div class="partition-cell">
+                    <dt>
+                        Khách hàng
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.KhachHang.HoTen)
+                    </dd>
+                </div>
+            </div>
+            <div class="partition-col">
+                <div class="partition-cell">
+                    <dt>
+                        Ngày xuất
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.NgayXuat)
+                    </dd>
+                </div>
+            </div>
+            <div class="partition-col">
+                <div class="partition-cell">
+                    <dt>
+                        Giảm giá
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.GiamGia)@Html.DisplayFor(model => model.KieuGiamGia)
+                    </dd>
+                </div>
+            </div>
+            <div class="partition-col">
+                <div class="partition-cell">
+                    <dt>
+                        Tổng đơn hàng
+                    </dt>
+                    <dd>
+                        @ViewBag.TongDonHang
+                    </dd>
+                </div>
+            </div>
+        </div>
+        <div class="partition partition-col">
+            <div class="partition-row" style="width: 50%; padding: 10px;">
+                <div class="partition-cell" style="width: 100%">
+                    <h3 class="text-title">Thêm hàng:</h3>
+                    @using (Html.BeginForm("AddInStock", "DonHangXuats", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form">
+                            <div class="form-group">
+                                <input class="form-input hide" name="MaDHX" value="@Model.MaDHX" />
+                                <div class="form-field">
+                                    <div class="form-label">
+                                        Mặt hàng
+                                    </div>
+                                    <div>
+                                        <select name="MaH" id="maHang">
+                                            @foreach (var hang in ViewBag.Hangs)
+                                            {
+                                                <option value="@hang.MaH">
+                                                    <p>@hang.MauHang.TenMH - @hang.SoLuong@hang.MauHang.DonVi</p>
+                                                    <p>Giá bán: @hang.GiaBan</p>
+                                                    <p>Hạn sử dụng: @hang.HanSuDung</p>
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-field">
+                                    <div class="form-label">
+                                        Số lượng:
+                                    </div>
+                                    <div>
+                                        <input class="form-input" name="SoLuong" id="soLuongInput" />
+                                    </div>
+                                </div>
+                                <div class="form-footer">
+                                    <div>
+                                        <input type="submit" value="Lưu" class="btn btn-success btn-sm" />
+                                    </div>
+                                    @if (ViewBag.errCount != "")
+                                    {
+                                        <div class="text-error">@ViewBag.errCount</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="grid" style="width: 50%;">
+                @grid.GetHtml(
+                                                         tableStyle: "table table-bordered table-hover",
+                                                         footerStyle: "grid-footer",
+                                                         fillEmptyRows: true,
+                                                         mode: WebGridPagerModes.Numeric,
+                                                         alternatingRowStyle: "alternatingRowStyle",
+                                                         columns: new[]
+                                                         {
+                                    grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+                                    grid.Column("Hang.MauHang.TenMH","Tên mặt hàng"),
+                                    grid.Column("SoLuong","Số lượng xuất"  ),
+                                    grid.Column("Hang.MauHang.DonVi","Đơn vị tính"  ),
+                                    grid.Column("Hang.GiaNhap","Giá bán"),
+                                    grid.Column("Hang.HanSuDung","Hạn sử dụng"),
+                                    grid.Column("", "", format:
+                                                @<div>
+                                                    <a href="@Url.Action("DeleteInStock", new { MaDHX = Model.MaDHX, MaH = item.MaH })" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-plus"></i>
+                                                        <span>Xóa</span>
+                                                    </a>
+                                                </div>
+                                   ),
+                                   }
+                               )
+            </div>
+        </div>
+    </div>
+}

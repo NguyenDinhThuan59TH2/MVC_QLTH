@@ -1,0 +1,49 @@
+﻿.grid {
+    margin-top: 10px;
+}
+
+.grid-action {
+    padding: 5px;
+    margin-bottom: 3px;
+}
+
+.grid-footer {
+    color: #444141;
+    font: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.grid-footer a {
+    background-color: #ffffff;
+    color: #337ab7;
+    margin-left: 10px;
+    padding: 5px;
+    text-decoration: underline;
+}
+
+.grid-footer a:active, a:hover {
+    background-color: #eaffe9;
+    color: #5cb85c;
+}
+
+.alternatingRowStyle {
+    background-color: #b2d5d6;
+}
+
+table .table1 {
+    text-align: left;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 800px;
+}
+
+.tr, .td {
+    text-align: left;
+}
+
+.grid-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}

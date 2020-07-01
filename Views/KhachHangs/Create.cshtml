@@ -1,0 +1,106 @@
+﻿@model FreeTime1.Models.KhachHang
+
+@{
+    ViewBag.Title = "Thêm khách hàng";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+}
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+<h2 class="text-title">Người dùng mới</h2>
+@using (Html.BeginForm("Create", "KhachHangs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form">
+    <div class="form-group">
+        <div class="form-field">
+            <div class="form-label">
+                @Html.LabelFor(model => model.HoTen)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new { @class = "form-input" } })
+                @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-field">
+            <div class="form-label">
+                @Html.LabelFor(model => model.Email)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-input" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-field">
+            <div class="form-label">
+                @Html.LabelFor(model => model.SDT)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-input" } })
+                @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="form-field">
+            <div class="form-label">
+                @Html.LabelFor(model => model.DiaChi)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.DiaChi, new { htmlAttributes = new { @class = "form-input" } })
+                @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-field">
+            <div class="form-label">
+                @Html.LabelFor(model => model.Anh)
+            </div>
+            <div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="Anh" multiple id="customFile" />
+                </div>
+                @Html.ValidationMessageFor(model => model.Anh, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-field">
+            <div class="form-label">
+                @Html.LabelFor(model => model.GioiTinh)
+            </div>
+            <div>
+                <div class="form-radio-group">
+                    @Html.RadioButtonFor(model => model.GioiTinh, true, true) Nam
+                    @Html.RadioButtonFor(model => model.GioiTinh, false, false) Nữ
+                    @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-field">
+            <div class="form-label">
+                @Html.LabelFor(model => model.NgaySinh)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @class = "form-input" } })
+                @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="form-footer">
+        <div>
+            <input type="submit" value="Tạo khách hàng" class="btn btn-success btn-sm" />
+        </div>
+    </div>
+}

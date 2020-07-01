@@ -1,0 +1,102 @@
+﻿@model FreeTime1.Models.KhachHang
+
+@{
+    ViewBag.Title = "Chi tiết khách hàng";
+    string gtinh = "";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/image.css">
+}
+
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+
+<h2 class="text-title">
+    @Html.DisplayFor(model => model.HoTen)
+    <a href="@Url.Action("Edit", new { id = Model.MaKH })" class="btn btn-primary btn-sm" style="margin-left: 10px">
+        <i class="fa fa-pencil"></i>
+        <span>
+            Sửa
+        </span>
+    </a>
+</h2>
+
+<div class="partition partition-col">
+    <img src="~/Images/KhachHangs/@Html.DisplayFor(model => model.Anh)" class="avarta-large" />
+    <div class="partition-row partition-half-width">
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.HoTen)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.HoTen)
+                </dd>
+            </div>
+        </div>
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            </div>
+        </div>
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.SDT)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.SDT)
+                </dd>
+            </div>
+        </div>
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DiaChi)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DiaChi)
+                </dd>
+            </div>
+        </div>
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.NgaySinh)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.NgaySinh)
+                </dd>
+            </div>
+        </div>
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.GioiTinh)
+                </dt>
+                <dd>
+                    @{if (Model.GioiTinh == true)
+                        { gtinh = "Nam"; }
+                        else
+                        { gtinh = "Nữ"; }
+                    }
+                    @gtinh
+                </dd>
+            </div>
+        </div>
+    </div>
+</div>

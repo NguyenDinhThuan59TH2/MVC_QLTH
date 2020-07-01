@@ -1,0 +1,152 @@
+﻿@model IEnumerable<FreeTime1.Models.NguoiDung>
+
+@{
+    ViewBag.Title = "Index";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "TenNV", rowsPerPage: 10);
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/search.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/grid.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+}
+
+<h2 class="text-title">Người dùng</h2>
+<div class="search">
+    @using (Html.BeginForm("TimKiem", "NguoiDungs", FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+        <div class="search-group">
+            <table class="search-table">
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Mã người dùng</div>
+                    </td>
+                    <td class="search-table-td">
+                        <input type="text" name="MaND" value="@ViewBag.MaND" class="search-input" />
+                    </td>
+                </tr>
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Tài khoản</div>
+                    </td>
+                    <td class="search-table-td">
+                        <input type="text" name="TaiKhoan" value="@ViewBag.TaiKhoan" class="search-input" />
+                    </td>
+                </tr>
+            </table>
+            <table class="search-table">
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Chức vụ</div>
+                    </td>
+                    <td class="search-table-td">
+                        <input type="text" name="ChucVu" value="@ViewBag.ChucVu" class="search-input" />
+                    </td>
+                </tr>
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Họ tên</div>
+                    </td>
+                    <td class="search-table-td">
+                        <input type="text" name="HoTen" value="@ViewBag.HoTen" class="search-input" />
+                    </td>
+                </tr>
+            </table>
+            <table class="search-table">
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Số điện thoại</div>
+                    </td>
+                    <td class="search-table-td">
+                        <input type="text" name="SDT" value="@ViewBag.SDT" class="search-input" />
+                    </td>
+                </tr>
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Địa chỉ</div>
+                    </td>
+                    <td class="search-table-td">
+                        <input type="text" name="DiaChi" value="@ViewBag.DiaChi" class="search-input" />
+                    </td>
+                </tr>
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Giới tính</div>
+                    </td>
+                    <td class="search-table-td">
+                        @if (@ViewBag.GioiTinh == "Nam")
+                        {
+                            <input type="radio" name="GioiTinh" value="Nam" checked class="search-checkbox" /><text>Nam</text>
+                            <input type="radio" name="GioiTinh" value="Nữ" class="search-checkbox" /><text>Nữ</text>
+                        }
+                        else if (ViewBag.GioiTinh == "Nữ")
+                        {
+                            <input type="radio" name="GioiTinh" value="Nam" class="search-checkbox" /><text>Nam</text>
+                            <input type="radio" name="GioiTinh" value="Nữ" checked class="search-checkbox" /><text>Nữ</text>
+                        }
+                        else
+                        {
+                            <input type="radio" name="GioiTinh" value="Nam" class="search-checkbox" /><text>Nam</text>
+                            <input type="radio" name="GioiTinh" value="Nữ" class="search-checkbox" /><text>Nữ</text>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="search-footer">
+            <input type="submit" name="submit" value="Tìm kiếm" class="btn search-submit" />
+            <a href="@Url.Action("Index")" class="btn search-clear">
+                <i class="fa fa-trash-o"></i>
+                <span>Xóa tìm kiếm</span>
+            </a>
+        </div>
+    }
+</div>
+<div class="grid">
+    <div class="grid-action">
+        <a href="@Url.Action("Create", new {})" class="btn btn-success btn-sm">
+            <i class="fa fa-plus"></i>
+            <span>Thêm người dùng</span>
+        </a>
+    </div>
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: true,
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+        columns: new[]
+        {
+            grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("MaND","Mã người dùng"),
+            grid.Column("TaiKhoan","Tài khoản"  ),
+            grid.Column("ChucVu","Chức vụ"),
+            grid.Column("HoTen","Họ tên", format:
+                @<div>
+                    <img src="~/Images/NguoiDungs/@item.Anh" class="grid-avatar" />
+                    @item.HoTen
+                </div>
+            ),
+            grid.Column("SDT","Số điện thoại"),
+            grid.Column("DiaChi","Địa chỉ"),
+            grid.Column("GioiTinh","Giới tính",  format: @item => @item.GioiTinh == true ? "Nam" : "Nữ" ),
+            grid.Column("", "", format:
+                @<div>
+                    <a href="@Url.Action("Edit", new { id = item.MaND })" class="btn btn-primary btn-sm">
+                        <i class="fa fa-pencil"></i>
+                        <span>Sửa</span>
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = item.MaND })" class="btn btn-danger btn-sm">
+                        <i class="fa fa-plus"></i>
+                        <span>Xóa</span>
+                    </a>
+                    <a href="@Url.Action("Details", new { id = item.MaND })" class="btn btn-info btn-sm">
+                        <i class="fa fa-info"></i>
+                        <span>Xem thêm</span>
+                    </a>
+                </div>
+            ),
+        }
+    )
+</div>

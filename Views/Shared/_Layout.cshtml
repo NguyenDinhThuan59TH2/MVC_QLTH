@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/fonts/font-awesome/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href='~/fonts/glyphicons-halflings-regular.ttf' rel='stylesheet' type='text/css'>
+    <link href='~/fonts/glyphicons-halflings-regular.woff' rel='stylesheet' type='text/css'>
+    <link href='~/fonts/glyphicons-halflings-regular.woff2' rel='stylesheet' type='text/css'>
+    <link href='~/Content/layout.css' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="~/Scripts/Script1.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css">
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+    <title>@ViewBag.Title</title>
+    @RenderSection("styles", false)
+</head>
+<body>
+    <div id="header-nav">
+        <nav class="navbar navbar-expand-sm navbar-inverse  d-flex justify-content-between nav-layout" margin="none" style="border-radius: unset;">
+            <div class="container-fluid">
+                <div class="nav-item">
+                    <a href="#" class="navbar-brand"><img src="~/imgs/logo.jpg" width="30" height="30" alt="logo"></a>
+                    <a class="navbar-brand" href="#">PHÚC THẢO</a>
+                </div>
+               <<ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Danh mục quản lý
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item"><a href="">@Html.ActionLink("Khách hàng", "Index", "KhachHangs")</a></li>
+                            <li class="dropdown-item"><a href="">@Html.ActionLink("Mẫu hàng", "Index", "MauHangs")</a></li>
+                            <li class="dropdown-item"><a href="">@Html.ActionLink("Nhà cung cấp", "Index", "NhaCungCaps")</a></li>
+                            <li class="dropdown-item"><a href="">@Html.ActionLink("Người dùng", "Index", "NguoiDungs")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <form class="navbar-form">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Nhập gì đó">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">
+                                        <span class="glyphicon glyphicon-search" />
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                            @ViewBag.TenNhanVien
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu text-left">
+                            <li><a href="#" class="dropdown-item text-info">Đăng xuất <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div id="wrapper">
+        <div id="sidebar-wrapper" style="z-index: unset;">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Chức năng
+                    </a>
+                </li>
+                <li>
+                    <a href="#">@Html.ActionLink("Hóa đơn nhập", "Index", "DonHangNhaps")</a>
+                </li>
+                <li>
+                    <a href="#">@Html.ActionLink("Hóa đơn xuất", "Index", "DonHangXuats")</a>
+                </li>
+                <li>
+                    <a href="#">@Html.ActionLink("Báo cáo doanh thu", "Index", "DoanhThu")</a>
+                </li>
+                @*<li>
+                    <a href="#">Báo cáo kho</a>
+                </li>*@
+            </ul>
+        </div>
+        <div id="page-content-wrapper">
+            @RenderBody()
+        </div>
+        <div class="foott jumbotron text-center">
+            <h2>Nhóm 8 - 59-CNTT2</h2><br>
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

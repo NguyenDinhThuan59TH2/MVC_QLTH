@@ -1,0 +1,56 @@
+﻿@model FreeTime1.Models.MauHang
+
+@{
+    ViewBag.Title = "Xóa mẫu hàng";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/image.css">
+}
+
+<h2 class="text-title">
+    @Html.DisplayFor(model => model.TenMH)
+    <img src="~/Images/MauHangs/@Model.Anh" class="avarta-middel" style="margin-left: 10px" />
+</h2>
+
+<h3>
+    Bạn có chắc chắn muốn xóa mẫu hàng này?
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div style="display: flex; margin-bottom: 10px; margin-left: 20px; margin-top: 10px;">
+            <input type="submit" value="Xóa" class="btn btn-danger btn-sm" style="margin-right: 10px;" />
+            <div class="form-actions no-color">
+                <a href="@Url.Action("Index", new { })" class="btn btn-primary btn-sm">
+                    <i class="fa fa-arrow-left"></i>
+                    <span>
+                        Quay về
+                    </span>
+                </a>
+            </div>
+        </div>
+    }
+</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TenMH)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TenMH)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DonVi)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DonVi)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ChuThich)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ChuThich)
+        </dd>
+    </dl>
+</div>

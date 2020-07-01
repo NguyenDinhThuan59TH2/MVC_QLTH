@@ -1,0 +1,85 @@
+﻿@model FreeTime1.Models.Hang
+
+@{
+    ViewBag.Title = "Xóa hàng";
+}
+
+<h2>Xóa hàng</h2>
+
+<h3>Bạn chắc chắn muốn xóa hàng này?</h3>
+<div>
+    <h4>Hàng</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HanSuDung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HanSuDung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayNhap)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayNhap)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GiaNhap)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GiaNhap)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GiaBan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GiaBan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MauHang.TenMH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MauHang.TenMH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NhaCungCap.TenNCC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NhaCungCap.TenNCC)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+                <i class="fa fa-arrow-left"></i>
+                <span>
+                    Quay về
+                </span>
+            </a>
+            <input type="submit" value="Delete" class="btn btn-danger btn-sm" /> |
+        </div>
+    }
+</div>

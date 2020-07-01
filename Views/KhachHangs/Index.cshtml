@@ -1,0 +1,144 @@
+﻿@model IEnumerable<FreeTime1.Models.KhachHang>
+
+@{
+    ViewBag.Title = "Khách hàng";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "TenKH", rowsPerPage: 10);
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/search.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/grid.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+}
+
+<h2 class="text-title">Khách hàng</h2>
+<div class="search">
+    @using (Html.BeginForm("TimKiem", "KhachHangs", FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+    <div class="search-group">
+        <table class="search-table">
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Mã khách hàng</div>
+                </td>
+                <td class="search-table-td">
+                    <input type="text" name="MaKH" value="@ViewBag.MaKH" class="search-input" />
+                </td>
+            </tr>
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Họ tên khách hàng</div>
+                </td>
+                <td class="search-table-td">
+                    <input type="text" name="HoTen" value="@ViewBag.HoTen" class="search-input" />
+                </td>
+            </tr>
+        </table>
+        <table class="search-table">
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Số điện thoại</div>
+                </td>
+                <td class="search-table-td">
+                    <input type="text" name="SDT" value="@ViewBag.SDT" class="search-input" />
+                </td>
+            </tr>
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Địa chỉ</div>
+                </td>
+                <td class="search-table-td">
+                    <input type="text" name="DiaChi" value="@ViewBag.DiaChi" class="search-input" />
+                </td>
+            </tr>
+        </table>
+        <table class="search-table">
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Email</div>
+                </td>
+                <td class="search-table-td">
+                    <input type="text" name="Email" value="@ViewBag.Email" class="search-input" />
+                </td>
+            </tr>
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Giới tính</div>
+                </td>
+                <td class="search-table-td">
+                    @if (@ViewBag.GioiTinh == "Nam")
+                    {
+                        <input type="radio" name="GioiTinh" value="Nam" checked class="search-checkbox" /><text>Nam</text>
+                        <input type="radio" name="GioiTinh" value="Nữ" class="search-checkbox" /><text>Nữ</text>
+                    }
+                    else if (ViewBag.GioiTinh == "Nữ")
+                    {
+                        <input type="radio" name="GioiTinh" value="Nam" class="search-checkbox" /><text>Nam</text>
+                        <input type="radio" name="GioiTinh" value="Nữ" checked class="search-checkbox" /><text>Nữ</text>
+                    }
+                    else
+                    {
+                        <input type="radio" name="GioiTinh" value="Nam" class="search-checkbox" /><text>Nam</text>
+                        <input type="radio" name="GioiTinh" value="Nữ" class="search-checkbox" /><text>Nữ</text>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+        <div class="search-footer">
+            <input type="submit" name="submit" value="Tìm kiếm" class="btn search-submit" />
+            <a href="@Url.Action("Index")" class="btn search-clear">
+                <i class="fa fa-trash-o"></i>
+                <span>Xóa tìm kiếm</span>
+            </a>
+        </div>
+    }
+</div>
+<div class="grid">
+    <div class="grid-action">
+        <a href="@Url.Action("Create", new {})" class="btn btn-success btn-sm">
+            <i class="fa fa-plus"></i>
+            <span>Thêm khách hàng</span>
+        </a>
+    </div>
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: true,
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+        columns: new[]
+        {
+            grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("MaKH","Mã khách hàng"),
+            grid.Column("HoTen","Họ tên", format:
+                @<div>
+                    <img src="~/Images/KhachHangs/@item.Anh" class="grid-avatar" />
+                    @item.HoTen
+                </div>
+            ),
+            grid.Column("SDT","Số điện thoại"),
+            grid.Column("DiaChi","Địa chỉ"),
+            grid.Column("Email","Email"),
+            grid.Column("GioiTinh","Giới tính",  format: @item => @item.GioiTinh == true ? "Nam" : "Nữ" ),
+            grid.Column("NgaySinh","Ngày sinh"),
+            grid.Column("", "", format:
+                @<div>
+                    <a href="@Url.Action("Edit", new { id = item.MaKH })" class="btn btn-primary btn-sm">
+                        <i class="fa fa-pencil"></i>
+                        <span>Sửa</span>
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = item.MaKH })" class="btn btn-danger btn-sm">
+                        <i class="fa fa-plus"></i>
+                        <span>Xóa</span>
+                    </a>
+                    <a href="@Url.Action("Details", new { id = item.MaKH })" class="btn btn-info btn-sm">
+                        <i class="fa fa-info"></i>
+                        <span>Xem thêm</span>
+                    </a>
+                </div>
+            ),
+}
+)
+</div>

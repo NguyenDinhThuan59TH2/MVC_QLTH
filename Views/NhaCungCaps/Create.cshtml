@@ -1,0 +1,81 @@
+﻿@model FreeTime1.Models.NhaCungCap
+
+@{
+    ViewBag.Title = "Thêm nhà cung cấp";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+}
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+<h2 class="text-title">Người dùng mới</h2>
+@using (Html.BeginForm("Create", "NhaCungCaps", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form">
+        <div class="form-group">
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.TenNCC)
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.TenNCC, new { htmlAttributes = new { @class = "form-input" } })
+                    @Html.ValidationMessageFor(model => model.TenNCC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.SDT)
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-input" } })
+                    @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Email)
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-input" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.QuoGia)
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.QuoGia, new { htmlAttributes = new { @class = "form-input" } })
+                    @Html.ValidationMessageFor(model => model.QuoGia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.DiaChi)
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.DiaChi, new { htmlAttributes = new { @class = "form-input" } })
+                    @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-footer">
+        <div>
+            <input type="submit" value="Tạo người dùng" class="btn btn-success btn-sm" />
+        </div>
+    </div>
+}

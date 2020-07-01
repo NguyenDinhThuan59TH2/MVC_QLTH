@@ -1,0 +1,32 @@
+﻿.text-title {
+    padding: 3px;
+    background: #eceaea;
+    color: #3b7071;
+    display: flex;
+    align-items: center;
+}
+
+.hide {
+    display: none;
+}
+
+.text-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background: #eeeeee;
+}
+
+.text-label {
+    margin-right: 16px;
+    font-size: 17px;
+}
+
+.text-content {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.text-error {
+    color: red;
+}

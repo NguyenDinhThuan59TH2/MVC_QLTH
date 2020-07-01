@@ -1,0 +1,61 @@
+﻿@model FreeTime1.Models.DonHangXuat
+
+@{
+    ViewBag.Title = "Xóa đơn hàng xuất";
+}
+
+<h2>Xóa đơn hàng xuất</h2>
+
+<h3>Bạn chắc chắn muốn xóa đơn hàng xuất này?</h3>
+<div>
+    <h4>Đơn hàng xuất</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayXuat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayXuat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GiamGia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GiamGia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KieuGiamGia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KieuGiamGia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KhachHang.HoTen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KhachHang.HoTen)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+                <i class="fa fa-arrow-left"></i>
+                <span>
+                    Quay về
+                </span>
+            </a>
+            <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
+        </div>
+    }
+</div>

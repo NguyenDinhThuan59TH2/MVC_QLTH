@@ -1,0 +1,81 @@
+﻿@model FreeTime1.Models.NhaCungCap
+
+@{
+    ViewBag.Title = "Chỉnh sửa";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/image.css">
+}
+
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+
+<h2 class="text-title">
+    @Html.DisplayFor(model => model.TenNCC)
+</h2>
+
+@using (Html.BeginForm("Edit", "NhaCungCaps", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="partition">
+        <div class="form" style="grid-template-columns: auto">
+            <div class="form-group">
+                <input name="MaNCC" value="@Model.MaNCC" class="hide form-input" />
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.TenNCC)
+                    </div>
+                    <div>
+                        <input class="form-input" name="TenNCC" multiple value="@Model.TenNCC" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.SDT)
+                    </div>
+                    <div>
+                        <input class="form-input" name="SDT" value="@Model.SDT" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.Email)
+                    </div>
+                    <div>
+                        <input class="form-input" name="Email" value="@Model.Email" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.DiaChi)
+                    </div>
+                    <div>
+                        <input class="form-input" name="DiaChi" multiple value="@Model.DiaChi" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.QuoGia)
+                    </div>
+                    <div>
+                        <input class="form-input" name="QuoGia" multiple value="@Model.QuoGia" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-footer">
+        <div>
+            <input type="submit" value="Cập nhật" class="btn btn-success btn-sm" />
+        </div>
+    </div>
+}

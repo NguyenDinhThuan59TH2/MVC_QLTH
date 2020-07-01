@@ -1,0 +1,26 @@
+﻿.partition {
+    width: 100% !important;
+}
+
+.partition-col {
+    display: flex;
+    justify-content: space-around;
+}
+
+.partition-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+}
+
+.partition-cell {
+}
+
+.partition-half-width {
+    width: 50%;
+}
+
+.partition-half-height {
+    height: 50%;
+}

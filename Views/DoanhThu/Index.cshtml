@@ -1,0 +1,206 @@
+﻿@model IEnumerable<FreeTime1.Models.DoanhThu>
+
+@{
+    ViewBag.Title = "Doanh thu";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "TongDonHang", rowsPerPage: 10);
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/search.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/grid.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/button.css">
+}
+
+@section scripts {
+    <script src="~/Scripts/number.js"></script>
+    <script type="text/javascript">
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        document.querySelector('#in-bao-cao').addEventListener('click', () => {
+            const MaDH = []
+            const TongDonHang = []
+            const LoaiDonHang = []
+            const NgayThucHien = []
+            const GiamGia = []
+            const KieuGiamGia = []
+            const tongGiaTriXuat = '@ViewBag.TongGiaTriXuat'
+            const tongGiaTriNhap = '@ViewBag.TongGiaTriNhap'
+            const loiNhuan = '@(ViewBag.TongGiaTriXuat - ViewBag.TongGiaTriNhap)'
+            const ngayBD = '@ViewBag.NgayThucHienBD'
+            const ngayKT = '@ViewBag.NgayThucHienKT'
+            const thoiGian = !ngayBD && !ngayKT ? 'Toàn thời gian' : ngayBD == ngayKT ? `trong ngày ${ngayKT}` : `từ ngày ${ngayBD} đến ngày ${ngayKT}`
+            @foreach (var item in Model)
+            {
+                @:MaDH.push('@item.MaDH');
+                @:TongDonHang.push(@item.TongDonHang ? @item.TongDonHang : '');
+                @:LoaiDonHang.push('@item.LoaiDonHang' ? '@item.LoaiDonHang' : '');
+                @:NgayThucHien.push('@item.NgayThucHien' ? '@item.NgayThucHien' : '');
+                @:GiamGia.push(@item.GiamGia ?@item.GiamGia : '');
+                @:KieuGiamGia.push('@item.KieuGiamGia' ? '@item.KieuGiamGia' : '');
+            }
+            const danhSachDonHang = []
+            for (let i = 0; i < MaDH.length; i++) {
+                danhSachDonHang.push({
+                    MaDH: MaDH[i],
+                    TongDonHang: TongDonHang[i],
+                    LoaiDonHang: LoaiDonHang[i],
+                    NgayThucHien: NgayThucHien[i],
+                    GiamGia: GiamGia[i],
+                    KieuGiamGia: KieuGiamGia[i]
+                })
+            }
+            const printWindow = window.open('', '_blank')
+            printWindow.open()
+            printWindow.document.write(`
+                <html>
+                  <head>
+                  </head>
+                  <body>
+                    <div style="width: 100%">
+                      <div style="width: 100%; text-align: center;">
+                        TẠP HÓA PHÚC THẢO
+                        <h4 style="margin: 15px 0;">BÁO CÁO DOANH THU</h4>
+                        <h4 style="margin: 15px 0;">Thời gian: ${thoiGian}</h4>
+                      </div>
+                      <table style="width: 100%; white-space: nowrap; margin-top: 15px; border-collapse: collapse;">
+                        <tbody>
+                          <tr style="border-bottom: 1px solid; border-top: 1px solid;">
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">STT</th>
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">Mã hóa đơn</th>
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">Loại hóa đơn</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Ngày thực hiện</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Giảm giá</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Tổng đon hàng</th>
+                          </tr>
+                          ${danhSachDonHang.map((donHang, index) => {
+                              const giamGia = `${numberWithCommas(parseFloat(donHang.GiamGia))}${donHang.KieuGiamGia}`
+                            return `
+                              <tr>
+                                <td style="padding-left: 3px; text-align: center; border: 1px solid #000">${index + 1}</td>
+                                <td style="padding-left: 3px; border: 1px solid #000">${donHang.MaDH}</td>
+                                <td style="padding-left: 3px; border: 1px solid #000">${donHang.LoaiDonHang}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${donHang.NgayThucHien}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${giamGia}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${numberWithCommas(parseFloat(donHang.TongDonHang))}</td>
+                              </tr>
+                            `
+                          }).join('')}
+                        </tbody>
+                      </table>
+                      <table style="width: 100%; white-space: nowrap">
+                        <tbody>
+                          <tr>
+                            <td style="text-align: right"><h5 style="margin: 0">Tổng giá trị xuất:</h5 style="margin:0"></td>
+                            <td style="width: 110px; text-align: right"><h4 style="margin:0">${numberWithCommas(parseFloat(tongGiaTriXuat))}</h4></td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: right"><h5 style="margin: 0">Tổng giá trị nhập:</h5 style="margin:0"></td>
+                            <td style="width: 110px; text-align: right"><h4 style="margin:0">${numberWithCommas(parseFloat(tongGiaTriNhap))}</h4></td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: right"><h5 style="margin: 0">Lợi nhuận:</h5 style="margin:0"></td>
+                            <td style="width: 110px; text-align: right"><h4 style="margin:0">${numberWithCommas(parseFloat(loiNhuan) t)}</h4></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </body>
+                </html>
+            `)
+            printWindow.document.close()
+            printWindow.focus()
+            printWindow.print()
+            printWindow.close()
+        })
+    </script>
+}
+
+<h2 class="text-title">Doanh thu</h2>
+<div class="search">
+    @using (Html.BeginForm("TimKiem", "DoanhThu", FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+        <div class="search-group">
+            <table class="search-table">
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Loại đơn hàng</div>
+                    </td>
+                    <td class="search-table-td">
+                        @if (@ViewBag.LoaiDonHang == "Nhập")
+                        {
+                            <input type="radio" name="LoaiDonHang" value="Nhập" checked class="search-checkbox" /><text>Nhập</text>
+                            <input type="radio" name="LoaiDonHang" value="Xuất" class="search-checkbox" /><text>Xuất</text>
+                        }
+                        else if (ViewBag.LoaiDonHang == "Xuất")
+                        {
+                            <input type="radio" name="LoaiDonHang" value="Nhập" class="search-checkbox" /><text>Nhập</text>
+                            <input type="radio" name="LoaiDonHang" value="Xuất" checked class="search-checkbox" /><text>Xuất</text>
+                        }
+                        else
+                        {
+                            <input type="radio" name="LoaiDonHang" value="Nhập" class="search-checkbox" /><text>Nhập</text>
+                            <input type="radio" name="LoaiDonHang" value="Xuất" class="search-checkbox" /><text>Xuất</text>
+                        }
+                    </td>
+                </tr>
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Giá trị đơn hàng</div>
+                    </td>
+                    <td class="search-table-td search-range-input">
+                        <input name="GiaTriDonHangBD" value="@ViewBag.GiaTriDonHangBD" class="search-input" />
+                        đến
+                        <input name="GiaTriDonHangKT" value="@ViewBag.GiaTriDonHangKT" class="search-input" />
+                    </td>
+                </tr>
+            </table>
+            <table class="search-table">
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Ngày thực hiện: </div>
+                    </td>
+                    <td class="search-table-td search-range-input">
+                        <input type="date" name="NgayThucHienBD" value="@ViewBag.NgayThucHienBD" class="search-input" />
+                        đến
+                        <input type="date" name="NgayThucHienKT" value="@ViewBag.NgayThucHienKT" class="search-input" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="search-footer">
+            <input type="submit" name="submit" value="Tìm kiếm" class="btn search-submit" />
+            <a href="@Url.Action("Index")" class="btn search-clear">
+                <i class="fa fa-trash-o"></i>
+                <span>Xóa tìm kiếm</span>
+            </a>
+        </div>
+    }
+</div>
+<div class="grid">
+    <div class="grid-action">
+        <div class="grid-action-title">Tổng thu: @String.Format("{0:n0}", ViewBag.TongGiaTriXuat)</div>
+        <div class="grid-action-title">Tổng chi: @String.Format("{0:n0}", ViewBag.TongGiaTriNhap)</div>
+        <div class="grid-action-title">Lợi nhuận: @String.Format("{0:n0}", ViewBag.TongGiaTriXuat - ViewBag.TongGiaTriNhap)</div>
+        <button id="in-bao-cao" class="btn-print">In báo cáo</button>
+    </div>
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: true,
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+        columns: new[]
+        {
+            grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("MaDH","Mã đơn hàng"),
+            grid.Column("LoaiDonHang","Loại đơn hàng"),
+            grid.Column("NgayThucHien","Ngày thực hiện"),
+            grid.Column("GiamGia","Giảm giá"),
+            grid.Column("KieuGiamGia","Kiểu giảm giá"),
+            grid.Column("TongDonHang","Tổng đơn hàng"),
+}
+)
+</div>

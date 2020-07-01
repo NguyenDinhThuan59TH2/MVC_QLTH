@@ -1,0 +1,66 @@
+﻿@model FreeTime1.Models.MauHang
+
+@{
+    ViewBag.Title = "Chi tiết mẫu hàng";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/image.css">
+}
+
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+
+<h2 class="text-title">
+    @Html.DisplayFor(model => model.TenMH)
+    <a href="@Url.Action("Edit", new { id = Model.MaMH})" class="btn btn-primary btn-sm" style="margin-left: 10px">
+        <i class="fa fa-pencil"></i>
+        <span>
+            Sửa
+        </span>
+    </a>
+</h2>
+
+<div class="partition partition-col">
+    <img src="~/Images/MauHangs/@Html.DisplayFor(model => model.Anh)" class="avarta-large" />
+    <div class="partition-row partition-half-width">
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.TenMH)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TenMH)
+                </dd>
+            </div>
+        </div>
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DonVi)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DonVi)
+                </dd>
+            </div>
+        </div>
+        <div class="partition-col">
+            <div class="partition-cell">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ChuThich)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ChuThich)
+                </dd>
+            </div>
+        </div>
+    </div>
+</div>

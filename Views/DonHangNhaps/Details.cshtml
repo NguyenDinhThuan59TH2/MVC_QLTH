@@ -1,0 +1,76 @@
+﻿@model IEnumerable<FreeTime1.Models.HangDonHangNhap>
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng nhập";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "MaDHN", rowsPerPage: 10);
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/search.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/grid.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
+}
+
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+
+<h2 class="text-title">Hóa đơn nhập @ViewBag.MaDHN</h2>
+<div class="text-wrapper">
+    <div class="text-label">
+        Nhà cung cấp:
+    </div>
+    <div class="text-content">
+        @ViewBag.TenNCC
+    </div>
+</div>
+<div class="text-wrapper">
+    <div class="text-label">
+        Ngày nhập:
+    </div>
+    <div class="text-content">
+        @ViewBag.NgayNhap
+    </div>
+</div>
+<div class="text-wrapper">
+    <div class="text-label">
+        Giảm giá:
+    </div>
+    <div class="text-content">
+        @ViewBag.GiamGia@ViewBag.KieuGiamGia
+    </div>
+</div>
+<div class="text-wrapper">
+    <div class="text-label">
+        Tổng đơn hàng:
+    </div>
+    <div class="text-content">
+        @ViewBag.TongDonhang
+    </div>
+</div>
+<div class="grid">
+    <div class="grid-action">
+       <div class="text-content">Danh sách hàng nhập</div>
+    </div>
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: true,
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+        columns: new[]
+        {
+            grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("Hang.MauHang.TenMH","Tên mặc hàng"),
+            grid.Column("Hang.HanSuDung","Hạn sửa dụng"  ),
+            grid.Column("Hang.GiaNhap","Giá nhập"),
+            grid.Column("SoLuong","Số lượng")
+        }
+)
+</div>
