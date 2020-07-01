@@ -92,7 +92,7 @@
                 @Html.LabelFor(model => model.NgaySinh)
             </div>
             <div>
-                @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @class = "form-input" } })
+                @Html.TextBoxFor(model => model.NgaySinh, new { @class = "form-input", type = "date" })
                 @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-danger" })
             </div>
         </div>
