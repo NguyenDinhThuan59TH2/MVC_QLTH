@@ -91,7 +91,8 @@ namespace FreeTime1.Controllers
                 else return View(nguoiDung);
                 db.NguoiDungs.Add(nguoiDung);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.TaoThanhCong = "Tạo người dùng " + nguoiDung.HoTen + " thành công";
+                return View("Index", db.NguoiDungs.ToList());
             }
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
             return View(nguoiDung);
@@ -154,7 +155,8 @@ namespace FreeTime1.Controllers
             NguoiDung nguoiDung = db.NguoiDungs.Find(id);
             db.NguoiDungs.Remove(nguoiDung);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.XoaThanhCong = "Xóa người dùng " + nguoiDung.HoTen + " thành công";
+            return View("Index", db.NguoiDungs.ToList());
         }
 
         protected override void Dispose(bool disposing)

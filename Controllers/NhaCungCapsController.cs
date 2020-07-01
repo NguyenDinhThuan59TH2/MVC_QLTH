@@ -73,7 +73,8 @@ namespace FreeTime1.Controllers
                 nhaCungCap.MaNCC = "NCC" + count.ToString();
                 db.NhaCungCaps.Add(nhaCungCap);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.TaoThanhCong = "Tạo nhà cung cấp " + nhaCungCap.TenNCC + " thành công";
+                return View("Index", db.NhaCungCaps.ToList());
             }
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
             return View(nhaCungCap);
@@ -138,7 +139,8 @@ namespace FreeTime1.Controllers
             NhaCungCap nhaCungCap = db.NhaCungCaps.Find(id);
             db.NhaCungCaps.Remove(nhaCungCap);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.XoaThanhCong = "Xóa nhà cung cấp " + nhaCungCap.TenNCC + " thành công";
+            return View("Index", db.NhaCungCaps.ToList());
         }
 
         protected override void Dispose(bool disposing)
