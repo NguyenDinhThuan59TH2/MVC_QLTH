@@ -118,12 +118,12 @@ INSERT INTO NguoiDung VALUES
 	('QL1','admin','$MYHASH$V1$10000$mb6sZl2WmoJcfPNeJ/PVKEhtLAKHUK/DppE1mhKkpfxCW7G/',N'Quản lý',N'Admin','999999','MacDinh.png',N'Dia chi','1')
 
 INSERT INTO MauHang VALUES
-	('MH1',N'Oishi Snack Phô Mai 1',N'Gói',N'Default.jpg',N'Khong chu thich'),
-	('MH2',N'bánh quy Cosy Marie',N'Gói',N'banhquyCosyMarie.jpg',N'Khong chu thich'),
-	('MH3',N'Bia Heineken 24 Lon',N'Thùng',N'bia-heineken-thung-24-lon-330ml.jpg',N'Khong chu thich'),
-	('MH4',N'Đường trắng biên hòa 1KG',N'Gói',N'Duong-trang-BIen-Hoa-1kg.jpg',N'Khong chu thich'),
-	('MH5',N'Nước mắm Nam Ngư 270ml',N'Chai',N'nuoc-mam-nam-ngu.jpg',N'Khong chu thich'),
-	('MH6',N'Rượu cúng',N'Chai',N'Default.jpg',N'Khong chu thich')
+	('MH1',N'Oishi Snack Phô Mai 1',N'Gói',N'Default.jpg',N'Giai, giòn, ngon'),
+	('MH2',N'bánh quy Cosy Marie',N'Gói',N'banhquyCosyMarie.jpg',N'Có vị hơi ngọt và mặn'),
+	('MH3',N'Bia Heineken 24 Lon',N'Thùng',N'bia-heineken-thung-24-lon-330ml.jpg',N'Cồn 5.6 độ'),
+	('MH4',N'Đường trắng biên hòa 1KG',N'Gói',N'Duong-trang-BIen-Hoa-1kg.jpg',N'Đường tinh nguyên'),
+	('MH5',N'Nước mắm Nam Ngư 270ml',N'Chai',N'nuoc-mam-nam-ngu.jpg',N'Nước mắm mặn'),
+	('MH6',N'Rượu cúng',N'Chai',N'Default.jpg',N'Rượu 39 độ')
 
 
 Insert into NhomHang Values
@@ -145,18 +145,18 @@ Insert into MauHangNhomHang values
 
 insert into NhaCungCap values
 	('NCC1',N'Thúy Hương',N'Việt Nam',N'Nha Trang,Khánh Hòa','0972111640','thuy@gmail.com'),
-	('NCC2',N'Lâm Bân',N'Thái Lan',N'Bang koc','0888186566','Ncc2@gmail.com'),
-	('NCC3',N'Bình Đường',N'Mexico',N'Urafe','0921219990','Ncc3@gmail.com'),
-	('NCC4',N'Cảnh Hùng',N'Lào',N'LeLeLe','0375323640','Ncc3@gmail.com'),
-	('NCC5',N'Đình Thuận',N'Việt Nam',N'Nha Trang,Khánh Hòa','0364321274','Ncc5@gmail.com')
+	('NCC2',N'Lâm Bân',N'Thái Lan',N'Bangkok','0888186566','lamban@gmail.com'),
+	('NCC3',N'Bình Đường',N'Mexico',N'Urafe','0921219990','binhduong@gmail.com'),
+	('NCC4',N'Cảnh Hùng',N'Lào',N'Viêng Chăn','0375323640','canhhung@gmail.com'),
+	('NCC5',N'Đình Thuận',N'Việt Nam',N'Quảng Nam','0364321274','dinhthuan@gmail.com')
 
 
 insert into KhachHang values
-	('KH1',N'Ngô Nguyễn Tường Nghi',N'MacDinh.png',N'Diên Khánh, Khánh Hòa','0972111640','Nghi@gmail.com','1999/3/2','1'),
-	('KH2',N'Ngô Bá Khá',N'MacDinh.png',N'Nha Trang, Khánh Hòa','0888186566','Kha@gmail.com','1998/3/12','1'),
-	('KH3',N'Ngô Uyên Ương',N'MacDinh.png',N'Đà lạt','0921219990','Uong@gmail.com','1997/12/2','0'),
-	('KH4',N'Ngô Văn Giàu',N'MacDinh.png',N'Cà Mau','0375323640','Giau@gmail.com','1999/6/6','0'),
-	('KH5',N'Ngô Nguyễn Cát Tường',N'MacDinh.png',N'Hà Nội','0364321274','Tuong@gmail.com','1999/3/2','1')
+	('KH1',N'Ngô Nguyễn Tường Nghi',N'MacDinh.png',N'Diên Khánh, Khánh Hòa','0972111640','tuongnghi@gmail.com','1999/3/2','1'),
+	('KH2',N'Ngô Đường Quyền',N'person2.png',N'Nha Trang, Khánh Hòa','0888186566','duongquyen@gmail.com','1998/3/12','1'),
+	('KH3',N'Ngô Uyên Ương',N'person3.png',N'Đà lạt','0921219990','uongbi@gmail.com','1997/12/2','0'),
+	('KH4',N'Ngô Văn Giàu',N'person4.png',N'Cà Mau','0375323640','khagiau@gmail.com','1999/6/6','0'),
+	('KH5',N'Ngô Nguyễn Cát Tường',N'person5.png',N'Hà Nội','0364321274','cattuong@gmail.com','1999/3/2','1')
 
 
 insert into Hang values
