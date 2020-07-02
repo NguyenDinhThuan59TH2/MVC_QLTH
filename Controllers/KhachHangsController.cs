@@ -81,7 +81,7 @@ namespace FreeTime1.Controllers
                 if (Anh.FileName != "")
                 {
                     string FileName = System.IO.Path.GetFileName(Anh.FileName);
-                    var path = Server.MapPath("/Images/KhacHangs/" + FileName);
+                    var path = Server.MapPath("/Images/KhachHangs/" + FileName);
                     Anh.SaveAs(path);
                     khachHang.Anh = FileName;
                 }
