@@ -21,20 +21,24 @@ namespace FreeTime1.Models
         {
             this.DonHangXuats = new HashSet<DonHangXuat>();
         }
-    
-        [Display (Name = "Mã khách hàng")]
+        [Key]
         public string MaKH { get; set; }
         [Display(Name = "Họ tên")]
+        [Required(ErrorMessage = "Họ tên là bắt buộc")]
         public string HoTen { get; set; }
         [Display(Name = "Ảnh")]
         public string Anh { get; set; }
         [Display(Name = "Địa chỉ")]
+        [Required(ErrorMessage = "Địa chỉ là bắt buộc")]
         public string DiaChi { get; set; }
         [Display(Name = "Số điện thoại")]
+        [Required(ErrorMessage = "Số điện thoại là bắt buộc")]
         public string SDT { get; set; }
         [Display(Name = "Email")]
+        [Required(ErrorMessage = "Email là bắt buộc")]
         public string Email { get; set; }
         [Display(Name = "Ngày sinh")]
+        [Required(ErrorMessage = "Ngày sinh là bắt buộc")]
         public System.DateTime NgaySinh { get; set; }
         [Display(Name = "Giới tính")]
         public bool GioiTinh { get; set; }
