@@ -18,7 +18,29 @@ namespace FreeTime1.Controllers
         public ActionResult Index()
         {
             var donHangNhaps = db.DonHangNhaps.Include(d => d.NhaCungCap);
-            return View(donHangNhaps.ToList());
+            foreach (DonHangNhap donHangNhap in donHangNhaps)
+            {
+                donHangNhap.TongDonHang = 0;
+                var hangDonHangNhaps = db.HangDonHangNhaps.Where(d => d.MaDHN == donHangNhap.MaDHN);
+                foreach (HangDonHangNhap hangDonHangNhap in hangDonHangNhaps)
+                {
+                    Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangNhap.MaH).First();
+                    donHangNhap.TongDonHang += hangDonHangNhap.SoLuong * hang.GiaNhap ;
+                }
+                // tinh giam gia
+                if (donHangNhap.KieuGiamGia != "")
+                {
+                    if (donHangNhap.KieuGiamGia == "VNĐ")
+                    {
+                        donHangNhap.TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
+                    }
+                    else if (donHangNhap.KieuGiamGia == "%")
+                    {
+                        donHangNhap.TongDonHang -= donHangNhap.TongDonHang / 100 * decimal.Parse(donHangNhap.GiamGia);
+                    }
+                }
+            }
+            return View(donHangNhaps);
         }
 
         // GET: DonHangNhaps/Details/5
