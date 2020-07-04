@@ -11,7 +11,6 @@ namespace FreeTime1.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Collections.Generic;
     
     public partial class KhachHang
@@ -37,9 +36,9 @@ namespace FreeTime1.Models
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Email là bắt buộc")]
         public string Email { get; set; }
-        [Display(Name = "Ngày sinh")]
-        [Required(ErrorMessage = "Ngày sinh là bắt buộc")]
-        public System.DateTime NgaySinh { get; set; }
+        [Required(ErrorMessage = "Ngày sinh là bắt buộc.")]
+        [DataType(DataType.Date)]
+        public DateTime NgaySinh { get; set; }
         [Display(Name = "Giới tính")]
         public bool GioiTinh { get; set; }
 
