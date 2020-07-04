@@ -3,6 +3,20 @@
 @{
     ViewBag.Title = "Doanh thu";
     var grid = new WebGrid(Model, canPage: true, defaultSort: "TongDonHang", rowsPerPage: 10);
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#NgayThucHien').datepicker({
+                dateFormat: "dd/mm/yy",
+                showStatus: true,
+                showWeeks: true,
+                currentText: 'Now',
+                autoSize: true,
+                gotoCurrent: true,
+                showAnim: 'blind',
+                highlightWeek: true
+            });
+        });
+    </script>
 }
 
 @section styles {
@@ -197,7 +211,7 @@
             grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
             grid.Column("MaDH","Mã đơn hàng"),
             grid.Column("LoaiDonHang","Loại đơn hàng"),
-            grid.Column("NgayThucHien","Ngày thực hiện"),
+            grid.Column("NgayThucHien","Ngày thực hiện",format:@item => @item.NgayThucHien.ToString(string.Format("dd/MM/yyyy"))),
             grid.Column("GiamGia","Giảm giá"),
             grid.Column("KieuGiamGia","Kiểu giảm giá"),
             grid.Column("TongDonHang","Tổng đơn hàng"),

@@ -3,6 +3,20 @@
 @{
     ViewBag.Title = "Khách hàng";
     var grid = new WebGrid(Model, canPage: true, defaultSort: "TenKH", rowsPerPage: 10);
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#NgaySinh').datepicker({
+                dateFormat: "dd/mm/yy",
+                showStatus: true,
+                showWeeks: true,
+                currentText: 'Now',
+                autoSize: true,
+                gotoCurrent: true,
+                showAnim: 'blind',
+                highlightWeek: true
+            });
+        });
+    </script>
 }
 
 @section styles {
@@ -161,7 +175,7 @@ grid.Column("SDT","Số điện thoại"),
 grid.Column("DiaChi","Địa chỉ"),
 grid.Column("Email","Email"),
 grid.Column("GioiTinh","Giới tính",  format: @item => @item.GioiTinh == true ? "Nam" : "Nữ" ),
-grid.Column("NgaySinh","Ngày sinh"),
+grid.Column("NgaySinh","Ngày sinh",format:@item => @item.NgaySinh.ToString(string.Format("dd/MM/yyyy")) ),
 grid.Column("", "", format:
 @<div>
     <a href="@Url.Action("Edit", new { id = item.MaKH })" class="btn btn-primary btn-sm">
