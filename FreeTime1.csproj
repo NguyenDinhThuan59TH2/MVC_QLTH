@@ -335,6 +335,7 @@
     <Content Include="Asset\InDex\js\waypoints.min.js" />
     <Content Include="Asset\Login\css\font-awesome.css" />
     <Content Include="Asset\Login\css\style.css" />
+    <Content Include="Asset\Login\images\startLogin.jpg" />
     <Content Include="Asset\Login\images\women.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -468,6 +469,7 @@
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Hangs\SearchHang.cshtml" />
     <Content Include="Views\DoanhThu\Index.cshtml" />
+    <Content Include="Views\DonHangNhaps\HoaDonNhap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />

@@ -150,6 +150,11 @@ namespace FreeTime1.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             MauHang mauHang = db.MauHangs.Find(id);
+            if (db.Hangs.Where(d => d.MaMH == mauHang.MaMH).FirstOrDefault() != null )
+            {
+                ViewBag.XoaThatBai = "Xóa mặt hàng " + mauHang.TenMH + " không thành công! Mặt hàng này vẫn đang được sử dụng";
+                return View("Index", db.MauHangs.ToList());
+            }
             db.MauHangs.Remove(mauHang);
             db.SaveChanges();
             ViewBag.XoaThanhCong = "Xóa mẫu hàng " + mauHang.TenMH + " thành công!";

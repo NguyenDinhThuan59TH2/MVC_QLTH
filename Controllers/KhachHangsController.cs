@@ -174,6 +174,7 @@ namespace FreeTime1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             KhachHang khachHang = db.KhachHangs.Find(id);
+            // var khachHangx = db.KhachHangs.Where(d => d.MaKH == id);
             if (khachHang == null)
             {
                 return HttpNotFound();
@@ -187,11 +188,15 @@ namespace FreeTime1.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             KhachHang khachHang = db.KhachHangs.Find(id);
+            if (db.DonHangXuats.Where(d => d.MaKH == khachHang.MaKH).Count() > 0)
+            {
+                ViewBag.XoaThatBai = "Xóa khách hàng " + khachHang.HoTen + " không thành công! Người này đã từng mua hàng";
+                return View("Index",db.KhachHangs.ToList());
+            }
             db.KhachHangs.Remove(khachHang);
             db.SaveChanges();
             ViewBag.XoaThanhCong = "Xóa khách hàng " + khachHang.HoTen + " thành công!";
             return View("Index", db.KhachHangs.ToList());
-            
         }
 
         protected override void Dispose(bool disposing)
