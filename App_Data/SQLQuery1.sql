@@ -1,4 +1,6 @@
-﻿create table NguoiDung(
+﻿create database QLTapHoa
+use QLTapHoa
+create table NguoiDung(
 	MaND varchar(10) primary key not null,
 	TaiKhoan varchar(100) not null,
 	MatKhau varchar(100) not null,

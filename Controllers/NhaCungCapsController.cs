@@ -137,6 +137,11 @@ namespace FreeTime1.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             NhaCungCap nhaCungCap = db.NhaCungCaps.Find(id);
+            if (db.DonHangNhaps.Where(d => d.MaNCC == nhaCungCap.MaNCC).Count() > 0)
+            {
+                ViewBag.XoaThatBai = "Xóa nhà cung cấp " + nhaCungCap.TenNCC + " không thành công! Nhà cung cấp này đã từng mua hàng";
+                return View("Index", db.NhaCungCaps.ToList());
+            }
             db.NhaCungCaps.Remove(nhaCungCap);
             db.SaveChanges();
             ViewBag.XoaThanhCong = "Xóa nhà cung cấp " + nhaCungCap.TenNCC + " thành công";

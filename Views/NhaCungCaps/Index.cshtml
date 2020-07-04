@@ -49,6 +49,22 @@
         </div>
     </div>
 }
+@if (ViewBag.XoaThatBai != null)
+{
+    <div class="noti">
+        <div class="noti-content">
+            <div class="noti-header">
+                Thông báo!
+                <div class="noti-close">
+                    đóng
+                </div>
+            </div>
+            <div class="noti-body">
+                @ViewBag.XoaThatBai
+            </div>
+        </div>
+    </div>
+}
 
 <h2 class="text-title">Nhà cung cấp</h2>
 <div class="search">
