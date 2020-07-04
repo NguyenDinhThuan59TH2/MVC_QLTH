@@ -139,7 +139,7 @@ namespace FreeTime1.Controllers
             NhaCungCap nhaCungCap = db.NhaCungCaps.Find(id);
             if (db.DonHangNhaps.Where(d => d.MaNCC == nhaCungCap.MaNCC).Count() > 0)
             {
-                ViewBag.XoaThatBai = "Xóa nhà cung cấp " + nhaCungCap.TenNCC + " không thành công! Nhà cung cấp này đã từng mua hàng";
+                ViewBag.XoaThatBai = "Xóa nhà cung cấp " + nhaCungCap.TenNCC + " không thành công! Đã từng nhập hàng tại nhà cung cấp này ";
                 return View("Index", db.NhaCungCaps.ToList());
             }
             db.NhaCungCaps.Remove(nhaCungCap);
