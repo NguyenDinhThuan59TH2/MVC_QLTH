@@ -69,6 +69,27 @@ namespace FreeTime1.Controllers
             ViewBag.GioiTinh = GioiTinh;
             return View("Index", NguoiDungs);
         }
+
+
+        private bool CheckFileType(string fileName)
+        {
+            string ext = System.IO.Path.GetExtension(fileName);
+            switch (ext.ToLower())
+            {
+                case ".gif":
+                    return true;
+                case ".jpg":
+                    return true;
+                case ".jpeg":
+                    return true;
+                case ".png":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TaiKhoan,MatKhau,NhapLaiMatKhau,ChucVu,HoTen,SDT,DiaChi,GioiTinh")] NguoiDung nguoiDung)
@@ -80,6 +101,11 @@ namespace FreeTime1.Controllers
                 nguoiDung.Anh = "MacDinh.png";
                 if (Anh.FileName != "")
                 {
+                    if (!CheckFileType(Anh.FileName))
+                    {
+                        ViewBag.LoiFile = "Kiểu File không được hỗ trợ!";
+                        return View(nguoiDung);
+                    }
                     string FileName = System.IO.Path.GetFileName(Anh.FileName);
                     var path = Server.MapPath("/Images/NguoiDungs/" + FileName);
                     Anh.SaveAs(path);
