@@ -111,6 +111,19 @@ namespace FreeTime1.Controllers
                     Anh.SaveAs(path);
                     khachHang.Anh = FileName;
                 }
+                bool checkEmail = db.KhachHangs.Any(d => d.Email == khachHang.Email);
+                bool checkSDT = db.KhachHangs.Any(d => d.SDT == khachHang.SDT);
+                if (checkEmail)
+                {
+                    ViewBag.DaTonTai = "Email đã được sử dụnng";
+                    return View("Create",khachHang);
+                }
+                if (checkSDT)
+                {
+                    ViewBag.DaTonTai2 = "Số điện thoại đã được sử dụng";
+                    return View("Create", khachHang);
+                }
+
                 int count = db.KhachHangs.Count() + 1;
                 khachHang.MaKH = "KH" + count.ToString();
                 db.KhachHangs.Add(khachHang);

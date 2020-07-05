@@ -6,7 +6,9 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows;
 using FreeTime1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace FreeTime1.Controllers
 {
@@ -82,6 +84,18 @@ namespace FreeTime1.Controllers
                     var path = Server.MapPath("/Images/NguoiDungs/" + FileName);
                     Anh.SaveAs(path);
                     nguoiDung.Anh = FileName;
+                }
+                bool checkTenTK = db.NguoiDungs.Any(d => d.TaiKhoan == nguoiDung.TaiKhoan);
+                bool checkSDT = db.NguoiDungs.Any(d => d.SDT == nguoiDung.SDT);
+                if (checkTenTK)
+                {
+                    ViewBag.DaTonTai = "Tên người dùng đã được sử dụng";
+                    return View("Create",nguoiDung);
+                }
+                if (checkSDT)
+                {
+                    ViewBag.DaTonTaiSDT = "Số điện thoại đã được sử dụng";
+                    return View("Create", nguoiDung);
                 }
                 nguoiDung.MatKhau = SecurePasswordHasher.Hash(nguoiDung.MatKhau);
                 nguoiDung.NhapLaiMatKhau = nguoiDung.MatKhau;

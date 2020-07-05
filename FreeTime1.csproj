@@ -52,6 +52,7 @@
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -372,6 +373,7 @@
     <Content Include="Images\person8.png" />
     <Content Include="Images\person9.png" />
     <Content Include="Images\taphoapro logo.PNG" />
+    <Content Include="imgs\homePage.png" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

@@ -26,6 +26,7 @@
             <div class="form-field">
                 <div class="form-label">
                     @Html.LabelFor(model => model.TaiKhoan)
+                    <div style="color:red">@ViewBag.DaTonTai</div>
                 </div>
                 <div>
                     @Html.EditorFor(model => model.TaiKhoan, new { htmlAttributes = new { @class = "form-input" } })
@@ -82,6 +83,7 @@
             <div class="form-field">
                 <div class="form-label">
                     @Html.LabelFor(model => model.SDT)
+                    <div style="color:red">@ViewBag.DaTonTaiSDT</div>
                 </div>
                 <div>
                     @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-input" } })
