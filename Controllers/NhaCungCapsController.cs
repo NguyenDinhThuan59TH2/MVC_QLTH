@@ -71,6 +71,24 @@ namespace FreeTime1.Controllers
             {
                 int count = db.NhaCungCaps.Count() + 1;
                 nhaCungCap.MaNCC = "NCC" + count.ToString();
+                bool checkEmail = db.NhaCungCaps.Any(d => d.Email == nhaCungCap.Email);
+                bool checkSDT = db.NhaCungCaps.Any(d => d.SDT == nhaCungCap.SDT);
+                bool checkTen = db.NhaCungCaps.Any(d => d.TenNCC == nhaCungCap.TenNCC);
+                if (checkTen)
+                {
+                    ViewBag.DaTonTaiTen = "Đã có nhà cung cấp này";
+                    return View("Create", nhaCungCap);
+                }
+                if (checkSDT)
+                {
+                    ViewBag.DaTonTaiSDT = "Số điện thoại đã được sử dụng";
+                    return View("Create", nhaCungCap);
+                }
+                if (checkEmail)
+                {
+                    ViewBag.DaTonTaiMail = "Email đã được sử dụng";
+                    return View("Create", nhaCungCap);
+                }
                 db.NhaCungCaps.Add(nhaCungCap);
                 db.SaveChanges();
                 ViewBag.TaoThanhCong = "Tạo nhà cung cấp " + nhaCungCap.TenNCC + " thành công";
