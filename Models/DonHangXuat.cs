@@ -26,6 +26,8 @@ namespace FreeTime1.Models
         public string GiamGia { get; set; }
         public string KieuGiamGia { get; set; }
         public decimal TongDonHang { get; set; }
+
+        public bool DaDuyet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HangDonHangXuat> HangDonHangXuats { get; set; }
         public virtual KhachHang KhachHang { get; set; }
