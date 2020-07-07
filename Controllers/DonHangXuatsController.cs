@@ -32,11 +32,12 @@ namespace FreeTime1.Controllers
                 {
                     if (donHangXuat.KieuGiamGia == "VNĐ")
                     {
-                        donHangXuat.TongDonHang -= decimal.Parse(donHangXuat.GiamGia);
+                        donHangXuat.TongDonHang -= Math.Round(decimal.Parse(donHangXuat.GiamGia), 0);
                     }
                     else if (donHangXuat.KieuGiamGia == "%")
                     {
-                        donHangXuat.TongDonHang -= donHangXuat.TongDonHang / 100 * decimal.Parse(donHangXuat.GiamGia);
+                        donHangXuat.TongDonHang -= Math.Round(donHangXuat.TongDonHang / 100 * decimal.Parse(donHangXuat.GiamGia),0);
+                        
                     }
                 }
             }
