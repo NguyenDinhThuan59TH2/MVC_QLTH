@@ -25,7 +25,8 @@ namespace FreeTime1.Controllers
                 foreach (HangDonHangNhap hangDonHangNhap in hangDonHangNhaps)
                 {
                     Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangNhap.MaH).First();
-                    donHangNhap.TongDonHang += hangDonHangNhap.SoLuong * hang.GiaNhap ;
+                    donHangNhap.TongDonHang += Math.Round(hangDonHangNhap.SoLuong * hang.GiaNhap, 0);
+
                 }
                 // tinh giam gia
                 if (donHangNhap.KieuGiamGia != "")
@@ -75,7 +76,7 @@ namespace FreeTime1.Controllers
                     TongDonhang -= TongDonhang / 100 * decimal.Parse(donHangNhap.GiamGia);
                 }
             }
-            ViewBag.TongDonhang = TongDonhang;
+            ViewBag.TongDonhang = String.Format("{0:n0}", TongDonhang) + "VNĐ";
             ViewBag.MaDHN = donHangNhap.MaDHN;
             ViewBag.TenNCC = donHangNhap.NhaCungCap.TenNCC;
             ViewBag.NgayNhap = donHangNhap.NgayNhap;

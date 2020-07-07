@@ -124,7 +124,7 @@
             grid.Column("NgayNhap","Ngày nhập (tháng/ ngày/ năm)",format:@item => @item.NgayNhap.ToString(string.Format("dd/MM/yyyy"))),
             grid.Column("GiamGia","Giảm giá"),
             grid.Column("KieuGiamGia","Kiểu giảm giá"),
-            grid.Column("TongDonHang","Tổng đơn hàng"),
+            grid.Column("TongDonHang","Tổng đơn hàng",format:@item => @item.TongDonHang.ToString("#,##0.")),
             grid.Column("", "", format:
 @<div>
     <a href="@Url.Action("Details", new { id = item.MaDHN })" class="btn btn-info btn-sm">
