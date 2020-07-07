@@ -492,6 +492,7 @@
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Hangs\SearchHang.cshtml" />
     <Content Include="Views\DoanhThu\Index.cshtml" />
+    <Content Include="Scripts\countries.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />
