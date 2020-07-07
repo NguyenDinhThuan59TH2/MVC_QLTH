@@ -35,7 +35,7 @@
         Ngày nhập:
     </div>
     <div class="text-content">
-        @ViewBag.NgayNhap
+        @ViewBag.NgayNhap.ToString("dd/MM/yyyy")
     </div>
 </div>
 <div class="text-wrapper">
@@ -68,7 +68,7 @@
         {
             grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
             grid.Column("Hang.MauHang.TenMH","Tên mặc hàng"),
-            grid.Column("Hang.HanSuDung","Hạn sửa dụng"  ),
+            grid.Column("Hang.HanSuDung","Hạn sửa dụng",format:@item => @item.Hang.HanSuDung.ToString(string.Format("dd/MM/yyyy"))  ),
             grid.Column("Hang.GiaNhap","Giá nhập",format:@item => @item.Hang.GiaNhap.ToString("#,##0.")),
             grid.Column("SoLuong","Số lượng")
         }

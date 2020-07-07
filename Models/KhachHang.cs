@@ -28,7 +28,6 @@ namespace FreeTime1.Models
         [Display(Name = "Ảnh")]
         public string Anh { get; set; }
         [Display(Name = "Địa chỉ")]
-        [Required(ErrorMessage = "Địa chỉ là bắt buộc")]
         public string DiaChi { get; set; }
         [Display(Name = "Số điện thoại")]
         [Required(ErrorMessage = "Số điện thoại là bắt buộc")]
