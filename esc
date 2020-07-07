@@ -1,0 +1,58 @@
+[1mdiff --git a/Controllers/DonHangXuatsController.cs b/Controllers/DonHangXuatsController.cs[m
+[1mindex ccf8826..94f1588 100644[m
+[1m--- a/Controllers/DonHangXuatsController.cs[m
+[1m+++ b/Controllers/DonHangXuatsController.cs[m
+[36m@@ -37,6 +37,7 @@[m [mnamespace FreeTime1.Controllers[m
+                     else if (donHangXuat.KieuGiamGia == "%")[m
+                     {[m
+                         donHangXuat.TongDonHang -= donHangXuat.TongDonHang / 100 * decimal.Parse(donHangXuat.GiamGia);[m
+[32m+[m[41m                        [m
+                     }[m
+                 }[m
+             }[m
+[1mdiff --git a/Models/KhachHang.cs b/Models/KhachHang.cs[m
+[1mindex 0fd7d13..dfa6a6a 100644[m
+[1m--- a/Models/KhachHang.cs[m
+[1m+++ b/Models/KhachHang.cs[m
+[36m@@ -32,9 +32,12 @@[m [mnamespace FreeTime1.Models[m
+         public string DiaChi { get; set; }[m
+         [Display(Name = "Số điện thoại")][m
+         [Required(ErrorMessage = "Số điện thoại là bắt buộc")][m
+[32m+[m[32m        [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Số điện thoại phải từ 10 đến 11 số, xin nhập lại")][m
+[32m+[m[32m        [Phone(ErrorMessage = "Số điện thoại phải là chữ số, xin nhập lại")][m
+         public string SDT { get; set; }[m
+         [Display(Name = "Email")][m
+         [Required(ErrorMessage = "Email là bắt buộc")][m
+[32m+[m[32m        [EmailAddress(ErrorMessage = "Xin nhập đúng Email")][m
+         public string Email { get; set; }[m
+         [Required(ErrorMessage = "Ngày sinh là bắt buộc.")][m
+         [DataType(DataType.Date)][m
+[1mdiff --git a/Models/NguoiDung.cs b/Models/NguoiDung.cs[m
+[1mindex d0a3fce..ac0279f 100644[m
+[1m--- a/Models/NguoiDung.cs[m
+[1m+++ b/Models/NguoiDung.cs[m
+[36m@@ -32,6 +32,8 @@[m
+         [Required(ErrorMessage = "Họ tên người dùng là bắt buộc")][m
+         public string HoTen { get; set; }[m
+         [Display(Name = "Số điện thoại")][m
+[32m+[m[32m        [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Số điện thoại phải từ 10 đến 11 số, xin nhập lại")][m
+[32m+[m[32m        [Phone(ErrorMessage = "Số điện thoại phải là chữ số, xin nhập lại")][m
+         public string SDT { get; set; }[m
+         [Display(Name = "Ảnh")][m
+         public string Anh { get; set; }[m
+[1mdiff --git a/Models/NhaCungCap.cs b/Models/NhaCungCap.cs[m
+[1mindex 2529097..87bd076 100644[m
+[1m--- a/Models/NhaCungCap.cs[m
+[1m+++ b/Models/NhaCungCap.cs[m
+[36m@@ -31,8 +31,11 @@[m [mnamespace FreeTime1.Models[m
+         [Display(Name = "Địa chỉ")][m
+         public string DiaChi { get; set; }[m
+         [Display(Name = "Số điện thoại")][m
+[32m+[m[32m        [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Số điện thoại phải từ 10 đến 11 số, xin nhập lại")][m
+[32m+[m[32m        [Phone(ErrorMessage = "Số điện thoại phải là chữ số, xin nhập lại")][m
+         public string SDT { get; set; }[m
+         [Display(Name = "Email")][m
+[32m+[m[32m        [EmailAddress(ErrorMessage = "Xin nhập đúng Email")][m
+         public string Email { get; set; }[m
+     [m
+         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")][m

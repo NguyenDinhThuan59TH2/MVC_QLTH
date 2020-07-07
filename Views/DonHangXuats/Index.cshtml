@@ -121,16 +121,15 @@
             grid.Column("NgayXuat","Ngày xuất (tháng/ ngày/ năm)",format:@item => @item.NgayXuat.ToString(string.Format("dd/MM/yyyy"))),
             grid.Column("GiamGia","Giảm giá"),
             grid.Column("KieuGiamGia","Kiểu giảm giá"),
-            grid.Column("TongDonHang","Tổng đơn hàng"),
-            //grid.Column("DaDuyet","Tình Trạng Duyệt"),
+            grid.Column("TongDonHang","Tổng đơn hàng",format:@item => @item.TongDonHang.ToString("#,##0.")),
             grid.Column("", "", format:
-@<div>
-    <a href="@Url.Action("Details", new { id = item.MaDHX })" class="btn btn-info btn-sm">
-        <i class="fa fa-info"></i>
-        <span>Xem thêm</span>
-    </a>
-</div>
-),
-}
-)
-</div>
+            @<div>
+                <a href="@Url.Action("Details", new { id = item.MaDHX })" class="btn btn-info btn-sm">
+                    <i class="fa fa-info"></i>
+                    <span>Xem thêm</span>
+                </a>
+            </div>
+            ),
+            }
+            )
+        </div>
