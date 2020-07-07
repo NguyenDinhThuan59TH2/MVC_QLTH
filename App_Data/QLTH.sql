@@ -10,7 +10,7 @@ create table NguoiDung(
 	MatKhau varchar(100) not null,
 	ChucVu nvarchar(100) not null,
 	HoTen nvarchar(300) not null, 
-	SDT varchar(20) ,
+	SDT varchar(20),
 	Anh nvarchar(100) not null,
 	DiaChi nvarchar(max) ,
 	GioiTinh bit not null,
@@ -41,7 +41,7 @@ CREATE TABLE NhaCungCap(
 	MaNCC VARCHAR(10) PRIMARY KEY not null,
 	TenNCC NVARCHAR(100) NOT NULL,
 	QuoGia NVARCHAR(100) NOT NULL,
-	DiaChi NVARCHAR(max) NOT NULL,
+	DiaChi NVARCHAR(max),
 	SDT VARCHAR(20) NOT NULL,
 	Email VARCHAR(20) NOT NULL,
 )
@@ -50,7 +50,7 @@ create table KhachHang(
 	MaKH varchar(10) primary key not null,
 	HoTen nvarchar(100) not null,
 	Anh nvarchar(100) not null,
-	DiaChi nvarchar(max) not null,
+	DiaChi nvarchar(max),
 	SDT VARCHAR(20) NOT NULL,
 	Email VARCHAR(20) NOT NULL,
 	NgaySinh DATE not null,
@@ -206,46 +206,16 @@ insert into HangDonHangXuat values
 select * from KhachHang
 select * from NhaCungCap
 
+ALTER TABLE NguoiDung
+ ALTER COLUMN DiaChi nvarchar(max) NULL;
 
-CREATE PROCEDURE Hang_TimKiem
-    @HanSuDung DATETIME='',
-	@NgayNhap DATETIME='',
-	@GiaNhap money= NULL,
-	@SoLuong int=NULL,
-	@GiaBan money=NULL,
+ ALTER TABLE KhachHang
+ ALTER COLUMN DiaChi nvarchar(max) NULL;
 
-AS
-BEGIN
-DECLARE @SqlStr NVARCHAR(4000),
-		@ParamList nvarchar(2000)
-SELECT @SqlStr = '
-       SELECT * 
-       FROM Hang
-       WHERE  (1=1)
-       '
-IF @HanSuDung IS NOT NULL
-       SELECT @SqlStr = @SqlStr + '
-              AND (HanSuDung LIKE ''%'+@HanSuDung+'%'')
-              '
-IF @HoTen IS NOT NULL
-       SELECT @SqlStr = @SqlStr + '
-              AND (HoNV+'' ''+TenNV LIKE ''%'+@HoTen+'%'')
-              '
-IF @GioiTinh IS NOT NULL
-       SELECT @SqlStr = @SqlStr + '
-             AND (GioiTinh LIKE ''%'+@GioiTinh+'%'')
-             '
-IF @LuongMin IS NOT NULL and @LuongMax IS NOT NULL
-       SELECT @SqlStr = @SqlStr + '
-             AND (Luong Between Convert(int,'''+@LuongMin+''') AND Convert(int, '''+@LuongMax+'''))
-             '
-IF @DiaChi IS NOT NULL
-       SELECT @SqlStr = @SqlStr + '
-              AND (DiaChi LIKE ''%'+@DiaChi+'%'')
-              '
-IF @MaPB IS NOT NULL
-       SELECT @SqlStr = @SqlStr + '
-              AND (MaPB LIKE ''%'+@MaPB+'%'')
-              '
-	EXEC SP_EXECUTESQL @SqlStr
-END
+ ALTER TABLE KhachHang
+ ALTER COLUMN GioiTinh bit NULL;
+
+ ALTER TABLE KhachHang
+ ALTER COLUMN NgaySinh DATE NULL;
+
+ 

@@ -69,6 +69,7 @@ namespace FreeTime1.Controllers
         {
             if (ModelState.IsValid)
             {
+                nhaCungCap.DiaChi = nhaCungCap.DiaChi == "" ? nhaCungCap.DiaChi : "";
                 int count = db.NhaCungCaps.Count() + 1;
                 nhaCungCap.MaNCC = "NCC" + count.ToString();
                 db.NhaCungCaps.Add(nhaCungCap);
