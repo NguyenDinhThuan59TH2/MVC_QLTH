@@ -28,13 +28,13 @@ namespace FreeTime1.Models
         [Display(Name = "Ảnh")]
         public string Anh { get; set; }
         [Display(Name = "Địa chỉ")]
-        [Required(ErrorMessage = "Địa chỉ là bắt buộc")]
         public string DiaChi { get; set; }
         [Display(Name = "Số điện thoại")]
-        [Required(ErrorMessage = "Số điện thoại là bắt buộc")]
+        [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Số điện thoại phải từ 10 đến 11 số, xin nhập lại")]
+        [Phone(ErrorMessage = "Số điện thoại phải là chữ số, xin nhập lại")]
         public string SDT { get; set; }
         [Display(Name = "Email")]
-        [Required(ErrorMessage = "Email là bắt buộc")]
+        [EmailAddress(ErrorMessage = "Xin nhập đúng Email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Ngày sinh là bắt buộc.")]
         [DataType(DataType.Date)]

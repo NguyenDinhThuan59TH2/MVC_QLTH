@@ -99,6 +99,7 @@ namespace FreeTime1.Controllers
 
                 var Anh = Request.Files["Anh"];
                 nguoiDung.Anh = "MacDinh.png";
+                nguoiDung.DiaChi = nguoiDung.DiaChi == "" ? nguoiDung.DiaChi : "";
                 if (Anh.FileName != "")
                 {
                     if (!CheckFileType(Anh.FileName))

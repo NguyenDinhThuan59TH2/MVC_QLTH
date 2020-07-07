@@ -32,6 +32,8 @@
         [Required(ErrorMessage = "Họ tên người dùng là bắt buộc")]
         public string HoTen { get; set; }
         [Display(Name = "Số điện thoại")]
+        [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Số điện thoại phải từ 10 đến 11 số, xin nhập lại")]
+        [Phone(ErrorMessage = "Số điện thoại phải là chữ số, xin nhập lại")]
         public string SDT { get; set; }
         [Display(Name = "Ảnh")]
         public string Anh { get; set; }
