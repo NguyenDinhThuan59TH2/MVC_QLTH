@@ -31,10 +31,10 @@ namespace FreeTime1.Controllers
                 {
                     TongDonHang += HangDonhangNhap.SoLuong * db.Hangs.Where(d => d.MaH == HangDonhangNhap.MaH).First().GiaNhap;
                 }
-                if (DonHangNhap.KieuGiamGia == "VNĐ")
+                if (DonHangNhap.KieuGiamGia == "VNĐ" && DonHangNhap.GiamGia != null)
                 {
                     TongDonHang -= decimal.Parse(DonHangNhap.GiamGia);
-                } else if (DonHangNhap.KieuGiamGia == "%")
+                } else if (DonHangNhap.KieuGiamGia == "%" && DonHangNhap.GiamGia != null)
                 {
                     TongDonHang -= TongDonHang % 100 * decimal.Parse(DonHangNhap.GiamGia);
                 }
@@ -55,11 +55,11 @@ namespace FreeTime1.Controllers
                 {
                     TongDonHang += HangDonhangXuat.SoLuong * db.Hangs.Where(d => d.MaH == HangDonhangXuat.MaH).First().GiaNhap;
                 }
-                if (DonHangXuat.KieuGiamGia == "VNĐ")
+                if (DonHangXuat.KieuGiamGia == "VNĐ" && DonHangXuat.GiamGia != null)
                 {
                     TongDonHang -= decimal.Parse(DonHangXuat.GiamGia);
                 }
-                else if (DonHangXuat.KieuGiamGia == "%")
+                else if (DonHangXuat.KieuGiamGia == "%" && DonHangXuat.GiamGia != null)
                 {
                     TongDonHang -= TongDonHang % 100 * decimal.Parse(DonHangXuat.GiamGia);
                 }
@@ -119,11 +119,11 @@ namespace FreeTime1.Controllers
                     {
                         TongDonHang += HangDonhangNhap.SoLuong * db.Hangs.Where(d => d.MaH == HangDonhangNhap.MaH).First().GiaNhap;
                     }
-                    if (DonHangNhap.KieuGiamGia == "VNĐ")
+                    if (DonHangNhap.KieuGiamGia == "VNĐ" && DonHangNhap.GiamGia != null)
                     {
                         TongDonHang -= decimal.Parse(DonHangNhap.GiamGia);
                     }
-                    else if (DonHangNhap.KieuGiamGia == "%")
+                    else if (DonHangNhap.KieuGiamGia == "%" && DonHangNhap.GiamGia != null)
                     {
                         TongDonHang -= TongDonHang % 100 * decimal.Parse(DonHangNhap.GiamGia);
                     }
@@ -153,11 +153,11 @@ namespace FreeTime1.Controllers
                     {
                         TongDonHang += HangDonhangXuat.SoLuong * db.Hangs.Where(d => d.MaH == HangDonhangXuat.MaH).First().GiaNhap;
                     }
-                    if (DonHangXuat.KieuGiamGia == "VNĐ")
+                    if (DonHangXuat.KieuGiamGia == "VNĐ" && DonHangXuat.GiamGia != null)
                     {
                         TongDonHang -= decimal.Parse(DonHangXuat.GiamGia);
                     }
-                    else if (DonHangXuat.KieuGiamGia == "%")
+                    else if (DonHangXuat.KieuGiamGia == "%" && DonHangXuat.GiamGia != null)
                     {
                         TongDonHang -= TongDonHang % 100 * decimal.Parse(DonHangXuat.GiamGia);
                     }

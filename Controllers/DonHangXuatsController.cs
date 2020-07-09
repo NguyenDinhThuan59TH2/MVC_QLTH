@@ -28,7 +28,7 @@ namespace FreeTime1.Controllers
                     donHangXuat.TongDonHang += hangDonHangXuat.SoLuong * hang.GiaBan;
                 }
                 // tinh giam gia
-                if (donHangXuat.KieuGiamGia != "")
+                if (donHangXuat.KieuGiamGia != "" && donHangXuat.GiamGia != null)
                 {
                     if (donHangXuat.KieuGiamGia == "VNĐ")
                     {
@@ -68,7 +68,7 @@ namespace FreeTime1.Controllers
                 return HttpNotFound();
             }
             DonHangXuat donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == id).Include(d => d.KhachHang).FirstOrDefault();
-            if (donHangXuat.KieuGiamGia != "")
+            if (donHangXuat.KieuGiamGia != "" && donHangXuat.GiamGia != null)
             {
                 if (donHangXuat.KieuGiamGia == "VNĐ")
                 {
@@ -78,13 +78,13 @@ namespace FreeTime1.Controllers
                 {
                     TongDonhang -= TongDonhang / 100 * decimal.Parse(donHangXuat.GiamGia);
                 }
+                ViewBag.GiamGia = String.Format("{0:n0}", decimal.Parse(donHangXuat.GiamGia));
+                ViewBag.KieuGiamGia = donHangXuat.KieuGiamGia;
             }
             ViewBag.TongDonhang = String.Format("{0:n0}", TongDonhang) + "VNĐ";
             ViewBag.MaDHX = donHangXuat.MaDHX;
             ViewBag.TenKH = donHangXuat.KhachHang.HoTen;
             ViewBag.NgayXuat = donHangXuat.NgayXuat;
-            ViewBag.GiamGia = String.Format("{0:n0}", decimal.Parse(donHangXuat.GiamGia));
-            ViewBag.KieuGiamGia = donHangXuat.KieuGiamGia;
             return View(hangDonHangXuats);
         }
 
@@ -148,11 +148,11 @@ namespace FreeTime1.Controllers
                     hangDonHangXuat.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == hangDonHangXuat.Hang.MaMH).FirstOrDefault();
                     TongDonHang += hangDonHangXuat.SoLuong * hangDonHangXuat.Hang.GiaBan;
                 }
-                if (donHangXuat.KieuGiamGia == "%")
+                if (donHangXuat.KieuGiamGia == "%" && donHangXuat.GiamGia != null)
                 {
                     TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangXuat.GiamGia);
                 }
-                else if (donHangXuat.KieuGiamGia == "VNĐ")
+                else if (donHangXuat.KieuGiamGia == "VNĐ" && donHangXuat.GiamGia != null)
                 {
                     TongDonHang -= decimal.Parse(donHangXuat.GiamGia);
                 }
@@ -167,7 +167,18 @@ namespace FreeTime1.Controllers
         {
             var donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX).FirstOrDefault();
             Hang hang = db.Hangs.Single(d => d.MaH == MaH);
-            if (hang.SoLuong < int.Parse(SoLuong))
+            bool loi = false;
+            if (SoLuong == "")
+            {
+                ViewBag.Loi = "Chưa nhập số lượng";
+                loi = true;
+            }
+            else if (int.Parse(SoLuong) <= 0)
+            {
+                ViewBag.Loi = "Số lượng phải lớn hơn 0";
+                loi = true;
+            }
+            else if (hang.SoLuong < int.Parse(SoLuong))
             {
                 ViewBag.errCount = "Số lượng vượt quá số lượng có trong kho";
             }
@@ -198,11 +209,11 @@ namespace FreeTime1.Controllers
                 HangDonHangXuat.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == HangDonHangXuat.Hang.MaMH).FirstOrDefault();
                 TongDonHang = HangDonHangXuat.SoLuong * HangDonHangXuat.Hang.GiaBan;
             }
-            if (donHangXuat.KieuGiamGia == "%")
+            if (donHangXuat.KieuGiamGia == "%" && donHangXuat.GiamGia != null)
             {
                 TongDonHang = TongDonHang * ((100 - decimal.Parse(donHangXuat.GiamGia))/100);
             }
-            else if (donHangXuat.KieuGiamGia == "VNĐ")
+            else if (donHangXuat.KieuGiamGia == "VNĐ" && donHangXuat.GiamGia != null)
             {
                 TongDonHang -= decimal.Parse(donHangXuat.GiamGia);
             }
@@ -233,11 +244,11 @@ namespace FreeTime1.Controllers
                 HangDonHangXuat.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == HangDonHangXuat.Hang.MaMH).FirstOrDefault();
                 TongDonHang = HangDonHangXuat.SoLuong * HangDonHangXuat.Hang.GiaBan;
             }
-            if (donHangXuat.KieuGiamGia == "%")
+            if (donHangXuat.KieuGiamGia == "%" && donHangXuat.GiamGia != null)
             {
                 TongDonHang = TongDonHang * ((100 - decimal.Parse(donHangXuat.GiamGia)) / 100);
             }
-            else if (donHangXuat.KieuGiamGia == "VNĐ")
+            else if (donHangXuat.KieuGiamGia == "VNĐ" && donHangXuat.GiamGia != null)
             {
                 TongDonHang -= decimal.Parse(donHangXuat.GiamGia);
             }

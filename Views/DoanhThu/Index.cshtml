@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Doanh thu";
     var grid = new WebGrid(Model, canPage: true, defaultSort: "TongDonHang", rowsPerPage: 10);
-    <script type="text/javascript">
+    /* <script type="text/javascript">
         $(document).ready(function () {
             $('#NgayThucHien').datepicker({
                 dateFormat: "dd/mm/yy",
@@ -16,7 +16,7 @@
                 highlightWeek: true
             });
         });
-    </script>
+    </script>*/
 }
 
 @section styles {
@@ -47,11 +47,13 @@
             const thoiGian = !ngayBD && !ngayKT ? 'Toàn thời gian' : ngayBD == ngayKT ? `trong ngày ${ngayKT}` : `từ ngày ${ngayBD} đến ngày ${ngayKT}`
             @foreach (var item in Model)
             {
+                var Giamgia = item.GiamGia;
+                if (Giamgia == null) { Giamgia = "0"; }
                 @:MaDH.push('@item.MaDH');
                 @:TongDonHang.push(@item.TongDonHang ? @item.TongDonHang : '');
                 @:LoaiDonHang.push('@item.LoaiDonHang' ? '@item.LoaiDonHang' : '');
                 @:NgayThucHien.push('@item.NgayThucHien' ? '@item.NgayThucHien' : '');
-                @:GiamGia.push(@item.GiamGia ?@item.GiamGia : '');
+                @:GiamGia.push(@Giamgia);
                 @:KieuGiamGia.push('@item.KieuGiamGia' ? '@item.KieuGiamGia' : '');
             }
             const danhSachDonHang = []
@@ -89,7 +91,7 @@
                             <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Tổng đon hàng</th>
                           </tr>
                           ${danhSachDonHang.map((donHang, index) => {
-                              const giamGia = `${numberWithCommas(parseFloat(donHang.GiamGia))}${donHang.KieuGiamGia}`
+                              const giamGia = `${numberWithCommas(donHang.GiamGia ? parseFloat(donHang.GiamGia) : 0)}${donHang.KieuGiamGia}`
                             return `
                               <tr>
                                 <td style="padding-left: 3px; text-align: center; border: 1px solid #000">${index + 1}</td>
