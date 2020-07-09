@@ -12,12 +12,9 @@
         [Display(Name = "Tài Khoản")]
         [Required(ErrorMessage = "Tài khoản là bắt buộc")]
         public string TaiKhoan { get; set; }
-        [Key]
         [Display(Name = "Mật Khẩu")]
         [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
         public string MatKhau { get; set; }
-
-        [Key]
         [Display(Name = "Nhập Lại Mật Khẩu")]
         [Compare("MatKhau")]
         [Required(ErrorMessage = "Chưa xác nhận mật khẩu")]

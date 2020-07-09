@@ -22,6 +22,7 @@ namespace FreeTime1.Models
             this.HangDonHangNhaps = new HashSet<HangDonHangNhap>();
             this.HangDonHangXuats = new HashSet<HangDonHangXuat>();
         }
+        [Key]
         [Display(Name = "Mã hàng")]
         public string MaH { get; set; }
         [Display(Name = "Mã mặt hàng")]

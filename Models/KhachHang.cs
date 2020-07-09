@@ -38,6 +38,7 @@ namespace FreeTime1.Models
         [Required(ErrorMessage = "Email là bắt buộc")]
         [EmailAddress(ErrorMessage = "Xin nhập đúng Email")]
         public string Email { get; set; }
+        [Display(Name = "Ngày sinh")]
         [Required(ErrorMessage = "Ngày sinh là bắt buộc.")]
         [DataType(DataType.Date)]
         public DateTime NgaySinh { get; set; }

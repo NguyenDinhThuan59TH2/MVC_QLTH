@@ -24,12 +24,15 @@ namespace FreeTime1.Models
         [Display(Name = "Mã mẫu hàng")]
         public string MaMH { get; set; }
         [Display(Name = "Tên mẫu hàng")]
+        [Required(ErrorMessage = "Tên mẫu hàng là bắt buộc")]
         public string TenMH { get; set; }
         [Display(Name = "Đơn vị")]
+        [Required(ErrorMessage = "Đơn vị là bắt buộc")]
         public string DonVi { get; set; }
         [Display(Name = "Ảnh")]
         public string Anh { get; set; }
         [Display(Name = "Chú thích")]
+        [Required(ErrorMessage = "Chú thích là bắt buộc")]
         public string ChuThich { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
