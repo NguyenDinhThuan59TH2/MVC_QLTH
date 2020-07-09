@@ -161,7 +161,8 @@ namespace FreeTime1.Controllers
                 ViewBag.Hangs = db.Hangs.Where(d => d.SoLuong > 0).Include(d => d.MauHang).ToList();
                 return View("Create", donHangXuat);
             }
-            return View(donHangXuat);
+            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen");
+            return View("Create");
         }
         public ActionResult AddInStock(string MaDHX, string MaH, string SoLuong)
         {

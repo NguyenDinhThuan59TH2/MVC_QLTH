@@ -69,7 +69,7 @@ namespace FreeTime1.Controllers
         {
             if (ModelState.IsValid)
             {
-                nhaCungCap.DiaChi = nhaCungCap.DiaChi == "" ? nhaCungCap.DiaChi : "";
+                nhaCungCap.DiaChi = nhaCungCap.DiaChi != "" ? nhaCungCap.DiaChi : "";
                 int count = db.NhaCungCaps.Count() + 1;
                 nhaCungCap.MaNCC = "NCC" + count.ToString();
                 bool checkEmail = db.NhaCungCaps.Any(d => d.Email == nhaCungCap.Email);
@@ -90,6 +90,11 @@ namespace FreeTime1.Controllers
                     ViewBag.DaTonTaiMail = "Email đã được sử dụng";
                     return View("Create", nhaCungCap);
                 }
+                System.Diagnostics.Debug.WriteLine("MaNCC", nhaCungCap.MaNCC);
+                System.Diagnostics.Debug.WriteLine("TenNCC", nhaCungCap.TenNCC);
+                System.Diagnostics.Debug.WriteLine("QuoGia", nhaCungCap.QuoGia);
+                System.Diagnostics.Debug.WriteLine("DiaChi", nhaCungCap.DiaChi);
+                System.Diagnostics.Debug.WriteLine("SDT", nhaCungCap.SDT);
                 db.NhaCungCaps.Add(nhaCungCap);
                 db.SaveChanges();
                 ViewBag.TaoThanhCong = "Tạo nhà cung cấp " + nhaCungCap.TenNCC + " thành công";
