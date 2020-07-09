@@ -181,8 +181,8 @@ namespace FreeTime1.Controllers
                 ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();
                 return View("Create", donHangNhap);
             }
-
-            return View(donHangNhap);
+            ViewBag.MaNCC = new SelectList(db.NhaCungCaps, "MaNCC", "TenNCC");
+            return View("Create");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
