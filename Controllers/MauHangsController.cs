@@ -44,7 +44,7 @@ namespace FreeTime1.Controllers
             );
             ViewBag.MaMH = MaMH;
             ViewBag.TenMH = TenMH;
-            ViewBag.DonVi = TenMH;
+            ViewBag.DonVi = DonVi;
             ViewBag.ChuThich = ChuThich;
             return View("Index", MauHangs);
         }
