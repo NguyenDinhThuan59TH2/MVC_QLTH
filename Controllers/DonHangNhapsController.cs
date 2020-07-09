@@ -29,7 +29,7 @@ namespace FreeTime1.Controllers
 
                 }
                 // tinh giam gia
-                if (donHangNhap.KieuGiamGia != "")
+                if (donHangNhap.KieuGiamGia != "" && donHangNhap.GiamGia != null)
                 {
                     if (donHangNhap.KieuGiamGia == "VNĐ")
                     {
@@ -67,7 +67,7 @@ namespace FreeTime1.Controllers
                 return HttpNotFound();
             }
             DonHangNhap donHangNhap = db.DonHangNhaps.Where(d => d.MaDHN == id).Include(d => d.NhaCungCap).FirstOrDefault();
-            if (donHangNhap.KieuGiamGia != "")
+            if (donHangNhap.KieuGiamGia != "" && donHangNhap.GiamGia != null)
             {
                 if (donHangNhap.KieuGiamGia == "VNĐ")
                 {
@@ -123,7 +123,7 @@ namespace FreeTime1.Controllers
                     donHangNhap.TongDonHang += hangDonHangNhap.SoLuong * hang.GiaNhap;
                 }
                 // tinh giam gia
-                if (donHangNhap.KieuGiamGia != "")
+                if (donHangNhap.KieuGiamGia != "" && donHangNhap.GiamGia != null)
                 {
                     if (donHangNhap.KieuGiamGia == "VNĐ")
                     {
@@ -168,11 +168,11 @@ namespace FreeTime1.Controllers
                     hangDonHangNhap.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == hangDonHangNhap.Hang.MaMH).FirstOrDefault();
                     TongDonHang = hangDonHangNhap.SoLuong * hangDonHangNhap.Hang.GiaNhap;
                 }
-                if (donHangNhap.KieuGiamGia == "%")
+                if (donHangNhap.KieuGiamGia == "%" && donHangNhap.GiamGia != null)
                 {
                     TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangNhap.GiamGia);
                 }
-                else if (donHangNhap.KieuGiamGia == "VNĐ")
+                else if (donHangNhap.KieuGiamGia == "VNĐ" && donHangNhap.GiamGia != null)
                 {
                     TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
                 }
@@ -192,21 +192,60 @@ namespace FreeTime1.Controllers
             int countHang = db.Hangs.Count() + 1;
             Hang hang = new Hang();
             hang.MaH= "H" + countHang.ToString();
-            hang.SoLuong = int.Parse(SoLuong);
-            hang.GiaNhap = int.Parse(GiaNhap);
-            hang.MaMH = MaMH;
-            hang.MaNCC = donHangNhap.MaNCC;
-            hang.GiaBan = int.Parse(GiaBan);
-            hang.NgayNhap = donHangNhap.NgayNhap;
-            System.Diagnostics.Debug.WriteLine("HanSuDung: ", HanSuDung);
-            hang.HanSuDung = DateTime.ParseExact(HanSuDung, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-            HangDonHangNhap hangDonHangNhap = new HangDonHangNhap();
-            hangDonHangNhap.SoLuong = int.Parse(SoLuong);
-            hangDonHangNhap.MaH = hang.MaH;
-            hangDonHangNhap.MaDHN = donHangNhap.MaDHN;
-            db.Hangs.Add(hang);
-            db.HangDonHangNhaps.Add(hangDonHangNhap);
-            db.SaveChanges();
+            bool loi = false;
+            if (SoLuong == "")
+            {
+                ViewBag.Loi = "Chưa nhập số lượng";
+                loi = true;
+            }
+            else if (int.Parse(SoLuong) <= 0) {
+                ViewBag.Loi = "Số lượng phải lớn hơn 0";
+                loi = true;
+            } else {
+                hang.SoLuong = int.Parse(SoLuong);
+            }
+            if (GiaNhap == "")
+            {
+                ViewBag.Loi = "Chưa nhập giá nhập";
+                loi = true;
+            } else if (int.Parse(GiaNhap) <= 0) {
+                ViewBag.Loi = "Giá nhập phải lớn hơn 0";
+                loi = true;
+            } else
+            {
+                hang.GiaNhap = int.Parse(GiaNhap);
+            }
+            if (GiaBan == "") {
+                ViewBag.Loi = "Chưa nhập giá bán";
+                loi = true;
+            }
+            else if (int.Parse(GiaBan) <= 0)
+            {
+                ViewBag.Loi = "Giá bán phải lớn hơn 0";
+                loi = true;
+            } else {
+                hang.GiaBan = int.Parse(GiaBan);
+            }
+            if (HanSuDung == "") {
+                ViewBag.Loi = "Chưa nhập hạn sử dụng";
+                loi = true;
+            } else {
+                hang.HanSuDung = DateTime.ParseExact(HanSuDung, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            if (!loi)
+            {
+                hang.MaMH = MaMH;
+                hang.MaNCC = donHangNhap.MaNCC;
+                hang.NgayNhap = donHangNhap.NgayNhap;
+                System.Diagnostics.Debug.WriteLine("HanSuDung: ", HanSuDung);
+                HangDonHangNhap hangDonHangNhap = new HangDonHangNhap();
+                hangDonHangNhap.SoLuong = int.Parse(SoLuong);
+                hangDonHangNhap.MaH = hang.MaH;
+                hangDonHangNhap.MaDHN = donHangNhap.MaDHN;
+                db.Hangs.Add(hang);
+                db.HangDonHangNhaps.Add(hangDonHangNhap);
+                db.SaveChanges();
+            }
             donHangNhap.NhaCungCap = db.NhaCungCaps.Where(d => d.MaNCC == donHangNhap.MaNCC).FirstOrDefault();
             donHangNhap.HangDonHangNhaps = db.HangDonHangNhaps.Where(d => d.MaDHN == donHangNhap.MaDHN).ToList();
             decimal TongDonHang = 0;
@@ -216,10 +255,10 @@ namespace FreeTime1.Controllers
                 HangDonHangNhap.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == HangDonHangNhap.Hang.MaMH).FirstOrDefault();
                 TongDonHang = HangDonHangNhap.SoLuong * HangDonHangNhap.Hang.GiaNhap;
             }
-            if (donHangNhap.KieuGiamGia == "%")
+            if (donHangNhap.KieuGiamGia == "%" && donHangNhap.GiamGia != null)
             {
                 TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangNhap.GiamGia);   
-            } else if (donHangNhap.KieuGiamGia == "VNĐ")
+            } else if (donHangNhap.KieuGiamGia == "VNĐ" && donHangNhap.GiamGia != null)
             {
                 TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
             }
@@ -235,19 +274,32 @@ namespace FreeTime1.Controllers
             var donHangNhap = db.DonHangNhaps.Where(d => d.MaDHN == MaDHN).FirstOrDefault();
             Hang hang = db.Hangs.Single(d => d.MaH == MaH);
             var HDHN = db.HangDonHangNhaps.Where(d => d.MaDHN == MaDHN && d.MaH == MaH).FirstOrDefault();
-            if (HDHN != null)
+            bool loi = false;
+            if (SoLuong == "")
             {
-                HDHN.SoLuong += int.Parse(SoLuong);
-            } else
+                ViewBag.Loi = "Chưa nhập số lượng!";
+                loi = true;
+            } else if (int.Parse(SoLuong) <= 0)
             {
-                HangDonHangNhap hangDonHangNhap = new HangDonHangNhap();
-                hangDonHangNhap.SoLuong = int.Parse(SoLuong);
-                hangDonHangNhap.MaH = MaH;
-                hangDonHangNhap.MaDHN = donHangNhap.MaDHN;
-                db.HangDonHangNhaps.Add(hangDonHangNhap);
+                ViewBag.Loi = "Số lượng phải lớn hơn 0!";
+                loi = true;
             }
-            hang.SoLuong += int.Parse(SoLuong);
-            db.SaveChanges();
+            if (!loi)
+            {
+                if (HDHN != null)
+                {
+                    HDHN.SoLuong += int.Parse(SoLuong);
+                } else {
+                    HangDonHangNhap hangDonHangNhap = new HangDonHangNhap();
+                    hangDonHangNhap.SoLuong = int.Parse(SoLuong);
+                    hangDonHangNhap.MaH = MaH;
+                    hangDonHangNhap.MaDHN = donHangNhap.MaDHN;
+                    db.HangDonHangNhaps.Add(hangDonHangNhap);
+                }
+                hang.SoLuong += int.Parse(SoLuong);
+                db.SaveChanges();
+
+            }
             donHangNhap.NhaCungCap = db.NhaCungCaps.Where(d => d.MaNCC == donHangNhap.MaNCC).FirstOrDefault();
             donHangNhap.HangDonHangNhaps = db.HangDonHangNhaps.Where(d => d.MaDHN == donHangNhap.MaDHN).ToList();
             decimal TongDonHang = 0;
@@ -257,11 +309,11 @@ namespace FreeTime1.Controllers
                 HangDonHangNhap.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == HangDonHangNhap.Hang.MaMH).FirstOrDefault();
                 TongDonHang = HangDonHangNhap.SoLuong * HangDonHangNhap.Hang.GiaNhap;
             }
-            if (donHangNhap.KieuGiamGia == "%")
+            if (donHangNhap.KieuGiamGia == "%" && donHangNhap.GiamGia != null)
             {
                 TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangNhap.GiamGia);
             }
-            else if (donHangNhap.KieuGiamGia == "VNĐ")
+            else if (donHangNhap.KieuGiamGia == "VNĐ" && donHangNhap.GiamGia != null)
             {
                 TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
             }
@@ -293,11 +345,11 @@ namespace FreeTime1.Controllers
                 HangDonHangNhap.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == HangDonHangNhap.Hang.MaMH).FirstOrDefault();
                 TongDonHang = HangDonHangNhap.SoLuong * HangDonHangNhap.Hang.GiaNhap;
             }
-            if (donHangNhap.KieuGiamGia == "%")
+            if (donHangNhap.KieuGiamGia == "%" && donHangNhap.GiamGia != null)
             {
                 TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangNhap.GiamGia);
             }
-            else if (donHangNhap.KieuGiamGia == "VNĐ")
+            else if (donHangNhap.KieuGiamGia == "VNĐ" && donHangNhap.GiamGia != null)
             {
                 TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
             }
