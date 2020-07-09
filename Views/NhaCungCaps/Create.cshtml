@@ -16,7 +16,7 @@
         </span>
     </a>
 </div>
-<h2 class="text-title">Người dùng mới</h2>
+<h2 class="text-title">Nhà cung cấp mới</h2>
 @using (Html.BeginForm("Create", "NhaCungCaps", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -61,6 +61,7 @@
                     @Html.LabelFor(model => model.QuoGia)
                 </div>
                 <div>
+                    @*@Html.DropDownList("QuoGia", new SelectList(new string[] { }), htmlAttributes: new { @class = "form-control" id=""})*@
                     @Html.EditorFor(model => model.QuoGia, new { htmlAttributes = new { @class = "form-input" } })
                     @Html.ValidationMessageFor(model => model.QuoGia, "", new { @class = "text-danger" })
                 </div>
@@ -78,7 +79,7 @@
     </div>
     <div class="form-footer">
         <div>
-            <input type="submit" value="Tạo người dùng" class="btn btn-success btn-sm" />
+            <input type="submit" value="Tạo nhà cung cấp mới" class="btn btn-success btn-sm" />
         </div>
     </div>
 }

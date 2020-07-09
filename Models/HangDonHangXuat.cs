@@ -11,13 +11,14 @@ namespace FreeTime1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class HangDonHangXuat
     {
         public string MaDHX { get; set; }
         public string MaH { get; set; }
         public int SoLuong { get; set; }
-    
+
         public virtual DonHangXuat DonHangXuat { get; set; }
         public virtual Hang Hang { get; set; }
     }

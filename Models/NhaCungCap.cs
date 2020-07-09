@@ -25,17 +25,21 @@ namespace FreeTime1.Models
         [Display(Name ="Mã nhà cung cấp")]
         public string MaNCC { get; set; }
         [Display(Name = "Tên nhà cung cấp")]
+        [Required(ErrorMessage = "Tên nhà cung cấp là bắt buộc")]
         public string TenNCC { get; set; }
         [Display(Name = "Quốc gia")]
+        [Required(ErrorMessage = "Quốc gia là bắt buộc")]
         public string QuoGia { get; set; }
         [Display(Name = "Địa chỉ")]
+        [Required(ErrorMessage = "Địa chỉ là bắt buộc")]
         public string DiaChi { get; set; }
         [Display(Name = "Số điện thoại")]
+        [Required(ErrorMessage = "Số điện thoại là bắt buộc")]
         [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Số điện thoại phải từ 10 đến 11 số, xin nhập lại")]
         [Phone(ErrorMessage = "Số điện thoại phải là chữ số, xin nhập lại")]
         public string SDT { get; set; }
         [Display(Name = "Email")]
-        [EmailAddress(ErrorMessage = "Xin nhập đúng Email")]
+        [Required(ErrorMessage = "Tài khoản là bắt buộc")]
         public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
