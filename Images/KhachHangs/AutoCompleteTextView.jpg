@@ -1,0 +1,18 @@
+--- Khai báo ---
+private AutoCompleteTextView autoCompleteTextView;
+ArrayAdapter<String> autoCompleteTextViewArrayAdapter;
+
+--- Add view ---
+autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+-- Tạo Adapter --
+String[] danhSach = getResources().getStringArray(R.array.danhSach); // Tạo file xml tham khảo spinner
+autoCompleteTextViewArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, danhSach);
+autoCompleteTextView.setAdapter(autoCompleteTextViewArrayAdapter);
+--- Set View ---
+autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		String item = autoCompleteTextViewArrayAdapter.getItem((position));
+	}
+});
+
