@@ -28,13 +28,13 @@
 {
     @Html.AntiForgeryToken()
     <div class="partition partition-col">
-        <div class="partition-row partition-half-width" style="align-items: center;">
+        <div class="partition-row partition-half-width" style="align-items: center;" >
             <img src="~/Images/MauHangs/@Html.DisplayFor(model => model.Anh)" class="avarta-large" />
             <div class="form-field">
                 <div>
                     Chọn ảnh mới
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="Anh" multiple id="customFile" />
+                        <input type="file" class="custom-file-input" name="Anh" multiple id="customFile" accept="image/*"/>
                     </div>
                 </div>
             </div>
