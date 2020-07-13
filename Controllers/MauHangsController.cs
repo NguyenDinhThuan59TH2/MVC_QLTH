@@ -55,6 +55,24 @@ namespace FreeTime1.Controllers
             return View();
         }
 
+        private bool CheckFileType(string fileName)
+        {
+            string ext = System.IO.Path.GetExtension(fileName);
+            switch (ext.ToLower())
+            {
+                case ".gif":
+                    return true;
+                case ".jpg":
+                    return true;
+                case ".jpeg":
+                    return true;
+                case ".png":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         // POST: MauHangs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -69,6 +87,11 @@ namespace FreeTime1.Controllers
                 mauHang.Anh = "Default.jpg";
                 if (Anh != null)
                 {
+                    if (!CheckFileType(Anh.FileName))
+                    {
+                        ViewBag.LoiFile = "Kiểu File không được hỗ trợ!";
+                        return View(mauHang);
+                    }
                     string FileName = System.IO.Path.GetFileName(Anh.FileName);
                     var path = Server.MapPath("/Images/MauHangs/" + FileName);
                     Anh.SaveAs(path);
@@ -114,6 +137,11 @@ namespace FreeTime1.Controllers
                 var Anh = Request.Files["Anh"];
                 if (Anh.FileName != "")
                 {
+                    if (!CheckFileType(Anh.FileName))
+                    {
+                        ViewBag.LoiFile = "Kiểu File không được hỗ trợ!";
+                        return View(mauHang);
+                    }
                     string FileName = System.IO.Path.GetFileName(Anh.FileName);
                     var path = Server.MapPath("/Images/MauHangs/" + FileName);
                     Anh.SaveAs(path);

@@ -9,76 +9,96 @@
     <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
     <link rel="stylesheet" type="text/css" href="~/Content/form.css">
     <link rel="stylesheet" type="text/css" href="~/Content/image.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/noti.css" />
 }
 
-<div>
-    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
-        <i class="fa fa-arrow-left"></i>
-        <span>
-            Quay về
-        </span>
-    </a>
-</div>
-
-<h2 class="text-title">
-    @Html.DisplayFor(model => model.HoTen)
-</h2>
-
-@using (Html.BeginForm("Edit", "KhachHangs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@section scripts {
+    <script src="~/Scripts/noti.js"></script>
+}
+@if (ViewBag.LoiFile != null)
 {
-    <div class="partition partition-col">
-        <div class="partition-row partition-half-width" style="align-items: center;">
-            <img src="~/Images/KhachHangs/@Html.DisplayFor(model => model.Anh)" class="avarta-large" />
-            <div class="form-field">
-                <div>
-                    Chọn ảnh mới
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="Anh" multiple id="customFile" accept="image/*"/>
-                    </div>
+    <div class="noti">
+        <div class="noti-content">
+            <div class="noti-header">
+                Thông báo!
+                <div class="noti-close">
+                    đóng
                 </div>
             </div>
-        </div>
-        <div class="form partition-half-width" style="grid-template-columns: auto">
-            <div class="form-group">
-                <input name="MaKH" value="@Model.MaKH" class="hide form-input" />
-                <div class="form-field">
-                    <div class="form-label">
-                        @Html.LabelFor(model => model.HoTen)
-                    </div>
-                    <div>
-                        <input class="form-input" name="HoTen" multiple value="@Model.HoTen" />
-                    </div>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">
-                        @Html.LabelFor(model => model.SDT)
-                    </div>
-                    <div>
-                        <input class="form-input" name="SDT" multiple value="@Model.SDT" />
-                    </div>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">
-                        @Html.LabelFor(model => model.Email)
-                    </div>
-                    <div>
-                        <input class="form-input" name="Email" multiple value="@Model.Email" />
-                    </div>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">
-                        @Html.LabelFor(model => model.DiaChi)
-                    </div>
-                    <div>
-                        <input class="form-input" name="DiaChi" value="@Model.DiaChi" />
-                    </div>
-                </div>
+            <div class="noti-body">
+                @ViewBag.LoiFile
             </div>
-        </div>
-    </div>
-    <div class="form-footer">
-        <div>
-            <input type="submit" value="Cập nhật" class="btn btn-success btn-sm" />
         </div>
     </div>
 }
+    <div>
+        <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+            <i class="fa fa-arrow-left"></i>
+            <span>
+                Quay về
+            </span>
+        </a>
+    </div>
+
+    <h2 class="text-title">
+        @Html.DisplayFor(model => model.HoTen)
+    </h2>
+
+    @using (Html.BeginForm("Edit", "KhachHangs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="partition partition-col">
+            <div class="partition-row partition-half-width" style="align-items: center;">
+                <img src="~/Images/KhachHangs/@Html.DisplayFor(model => model.Anh)" class="avarta-large" />
+                <div class="form-field">
+                    <div>
+                        Chọn ảnh mới
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="Anh" multiple id="customFile" accept="image/*" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form partition-half-width" style="grid-template-columns: auto">
+                <div class="form-group">
+                    <input name="MaKH" value="@Model.MaKH" class="hide form-input" />
+                    <div class="form-field">
+                        <div class="form-label">
+                            @Html.LabelFor(model => model.HoTen)
+                        </div>
+                        <div>
+                            <input class="form-input" name="HoTen" multiple value="@Model.HoTen" />
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">
+                            @Html.LabelFor(model => model.SDT)
+                        </div>
+                        <div>
+                            <input class="form-input" name="SDT" multiple value="@Model.SDT" />
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">
+                            @Html.LabelFor(model => model.Email)
+                        </div>
+                        <div>
+                            <input class="form-input" name="Email" multiple value="@Model.Email" />
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">
+                            @Html.LabelFor(model => model.DiaChi)
+                        </div>
+                        <div>
+                            <input class="form-input" name="DiaChi" value="@Model.DiaChi" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <input type="submit" value="Cập nhật" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    }
