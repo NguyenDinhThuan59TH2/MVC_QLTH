@@ -92,7 +92,7 @@ namespace FreeTime1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TaiKhoan,MatKhau,NhapLaiMatKhau,ChucVu,HoTen,SDT,DiaChi,GioiTinh")] NguoiDung nguoiDung)
+        public ActionResult Create([Bind(Include = "TaiKhoan,MatKhau,NhapLaiMatKhau,Anh,ChucVu,HoTen,SDT,DiaChi,GioiTinh")] NguoiDung nguoiDung)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace FreeTime1.Controllers
                 var Anh = Request.Files["Anh"];
                 nguoiDung.Anh = "MacDinh.png";
                 nguoiDung.DiaChi = nguoiDung.DiaChi == "" ? nguoiDung.DiaChi : "";
-                if (Anh.FileName != "")
+                if (Anh != null)
                 {
                     if (!CheckFileType(Anh.FileName))
                     {
@@ -160,6 +160,11 @@ namespace FreeTime1.Controllers
                 var Anh = Request.Files["Anh"];
                 if (Anh.FileName != "")
                 {
+                    if (!CheckFileType(Anh.FileName))
+                    {
+                        ViewBag.LoiFile = "Kiểu File không được hỗ trợ!";
+                        return View(nguoiDung);
+                    }
                     string FileName = System.IO.Path.GetFileName(Anh.FileName);
                     var path = Server.MapPath("/Images/NguoiDungs/" + FileName);
                     Anh.SaveAs(path);

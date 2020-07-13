@@ -99,7 +99,7 @@ namespace FreeTime1.Controllers
                 var Anh = Request.Files["Anh"];
                 khachHang.Anh = "MacDinh.png";
                 khachHang.DiaChi = khachHang.DiaChi == "" ? khachHang.DiaChi : "";
-                if (Anh.FileName != "")
+                if (Anh != null)
                 {
                     if (!CheckFileType(Anh.FileName))
                     {
@@ -162,10 +162,15 @@ namespace FreeTime1.Controllers
                 var Anh = Request.Files["Anh"];
                 if (Anh.FileName != "")
                 {
+                    if (!CheckFileType(Anh.FileName))
+                    {
+                        ViewBag.LoiFile = "Kiểu File không được hỗ trợ!";
+                        return View(khachHang);
+                    }
                     string FileName = System.IO.Path.GetFileName(Anh.FileName);
                     var path = Server.MapPath("/Images/KhachHangs/" + FileName);
                     Anh.SaveAs(path);
-                    System.Diagnostics.Debug.WriteLine(FileName);
+                    //System.Diagnostics.Debug.WriteLine(FileName);
                     khachHang.Anh = FileName;
                 }
                 khachHang.HoTen = HoTen;
