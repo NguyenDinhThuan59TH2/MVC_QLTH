@@ -48,7 +48,7 @@ namespace FreeTime1.Controllers
             ViewBag.TenMH = TenMH;
             ViewBag.DonVi = DonVi;
             ViewBag.ChuThich = ChuThich;
-            return View("Index", MauHangs);
+            return View("Index", Hangs);
         }
 
         //public ActionResult SearchHang(string HanSuDung = "", string NgayNhap = "",
