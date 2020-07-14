@@ -12,8 +12,7 @@ namespace FreeTime1.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-
+    
     public partial class QLTapHoaEntities : DbContext
     {
         public QLTapHoaEntities()
@@ -36,40 +35,6 @@ namespace FreeTime1.Models
         public virtual DbSet<NguoiDung> NguoiDungs { get; set; }
         public virtual DbSet<NhaCungCap> NhaCungCaps { get; set; }
         public virtual DbSet<NhomHang> NhomHangs { get; set; }
-
-        //public virtual int Hang_TimKiem(string HanSuDung, string NgayNhap, string GiaNhap,
-        //    string SoLuong, string GiaBan, string TenMH, string TenNCC)
-        //{
-        //    var HanSuDungParameter = HanSuDung != null ?
-        //        new ObjectParameter("HanSuDung", HanSuDung) :
-        //        new ObjectParameter("HanSuDung", typeof(string));
-
-        //    var NgayNhapParameter = NgayNhap != null ?
-        //        new ObjectParameter("NgayNhap", NgayNhap) :
-        //        new ObjectParameter("NgayNhap", typeof(string));
-
-        //    var GiaNhapParameter = GiaNhap != null ?
-        //        new ObjectParameter("GiaNhap", GiaNhap) :
-        //        new ObjectParameter("GiaNhap", typeof(string));
-
-        //    var SoLuongParameter = SoLuong != null ?
-        //        new ObjectParameter("SoLuong", SoLuong) :
-        //        new ObjectParameter("SoLuong", typeof(string));
-
-        //    var GiaBanParameter = GiaBan != null ?
-        //        new ObjectParameter("GiaBan", GiaBan) :
-        //        new ObjectParameter("GiaBan", typeof(string));
-
-        //    var TenMHParameter = TenMH != null ?
-        //        new ObjectParameter("TenMH", TenMH) :
-        //        new ObjectParameter("TenMH", typeof(string));
-
-        //    var TenNCCParameter = TenNCC != null ?
-        //        new ObjectParameter("TenNCC", TenNCC) :
-        //        new ObjectParameter("TenNCC", typeof(string));
-
-        //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Hang_TimKiem", HanSuDungParameter, NgayNhapParameter,
-        //        GiaNhapParameter, SoLuongParameter, GiaBanParameter, TenMHParameter, TenNCCParameter);
-        //}
+        public virtual DbSet<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }
     }
 }

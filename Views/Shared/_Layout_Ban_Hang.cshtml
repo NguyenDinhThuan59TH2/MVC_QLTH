@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Cửa Hàng Tạp Hóa";
+    Layout = null;
+    FreeTime1.Models.KhachHang khachHang = Session["khachHang"] as FreeTime1.Models.KhachHang;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cửa Hàng Tạp Hóa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet">
+    <link href="~/Content/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui1.css">
+    @RenderSection("styles", false)
+</head>
+<body>
+    <div class="header-bot">
+        <div class="header-bot_inner_wthreeinfo_header_mid">
+            <div class="col-md-4 logo_agile">
+                <h1>
+                    <a href="index.html">
+                        <span>P</span>húc
+                        <span>T</span>hảo
+                        <img src="~/Images/taphoapro logo.PNG" alt=" " style="width: 100px; height: 90px" />
+                    </a>
+                </h1>
+            </div>
+            <div class="col-md-8 header">
+                <ul style="display: flex; justify-content: flex-end;">
+                    <li>
+                        @if (khachHang != null)
+                        {
+                            <button class="w3view-cart" style="background: none;">
+                                <img src="~/Images/shopping_cart.png" alt="Giỏ hàng" style="width: 100%;" />
+                            </button>
+                        }
+                    </li>
+                    <li>
+                        @if (khachHang == null)
+                        {
+                            <a href="#" data-toggle="modal" data-target="#myModal2">
+                                @Html.ActionLink("Đăng nhập", "Index", "Login")
+                            </a>
+                        }
+                        else
+                        {
+                            <p style="text-align: center;">@khachHang.HoTen</p>
+                            <a href="#" data-toggle="modal" data-target="#myModal2">
+                                @Html.ActionLink("Đăng xuất", "Logout", "Login")
+                            </a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+

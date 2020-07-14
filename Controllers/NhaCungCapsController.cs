@@ -17,12 +17,18 @@ namespace FreeTime1.Controllers
         // GET: NhaCungCaps
         public ActionResult Index()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
+                return RedirectToAction("Index", "Login");
             return View(db.NhaCungCaps.ToList());
         }
 
         // GET: NhaCungCaps/Details/5
         public ActionResult Details(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,11 +44,17 @@ namespace FreeTime1.Controllers
         // GET: NhaCungCaps/Create
         public ActionResult Create()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             return View();
         }
 
         public ActionResult TimKiem(string TenNCC, string MaNCC, string QuoGia, string DiaChi, string SDT, string Email)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             var NhaCungCaps = db.NhaCungCaps.Where(NhaCungCap =>
                 (TenNCC == "" || NhaCungCap.TenNCC.Contains(TenNCC)) &&
                 (MaNCC == "" || NhaCungCap.MaNCC.Contains(MaNCC)) &&
@@ -107,6 +119,9 @@ namespace FreeTime1.Controllers
         // GET: NhaCungCaps/Edit/5
         public ActionResult Edit(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -143,6 +158,9 @@ namespace FreeTime1.Controllers
         // GET: NhaCungCaps/Delete/5
         public ActionResult Delete(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

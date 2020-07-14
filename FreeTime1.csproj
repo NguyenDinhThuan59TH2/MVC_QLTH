@@ -146,6 +146,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Version2.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DoanhThu.cs" />
     <Compile Include="Models\DonHangNhap.cs">
       <DependentUpon>QLTHModels.tt</DependentUpon>
@@ -191,6 +193,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>QLTHModels.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiKhoanKhachHang.cs">
+      <DependentUpon>QLTHModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -493,6 +498,7 @@
     <Content Include="Views\Hangs\SearchHang.cshtml" />
     <Content Include="Views\DoanhThu\Index.cshtml" />
     <Content Include="Scripts\countries.json" />
+    <Content Include="Views\Shared\_Layout_Ban_Hang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />

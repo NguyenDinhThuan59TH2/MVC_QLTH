@@ -17,6 +17,8 @@ namespace FreeTime1.Controllers
         // GET: KhachHangs
         public ActionResult Index()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             return View(db.KhachHangs.ToList());
         }
 
@@ -38,11 +40,16 @@ namespace FreeTime1.Controllers
         // GET: KhachHangs/Create
         public ActionResult Create()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             return View();
         }
 
         public ActionResult TimKiem(string MaKH, string Email, string GioiTinh, string HoTen, string SDT, string DiaChi)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             bool TimKiemGioiTinh = false;
             if (GioiTinh != null)
             {
@@ -138,6 +145,9 @@ namespace FreeTime1.Controllers
         // GET: KhachHangs/Edit/5
         public ActionResult Edit(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -187,6 +197,8 @@ namespace FreeTime1.Controllers
         // GET: KhachHangs/Delete/5
         public ActionResult Delete(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
