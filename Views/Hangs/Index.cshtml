@@ -40,24 +40,36 @@
                     <input type="text" name="TenMH" value="@ViewBag.TenMH" class="search-input" />
                 </td>
             </tr>
-        </table>
-        <table class="search-table">
-            <tr class="search-table-tr">
-                <td class="search-table-td search-label">
-                    <div>Giá trị hàng</div>
-                </td>
-                <td class="search-table-td search-range-input">
-                    <input name="GiaTriHangBD" value="@ViewBag.GiaTriHangBD" class="search-input" />
-                    đến
-                    <input name="GiaTriHangKT" value="@ViewBag.GiaTriHangKT" class="search-input" />
-                </td>
-            </tr>
             <tr class="search-table-tr">
                 <td class="search-table-td search-label">
                     <div>Nhà Cung Cấp</div>
                 </td>
                 <td class="search-table-td">
                     <input type="text" name="TenNCC" value="@ViewBag.TenNCC" class="search-input" />
+                </td>
+            </tr>
+        </table>
+        <table class="search-table">
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Giá nhập</div>
+                </td>
+                <td class="search-table-td search-range-input">
+                    từ
+                    <input name="GiaNhapBD" value="@ViewBag.GiaNhapBD" class="search-input" />
+                    đến
+                    <input name="GiaNhapKT" value="@ViewBag.GiaNhapKT" class="search-input" />
+                </td>
+            </tr>
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Giá bán</div>
+                </td>
+                <td class="search-table-td search-range-input">
+                    từ
+                    <input name="GiaBanBD" value="@ViewBag.GiaBanBD" class="search-input" />
+                    đến
+                    <input name="GiaBanKT" value="@ViewBag.GiaBanKT" class="search-input" />
                 </td>
             </tr>
         </table>

@@ -388,7 +388,7 @@ namespace FreeTime1.Controllers
                 return View("Index", db.MauHangs.ToList());
             }
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
-            return View("Create", donHangNhap);
+            return View("Create");
         }
 
         public ActionResult DeleteInStock(string MaDHN, string MaH)
