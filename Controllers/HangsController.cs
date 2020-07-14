@@ -42,7 +42,7 @@ namespace FreeTime1.Controllers
             return View(hang);
         }
 
-        public ActionResult TimKiem(string MaH, string TenMH, string SoLuong, string GiaNhap, string GiaBan, string NgayNhap, string HanSuDung, string TenNCC)
+        /*public ActionResult TimKiem(string MaH, string TenMH, string SoLuong, string GiaNhap, string GiaBan, string NgayNhap, string HanSuDung, string TenNCC)
         {
             var Hangs = db.Hangs.Where(Hang =>
                 (MaH == "" || Hang.MaH.Contains(MaH)) &&
@@ -55,7 +55,7 @@ namespace FreeTime1.Controllers
             ViewBag.DonVi = DonVi;
             ViewBag.ChuThich = ChuThich;
             return View("Index", MauHangs);
-        }
+        }*/
 
         //public ActionResult SearchHang(string HanSuDung = "", string NgayNhap = "",
         //    string GiaNhap = "", string SoLuong = "", string GiaBan = "")

@@ -11,13 +11,13 @@ namespace FreeTime1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class TaiKhoanKhachHang
     {
         public string MaKH { get; set; }
         public string TaiKhoan { get; set; }
         public string MatKhau { get; set; }
-    
+
         public virtual KhachHang KhachHang { get; set; }
     }
 }

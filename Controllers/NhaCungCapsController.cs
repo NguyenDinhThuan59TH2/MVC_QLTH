@@ -20,7 +20,7 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
                 return RedirectToAction("Index", "Login");
-            return View(db.NhaCungCaps.ToList());
+            return View(db.NhaCungCaps.Where(d => d.DaXoa == false).ToList());
         }
 
         // GET: NhaCungCaps/Details/5
@@ -61,7 +61,8 @@ namespace FreeTime1.Controllers
                 (QuoGia == "" || NhaCungCap.QuoGia.Contains(QuoGia)) &&
                 (DiaChi == "" || NhaCungCap.DiaChi.Contains(DiaChi)) &&
                 (SDT == "" || NhaCungCap.SDT.Contains(SDT)) &&
-                (Email == "" || NhaCungCap.Email.Contains(Email))
+                (Email == "" || NhaCungCap.Email.Contains(Email)) &&
+                NhaCungCap.DaXoa == false
             );
             ViewBag.TenNCC = TenNCC;
             ViewBag.MaNCC = MaNCC;
@@ -102,11 +103,13 @@ namespace FreeTime1.Controllers
                     ViewBag.DaTonTaiMail = "Email đã được sử dụng";
                     return View("Create", nhaCungCap);
                 }
+                nhaCungCap.DaXoa = false;
                 System.Diagnostics.Debug.WriteLine("MaNCC", nhaCungCap.MaNCC);
                 System.Diagnostics.Debug.WriteLine("TenNCC", nhaCungCap.TenNCC);
                 System.Diagnostics.Debug.WriteLine("QuoGia", nhaCungCap.QuoGia);
                 System.Diagnostics.Debug.WriteLine("DiaChi", nhaCungCap.DiaChi);
                 System.Diagnostics.Debug.WriteLine("SDT", nhaCungCap.SDT);
+                System.Diagnostics.Debug.WriteLine("DaXoa", nhaCungCap.DaXoa.ToString());
                 db.NhaCungCaps.Add(nhaCungCap);
                 db.SaveChanges();
                 ViewBag.TaoThanhCong = "Tạo nhà cung cấp " + nhaCungCap.TenNCC + " thành công";
@@ -140,7 +143,7 @@ namespace FreeTime1.Controllers
         [HttpPost]
         public ActionResult Edit(string MaNCC, string TenNCC, string SDT, string DiaChi, string Email, string QuoGia)
         {
-            NhaCungCap nhaCungCap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == MaNCC);
+            NhaCungCap nhaCungCap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == MaNCC && n.DaXoa == false);
             if (nhaCungCap != null)
             {
                 nhaCungCap.TenNCC = TenNCC;
@@ -179,15 +182,11 @@ namespace FreeTime1.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             NhaCungCap nhaCungCap = db.NhaCungCaps.Find(id);
-            if (db.DonHangNhaps.Where(d => d.MaNCC == nhaCungCap.MaNCC).Count() > 0)
-            {
-                ViewBag.XoaThatBai = "Xóa nhà cung cấp " + nhaCungCap.TenNCC + " không thành công! Đã từng nhập hàng tại nhà cung cấp này ";
-                return View("Index", db.NhaCungCaps.ToList());
-            }
-            db.NhaCungCaps.Remove(nhaCungCap);
+            nhaCungCap.DaXoa = true;
+           // db.NhaCungCaps.Remove(nhaCungCap);
             db.SaveChanges();
             ViewBag.XoaThanhCong = "Xóa nhà cung cấp " + nhaCungCap.TenNCC + " thành công";
-            return View("Index", db.NhaCungCaps.ToList());
+            return View("Index", db.NhaCungCaps.Where(i=>i.DaXoa == false).ToList());
         }
 
         protected override void Dispose(bool disposing)

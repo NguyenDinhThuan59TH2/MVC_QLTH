@@ -20,7 +20,7 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
                 return RedirectToAction("Index", "Login");
-            return View(db.MauHangs.ToList());
+            return View(db.MauHangs.Where(i => i.DaXoa == false).ToList());
         }
 
         // GET: MauHangs/Details/5
@@ -49,7 +49,8 @@ namespace FreeTime1.Controllers
                 (MaMH == "" || MauHang.MaMH.Contains(MaMH)) &&
                 (TenMH == "" || MauHang.TenMH.Contains(TenMH)) &&
                 (DonVi == "" || MauHang.DonVi.Contains(DonVi)) &&
-                (ChuThich == "" || MauHang.ChuThich.Contains(ChuThich))
+                (ChuThich == "" || MauHang.ChuThich.Contains(ChuThich)) &&
+                MauHang.DaXoa == false
             );
             ViewBag.MaMH = MaMH;
             ViewBag.TenMH = TenMH;
@@ -111,7 +112,9 @@ namespace FreeTime1.Controllers
                 }
                 int count = db.MauHangs.Count() + 1;
                 mauHang.MaMH = "MH" + count.ToString();
+                mauHang.DaXoa = false;
                 db.MauHangs.Add(mauHang);
+                
                 db.SaveChanges();
                 ViewBag.TaoThanhCong = "Thêm mẫu hàng " + mauHang.TenMH + " thành công!";
                 return View("Index", db.MauHangs.ToList());
@@ -145,7 +148,7 @@ namespace FreeTime1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(string MaMH, string TenMH, string DonVi, string ChuThich)
         {
-            MauHang mauHang= db.MauHangs.SingleOrDefault(n => n.MaMH == MaMH);
+            MauHang mauHang = db.MauHangs.SingleOrDefault(n => n.MaMH == MaMH && n.DaXoa == false);
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
             if (mauHang != null)
             {
@@ -196,15 +199,9 @@ namespace FreeTime1.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             MauHang mauHang = db.MauHangs.Find(id);
-            if (db.Hangs.Where(d => d.MaMH == mauHang.MaMH).FirstOrDefault() != null )
-            {
-                ViewBag.XoaThatBai = "Xóa mặt hàng " + mauHang.TenMH + " không thành công! Mặt hàng này vẫn đang được sử dụng";
-                return View("Index", db.MauHangs.ToList());
-            }
-            db.MauHangs.Remove(mauHang);
+            mauHang.DaXoa = true;
             db.SaveChanges();
-            ViewBag.XoaThanhCong = "Xóa mẫu hàng " + mauHang.TenMH + " thành công!";
-            return View("Index", db.MauHangs.ToList());
+            return View("Index", db.MauHangs.Where(i=>i.DaXoa==false).ToList());
         }
 
         protected override void Dispose(bool disposing)

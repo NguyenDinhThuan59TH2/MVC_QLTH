@@ -21,7 +21,7 @@ namespace FreeTime1.Controllers
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
-            return View(db.NguoiDungs.ToList());
+            return View(db.NguoiDungs.Where(i =>i.DaXoa == false).ToList());
         }
 
         // GET: NguoiDungs/Details/5
@@ -69,7 +69,8 @@ namespace FreeTime1.Controllers
                 (HoTen == "" || NguoiDung.HoTen.Contains(HoTen)) &&
                 (SDT == "" || NguoiDung.SDT.Contains(SDT)) &&
                 (DiaChi == "" || NguoiDung.DiaChi.Contains(DiaChi)) &&
-                (TimKiemGioiTinh ? NguoiDung.GioiTinh == GioiTinhBool : true)
+                (TimKiemGioiTinh ? NguoiDung.GioiTinh == GioiTinhBool : true) &&
+                NguoiDung.DaXoa == false
             );
             ViewBag.MaND = MaND;
             ViewBag.TaiKhoan = TaiKhoan;
@@ -141,6 +142,7 @@ namespace FreeTime1.Controllers
                 if (nguoiDung.ChucVu == "Quản lý") nguoiDung.MaND = "QL" + count.ToString();
                 else if (nguoiDung.ChucVu == "Nhân viên") nguoiDung.MaND = "NV" + count.ToString();
                 else return View(nguoiDung);
+                nguoiDung.DaXoa = false;
                 db.NguoiDungs.Add(nguoiDung);
                 db.SaveChanges();
                 ViewBag.TaoThanhCong = "Tạo người dùng " + nguoiDung.HoTen + " thành công";
@@ -168,7 +170,7 @@ namespace FreeTime1.Controllers
         [HttpPost]
         public ActionResult Edit(string MaND, string HoTen, string SDT, string DiaChi)
         {
-            NguoiDung nguoiDung = db.NguoiDungs.SingleOrDefault(n => n.MaND == MaND);
+            NguoiDung nguoiDung = db.NguoiDungs.SingleOrDefault(n => n.MaND == MaND && n.DaXoa == false);
             if (nguoiDung != null)
             {
                 var Anh = Request.Files["Anh"];
@@ -216,10 +218,11 @@ namespace FreeTime1.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             NguoiDung nguoiDung = db.NguoiDungs.Find(id);
-            db.NguoiDungs.Remove(nguoiDung);
+            //db.NguoiDungs.Remove(nguoiDung);
+            nguoiDung.DaXoa = true;
             db.SaveChanges();
             ViewBag.XoaThanhCong = "Xóa người dùng " + nguoiDung.HoTen + " thành công";
-            return View("Index", db.NguoiDungs.ToList());
+            return View("Index", db.NguoiDungs.Where(i=>i.DaXoa == false).ToList());
         }
 
         protected override void Dispose(bool disposing)
