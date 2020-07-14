@@ -29,7 +29,7 @@ namespace FreeTime1.Controllers
         public ActionResult Logout ()
         {
             Session.Clear();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
