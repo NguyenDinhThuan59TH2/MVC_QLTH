@@ -38,5 +38,6 @@
         public string DiaChi { get; set; }
         [Display(Name = "Giới Tính")]
         public bool GioiTinh { get; set; }
+        public bool DaXoa { get; set; }
     }
 }

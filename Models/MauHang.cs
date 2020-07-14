@@ -34,6 +34,7 @@ namespace FreeTime1.Models
         [Display(Name = "Chú thích")]
         [Required(ErrorMessage = "Chú thích là bắt buộc")]
         public string ChuThich { get; set; }
+        public bool DaXoa { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Hang> Hangs { get; set; }

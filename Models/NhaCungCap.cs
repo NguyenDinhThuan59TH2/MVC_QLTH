@@ -41,6 +41,7 @@ namespace FreeTime1.Models
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Tài khoản là bắt buộc")]
         public string Email { get; set; }
+        public bool DaXoa { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DonHangNhap> DonHangNhaps { get; set; }

@@ -68,6 +68,7 @@
           <Property Name="Email" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="NgaySinh" Type="date" Nullable="false" />
           <Property Name="GioiTinh" Type="bit" Nullable="false" />
+          <Property Name="DaXoa" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="MauHang">
           <Key>
@@ -78,6 +79,7 @@
           <Property Name="DonVi" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Anh" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ChuThich" Type="nvarchar(max)" />
+          <Property Name="DaXoa" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="MauHangNhomHang">
           <Key>
@@ -100,6 +102,7 @@
           <Property Name="Anh" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="DiaChi" Type="nvarchar(max)" />
           <Property Name="GioiTinh" Type="bit" Nullable="false" />
+          <Property Name="DaXoa" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="NhaCungCap">
           <Key>
@@ -111,6 +114,7 @@
           <Property Name="DiaChi" Type="nvarchar(max)" Nullable="false" />
           <Property Name="SDT" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DaXoa" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="NhomHang">
           <Key>
@@ -399,6 +403,7 @@
           <Property Name="GioiTinh" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DonHangXuats" Relationship="Self.FK_KhachHang_DonHangXuat" FromRole="KhachHang" ToRole="DonHangXuat" />
           <NavigationProperty Name="TaiKhoanKhachHangs" Relationship="QLTapHoaModel.FK_KhachHang_TaiKhoanKhachHang" FromRole="KhachHang" ToRole="TaiKhoanKhachHang" />
+          <Property Name="DaXoa" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="MauHang">
           <Key>
@@ -411,6 +416,7 @@
           <Property Name="ChuThich" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Hangs" Relationship="Self.FK_MauHang_Hang" FromRole="MauHang" ToRole="Hang" />
           <NavigationProperty Name="NhomHangs" Relationship="Self.MauHangNhomHang" FromRole="MauHang" ToRole="NhomHang" />
+          <Property Name="DaXoa" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="NguoiDung">
           <Key>
@@ -425,6 +431,7 @@
           <Property Name="Anh" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DiaChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="GioiTinh" Type="Boolean" Nullable="false" />
+          <Property Name="DaXoa" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="NhaCungCap">
           <Key>
@@ -438,6 +445,7 @@
           <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="DonHangNhaps" Relationship="Self.FK_NhaCungCap_DonHangNhap" FromRole="NhaCungCap" ToRole="DonHangNhap" />
           <NavigationProperty Name="Hangs" Relationship="Self.FK_NhaCungCap_Hang" FromRole="NhaCungCap" ToRole="Hang" />
+          <Property Name="DaXoa" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="NhomHang">
           <Key>
@@ -685,6 +693,7 @@
           <EntitySetMapping Name="KhachHangs">
             <EntityTypeMapping TypeName="QLTapHoaModel.KhachHang">
               <MappingFragment StoreEntitySet="KhachHang">
+                <ScalarProperty Name="DaXoa" ColumnName="DaXoa" />
                 <ScalarProperty Name="MaKH" ColumnName="MaKH" />
                 <ScalarProperty Name="HoTen" ColumnName="HoTen" />
                 <ScalarProperty Name="Anh" ColumnName="Anh" />
@@ -699,6 +708,7 @@
           <EntitySetMapping Name="MauHangs">
             <EntityTypeMapping TypeName="QLTapHoaModel.MauHang">
               <MappingFragment StoreEntitySet="MauHang">
+                <ScalarProperty Name="DaXoa" ColumnName="DaXoa" />
                 <ScalarProperty Name="MaMH" ColumnName="MaMH" />
                 <ScalarProperty Name="TenMH" ColumnName="TenMH" />
                 <ScalarProperty Name="DonVi" ColumnName="DonVi" />
@@ -710,6 +720,7 @@
           <EntitySetMapping Name="NguoiDungs">
             <EntityTypeMapping TypeName="QLTapHoaModel.NguoiDung">
               <MappingFragment StoreEntitySet="NguoiDung">
+                <ScalarProperty Name="DaXoa" ColumnName="DaXoa" />
                 <ScalarProperty Name="MaND" ColumnName="MaND" />
                 <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
                 <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
@@ -725,6 +736,7 @@
           <EntitySetMapping Name="NhaCungCaps">
             <EntityTypeMapping TypeName="QLTapHoaModel.NhaCungCap">
               <MappingFragment StoreEntitySet="NhaCungCap">
+                <ScalarProperty Name="DaXoa" ColumnName="DaXoa" />
                 <ScalarProperty Name="MaNCC" ColumnName="MaNCC" />
                 <ScalarProperty Name="TenNCC" ColumnName="TenNCC" />
                 <ScalarProperty Name="QuoGia" ColumnName="QuoGia" />

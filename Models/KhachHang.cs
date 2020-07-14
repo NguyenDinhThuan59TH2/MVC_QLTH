@@ -45,6 +45,7 @@ namespace FreeTime1.Models
         public DateTime NgaySinh { get; set; }
         [Display(Name = "Giới tính")]
         public bool GioiTinh { get; set; }
+        public bool DaXoa { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DonHangXuat> DonHangXuats { get; set; }

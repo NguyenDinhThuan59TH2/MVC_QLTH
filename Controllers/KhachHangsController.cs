@@ -19,7 +19,7 @@ namespace FreeTime1.Controllers
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
-            return View(db.KhachHangs.ToList());
+            return View(db.KhachHangs.Where(i=>i.DaXoa == false).ToList());
         }
 
         // GET: KhachHangs/Details/5
@@ -62,7 +62,8 @@ namespace FreeTime1.Controllers
                 (HoTen == "" || KhachHang.HoTen.Contains(HoTen)) &&
                 (SDT == "" || KhachHang.SDT.Contains(SDT)) &&
                 (DiaChi == "" || KhachHang.DiaChi.Contains(DiaChi)) &&
-                (TimKiemGioiTinh ? KhachHang.GioiTinh == GioiTinhBool : true)
+                (TimKiemGioiTinh ? KhachHang.GioiTinh == GioiTinhBool : true) &&
+                KhachHang.DaXoa == false
             );
             ViewBag.MaND = MaKH;
             ViewBag.TaiKhoan = Email;
@@ -133,6 +134,7 @@ namespace FreeTime1.Controllers
 
                 int count = db.KhachHangs.Count() + 1;
                 khachHang.MaKH = "KH" + count.ToString();
+                khachHang.DaXoa = false;
                 db.KhachHangs.Add(khachHang);
                 db.SaveChanges();
                 ViewBag.TaoThanhCong = "Thêm khách hàng " + khachHang.HoTen + " thành công!";
@@ -166,7 +168,7 @@ namespace FreeTime1.Controllers
         [HttpPost]
         public ActionResult Edit(string MaKH, string HoTen, string SDT, string DiaChi, string Email)
         {
-            KhachHang khachHang = db.KhachHangs.SingleOrDefault(n => n.MaKH == MaKH);
+            KhachHang khachHang = db.KhachHangs.SingleOrDefault(n => n.MaKH == MaKH && n.DaXoa == false);
             if (khachHang != null)
             {
                 var Anh = Request.Files["Anh"];
@@ -218,15 +220,16 @@ namespace FreeTime1.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             KhachHang khachHang = db.KhachHangs.Find(id);
-            if (db.DonHangXuats.Where(d => d.MaKH == khachHang.MaKH).Count() > 0)
-            {
-                ViewBag.XoaThatBai = "Xóa khách hàng " + khachHang.HoTen + " không thành công! Người này đã từng mua hàng";
-                return View("Index",db.KhachHangs.ToList());
-            }
-            db.KhachHangs.Remove(khachHang);
+            // if (db.DonHangXuats.Where(d => d.MaKH == khachHang.MaKH).Count() > 0)
+            //{
+            //     ViewBag.XoaThatBai = "Xóa khách hàng " + khachHang.HoTen + " không thành công! Người này đã từng mua hàng";
+            //     return View("Index",db.KhachHangs.ToList());
+            // }
+            khachHang.DaXoa = true;
+          //  db.KhachHangs.Remove(khachHang);
             db.SaveChanges();
             ViewBag.XoaThanhCong = "Xóa khách hàng " + khachHang.HoTen + " thành công!";
-            return View("Index", db.KhachHangs.ToList());
+            return View("Index", db.KhachHangs.Where( i=> i.DaXoa == false).ToList());
         }
 
         protected override void Dispose(bool disposing)
