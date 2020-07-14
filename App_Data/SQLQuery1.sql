@@ -1,17 +1,16 @@
-﻿create database QLTapHoa
+﻿drop database QLTapHoa
+create database QLTapHoa
 use QLTapHoa
-drop database QLTapHoa
 create table NguoiDung(
 	MaND varchar(10) primary key not null,
 	TaiKhoan varchar(100) not null,
 	MatKhau varchar(100) not null,
 	ChucVu nvarchar(100) not null,
-	HoTen nvarchar(300) not null, 
+	HoTen nvarchar(300) not null,
 	SDT varchar(20) ,
 	Anh nvarchar(100) not null,
 	DiaChi nvarchar(max) ,
 	GioiTinh bit not null,
-
 )
 
 
@@ -29,7 +28,7 @@ create table NhomHang(
 )
 
 create table MauHangNhomHang(
-	MaMH VARCHAR(10) NOT NULL, 
+	MaMH VARCHAR(10) NOT NULL,
 	MaNH VARCHAR(10) NOT NULL,
 	PRIMARY KEY(MaMH, MaNH)
 )
@@ -54,6 +53,13 @@ create table KhachHang(
 	GioiTinh bit not null,
 )
 
+create table TaiKhoanKhachHang(
+	MaKH varchar(10) not null,
+	TaiKhoan varchar(100) not null,
+	MatKhau varchar(100) not null,
+	PRIMARY KEY (MaKH, TaiKhoan)
+)
+
 create table Hang(
 	MaH VARCHAR(10) PRIMARY KEY not null,
 	MaMH VARCHAR(10) NOT NULL,
@@ -75,8 +81,6 @@ create table DonHangNhap(
 	KieuGiamGia Nvarchar(100),
 )
 
-
- 
 create table DonHangXuat(
 	MaDHX VARCHAR(10) primary key not null,
 	MaKH VARCHAR(10)  not null,
@@ -117,6 +121,8 @@ ALTER TABLE HangDonHangNhap ADD CONSTRAINT FK_Hang_DonHangNhap FOREIGN KEY (MaH)
 ALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_DonHangXuat_HangDonHangXuat FOREIGN KEY (MaDHX) REFERENCES DonHangXuat(MaDHX)
 ALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_Hang_DonHangXuat FOREIGN KEY (MaH) REFERENCES Hang(MaH)
 
+ALTER TABLE TaiKhoanKhachHang ADD CONSTRAINT FK_KhachHang_TaiKhoanKhachHang FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)
+
 INSERT INTO NguoiDung VALUES
 	('QL1','admin','$MYHASH$V1$10000$mb6sZl2WmoJcfPNeJ/PVKEhtLAKHUK/DppE1mhKkpfxCW7G/',N'Quản lý',N'Admin','999999','MacDinh.png',N'Dia chi','1')
 
@@ -152,8 +158,6 @@ INSERT INTO MauHang VALUES
 	('MH29',N'Chổi Đót',N'cái',N'choiDot.jpg',N'Độ bền trung bình'),
 	('MH30',N'Vá inox',N'cái',N'vaInox.jpg',N'Hàng Trung Quốc - rẻ'),
 	('MH31',N'Sữa cô gái hà lan - lốc 4 hộp',N'lốc',N'suahopCoGaiHaLan.jpg',N'Sữa Hộp nhập theo thùng, bán thùng và lẻ')
-	
-
 
 Insert into NhomHang Values
 	('NH1',N'Bánh Kẹo'),
@@ -181,12 +185,17 @@ insert into NhaCungCap values
 
 
 insert into KhachHang values
-	('KH1',N'Ngô Nguyễn Tường Nghi',N'MacDinh.png',N'Diên Khánh, Khánh Hòa','0972111640','tuongnghi@gmail.com','1999/3/2','1'),
+	('KH1',N'Khách vãng lai',N'MacDinh.png',N'Nha Trang','9999999999','vanglai@gmail.com','1999/9/9','1'),
 	('KH2',N'Ngô Đường Quyền',N'person2.png',N'Nha Trang, Khánh Hòa','0888186566','duongquyen@gmail.com','1998/3/12','1'),
 	('KH3',N'Ngô Uyên Ương',N'person3.png',N'Đà lạt','0921219990','uongbi@gmail.com','1997/12/2','0'),
 	('KH4',N'Ngô Văn Giàu',N'person4.png',N'Cà Mau','0375323640','khagiau@gmail.com','1999/6/6','0'),
 	('KH5',N'Ngô Nguyễn Cát Tường',N'person5.png',N'Hà Nội','0364321274','cattuong@gmail.com','1999/3/2','1')
 
+insert into TaiKhoanKhachHang values
+	('KH2', 'quyen.ngo', '$MYHASH$V1$10000$oqgMYomAysw1sF5JiXq9IXv7e2+0evXP6NFeTM+18Lfbepfh'),
+	('KH3', 'uong.ngo', '$MYHASH$V1$10000$oqgMYomAysw1sF5JiXq9IXv7e2+0evXP6NFeTM+18Lfbepfh'),
+	('KH4', 'giau.ngo', '$MYHASH$V1$10000$oqgMYomAysw1sF5JiXq9IXv7e2+0evXP6NFeTM+18Lfbepfh'),
+	('KH5', 'tuong.ngo', '$MYHASH$V1$10000$oqgMYomAysw1sF5JiXq9IXv7e2+0evXP6NFeTM+18Lfbepfh')
 
 insert into Hang values
 	('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','10','10000'),
@@ -197,7 +206,7 @@ insert into Hang values
 	('H6','MH4','NCC5','2021/09/12','2020/5/8','300000','10','330000')
 
 
-insert into DonHangNhap values 
+insert into DonHangNhap values
 	('DHN1','NCC1','2020/8/12','10',N'%'),
 	('DHN2','NCC2','2020/8/12','10000',N'VNĐ'),
 	('DHN3','NCC3','2020/8/12','20000',N'VNĐ'),
@@ -205,7 +214,7 @@ insert into DonHangNhap values
 	('DHN5','NCC5','2020/8/12','25',N'%')
 
 
-insert into DonHangXuat values 
+insert into DonHangXuat values
 	('DHX1','KH1','2020/11/11','10',N'%'),
 	('DHX2','KH2','2020/11/11','10000',N'VNĐ'),
 	('DHX3','KH3','2020/11/11','20000',N'VNĐ'),
