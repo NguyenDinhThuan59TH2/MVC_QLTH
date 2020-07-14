@@ -17,12 +17,18 @@ namespace FreeTime1.Controllers
         // GET: MauHangs
         public ActionResult Index()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
+                return RedirectToAction("Index", "Login");
             return View(db.MauHangs.ToList());
         }
 
         // GET: MauHangs/Details/5
         public ActionResult Details(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -36,6 +42,9 @@ namespace FreeTime1.Controllers
         }
         public ActionResult TimKiem(string MaMH, string TenMH, string DonVi, string ChuThich)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             var MauHangs = db.MauHangs.Where(MauHang =>
                 (MaMH == "" || MauHang.MaMH.Contains(MaMH)) &&
                 (TenMH == "" || MauHang.TenMH.Contains(TenMH)) &&
@@ -52,6 +61,9 @@ namespace FreeTime1.Controllers
         // GET: MauHangs/Create
         public ActionResult Create()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             return View();
         }
 
@@ -88,6 +100,9 @@ namespace FreeTime1.Controllers
         // GET: MauHangs/Edit/5
         public ActionResult Edit(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -132,6 +147,9 @@ namespace FreeTime1.Controllers
         // GET: MauHangs/Delete/5
         public ActionResult Delete(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

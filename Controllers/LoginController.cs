@@ -2,9 +2,11 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.SessionState;
 
 namespace FreeTime1.Controllers
 {
+    [SessionState(SessionStateBehavior.Default)]
     public class LoginController : Controller
     {
         private QLTapHoaEntities db = new QLTapHoaEntities();
@@ -14,16 +16,20 @@ namespace FreeTime1.Controllers
         }
         [HttpPost]
         public ActionResult Login(string TaiKhoan, string MatKhau) {
-            NguoiDung nguoiDung = db.NguoiDungs.Where(i => i.TaiKhoan == TaiKhoan).First();
-            System.Diagnostics.Debug.WriteLine(nguoiDung);
+            NguoiDung nguoiDung = db.NguoiDungs.Where(i => i.TaiKhoan == TaiKhoan).FirstOrDefault();
             if (nguoiDung != null) {
-                System.Diagnostics.Debug.WriteLine("co nguoi dung");
                 if (SecurePasswordHasher.Verify(MatKhau, nguoiDung.MatKhau)) {
                     ViewBag.TenNhanVien = nguoiDung.HoTen;
+                    Session["nguoiDung"] = nguoiDung;
                     return RedirectToAction("Index", "Home");
                 }
             }
             return View("Index");
+        }
+        public ActionResult Logout ()
+        {
+            Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }

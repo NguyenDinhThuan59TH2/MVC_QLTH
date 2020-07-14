@@ -1,6 +1,47 @@
 ﻿@{
     ViewBag.Title = "Trang chủ";
+    FreeTime1.Models.NguoiDung nguoiDung = Session["nguoiDung"] as FreeTime1.Models.NguoiDung;
+    FreeTime1.Models.KhachHang khachHang = Session["nguoiDung"] as FreeTime1.Models.KhachHang;
+    Layout = nguoiDung == null ? "~/Views/Shared/_Layout_Ban_Hang.cshtml" : "~/Views/Shared/_Layout.cshtml";
 }
-<div>
-    <img src="~/imgs/homePage.png/>
-</div>
+
+@if (nguoiDung != null)
+{
+    <div>
+        <img src="~/imgs/homePage.png/ ">
+    </div>
+}
+else
+{
+    <div class="ads-grid">
+        <div class="container">
+            <h3 class="tittle-w3l">
+                Danh sách sản phẩm
+                <span class="heading-style">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </span>
+            </h3>
+            <div class="side-bar col-md-3">
+                <div class="left-side">
+                    <h3 class="agileits-sear-head">Food Preference</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="checked">
+                            <span class="span">Vegetarian</span>
+                        </li>
+                        <li>
+                            <input type="checkbox" class="checked">
+                            <span class="span">Non-Vegetarian</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="agileinfo-ads-display col-md-9">
+                <div class="wrapper">
+                </div>
+            </div>
+        </div>
+    </div>
+}

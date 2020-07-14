@@ -17,6 +17,9 @@ namespace FreeTime1.Controllers
         // GET: Hangs
         public ActionResult Index()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
+                return RedirectToAction("Index", "Login");
             var hangs = db.Hangs.Include(h => h.MauHang).Include(h => h.NhaCungCap);
             return View(hangs.ToList());
         }
@@ -24,6 +27,9 @@ namespace FreeTime1.Controllers
         // GET: Hangs/Details/5
         public ActionResult Details(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -73,6 +79,9 @@ namespace FreeTime1.Controllers
         // GET: Hangs/Create
         public ActionResult Create()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             ViewBag.MaMH = new SelectList(db.MauHangs, "MaMH", "TenMH");
             ViewBag.MaNCC = new SelectList(db.NhaCungCaps, "MaNCC", "TenNCC");
             return View();
@@ -100,6 +109,9 @@ namespace FreeTime1.Controllers
         // GET: Hangs/Edit/5
         public ActionResult Edit(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -135,6 +147,9 @@ namespace FreeTime1.Controllers
         // GET: Hangs/Delete/5
         public ActionResult Delete(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
