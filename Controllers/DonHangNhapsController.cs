@@ -332,6 +332,65 @@ namespace FreeTime1.Controllers
             ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();
             return View("Create", donHangNhap);
         }
+
+        public ActionResult CreateMauHangs()
+        {
+            return View();
+        }
+
+        private bool CheckFileType(string fileName)
+        {
+            string ext = System.IO.Path.GetExtension(fileName);
+            switch (ext.ToLower())
+            {
+                case ".gif":
+                    return true;
+                case ".jpg":
+                    return true;
+                case ".jpeg":
+                    return true;
+                case ".png":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // POST: MauHangs/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateMauHangs([Bind(Include = "MaMH,TenMH,DonVi,Anh,ChuThich")] MauHang mauHang)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var Anh = Request.Files["Anh"];
+                mauHang.Anh = "Default.jpg";
+                if (Anh != null)
+                {
+                    if (!CheckFileType(Anh.FileName))
+                    {
+                        ViewBag.LoiFile = "Kiểu File không được hỗ trợ!";
+                        return View(mauHang);
+                    }
+                    string FileName = System.IO.Path.GetFileName(Anh.FileName);
+                    var path = Server.MapPath("/Images/MauHangs/" + FileName);
+                    Anh.SaveAs(path);
+                    mauHang.Anh = FileName;
+                }
+                int count = db.MauHangs.Count() + 1;
+                mauHang.MaMH = "MH" + count.ToString();
+                db.MauHangs.Add(mauHang);
+                db.SaveChanges();
+                ViewBag.TaoThanhCong = "Thêm mẫu hàng " + mauHang.TenMH + " thành công!";
+                return View("Index", db.MauHangs.ToList());
+            }
+            ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
+            return View("Create", donHangNhap);
+        }
+
         public ActionResult DeleteInStock(string MaDHN, string MaH)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
