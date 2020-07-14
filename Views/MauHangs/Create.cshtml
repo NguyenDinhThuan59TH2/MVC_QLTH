@@ -6,7 +6,29 @@
 
 @section styles {
     <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
     <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/noti.css" />
+}
+
+@section scripts {
+    <script src="~/Scripts/noti.js"></script>
+}
+@if (ViewBag.LoiFile != null)
+{
+    <div class="noti">
+        <div class="noti-content">
+            <div class="noti-header">
+                Thông báo!
+                <div class="noti-close">
+                    đóng
+                </div>
+            </div>
+            <div class="noti-body">
+                @ViewBag.LoiFile
+            </div>
+        </div>
+    </div>
 }
 <div>
     <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
@@ -39,6 +61,17 @@
                 <div>
                     @Html.EditorFor(model => model.DonVi, new { htmlAttributes = new { @class = "form-input" } })
                     @Html.ValidationMessageFor(model => model.DonVi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-field">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Anh)
+                </div>
+                <div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="Anh" multiple id="customFile" />
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Anh, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-field">
