@@ -24,6 +24,8 @@
         <AssociationConnector Association="QLTapHoaModel.FK_MauHang_Hang" ManuallyRouted="false" />
         <AssociationConnector Association="QLTapHoaModel.FK_NhaCungCap_Hang" ManuallyRouted="false" />
         <AssociationConnector Association="QLTapHoaModel.MauHangNhomHang" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QLTapHoaModel.TaiKhoanKhachHang" Width="1.5" PointX="3" PointY="15.75" />
+        <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_TaiKhoanKhachHang" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

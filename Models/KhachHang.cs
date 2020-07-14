@@ -12,13 +12,14 @@ namespace FreeTime1.Models
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Collections.Generic;
-    
+
     public partial class KhachHang
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public KhachHang()
         {
             this.DonHangXuats = new HashSet<DonHangXuat>();
+            this.TaiKhoanKhachHangs = new HashSet<TaiKhoanKhachHang>();
         }
         [Key]
         public string MaKH { get; set; }
@@ -47,5 +48,6 @@ namespace FreeTime1.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DonHangXuat> DonHangXuats { get; set; }
+        public virtual ICollection<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }
     }
 }

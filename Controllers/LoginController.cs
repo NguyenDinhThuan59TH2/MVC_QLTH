@@ -19,9 +19,20 @@ namespace FreeTime1.Controllers
             NguoiDung nguoiDung = db.NguoiDungs.Where(i => i.TaiKhoan == TaiKhoan).FirstOrDefault();
             if (nguoiDung != null) {
                 if (SecurePasswordHasher.Verify(MatKhau, nguoiDung.MatKhau)) {
-                    ViewBag.TenNhanVien = nguoiDung.HoTen;
                     Session["nguoiDung"] = nguoiDung;
                     return RedirectToAction("Index", "Home");
+                }
+            } else
+            {
+                TaiKhoanKhachHang taiKhoanKhachHang= db.TaiKhoanKhachHangs.Where(i => i.TaiKhoan == TaiKhoan).FirstOrDefault();
+                if (taiKhoanKhachHang != null)
+                {
+                    if (SecurePasswordHasher.Verify(MatKhau, taiKhoanKhachHang.MatKhau))
+                    {
+                        KhachHang khachHang = db.KhachHangs.Where(i => i.MaKH == taiKhoanKhachHang.MaKH).FirstOrDefault();
+                        Session["khachHang"] = khachHang;
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             return View("Index");

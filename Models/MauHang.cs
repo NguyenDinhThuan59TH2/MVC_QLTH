@@ -12,7 +12,7 @@ namespace FreeTime1.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Collections.Generic;
-    
+
     public partial class MauHang
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -34,7 +34,7 @@ namespace FreeTime1.Models
         [Display(Name = "Chú thích")]
         [Required(ErrorMessage = "Chú thích là bắt buộc")]
         public string ChuThich { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Hang> Hangs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
