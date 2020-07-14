@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    FreeTime1.Models.NguoiDung sNguoiDung = Session["NguoiDung"] as FreeTime1.Models.NguoiDung;
+}
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -46,8 +50,10 @@
                             <li class="dropdown-item"><a href="">@Html.ActionLink("Khách hàng", "Index", "KhachHangs")</a></li>
                             <li class="dropdown-item"><a href="">@Html.ActionLink("Mẫu hàng", "Index", "MauHangs")</a></li>
                             <li class="dropdown-item"><a href="">@Html.ActionLink("Nhà cung cấp", "Index", "NhaCungCaps")</a></li>
-                            <li class="dropdown-item"><a href="">@Html.ActionLink("Người dùng", "Index", "NguoiDungs")</a></li>
-                            <li class="dropdown-item"><a href="">@Html.ActionLink("Kho Hàng", "Index", "Hangs")</a></li>
+                            @if (sNguoiDung.ChucVu == "Quản lý")
+                            {
+                                <li class="dropdown-item"><a href="">@Html.ActionLink("Người dùng", "Index", "NguoiDungs")</a></li>
+                            }
                         </ul>
                     </li>
                 </ul>
@@ -66,11 +72,11 @@
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                            @ViewBag.TenNhanVien
+                            @sNguoiDung.HoTen
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu text-left">
-                            <li><a href="#" class="dropdown-item text-info">@Html.ActionLink("Đăng xuất", "Index", "Login")</a></li>
+                            <li><a href="#" class="dropdown-item text-info">@Html.ActionLink("Đăng xuất", "Logout", "Login")</a></li>
                         </ul>
                     </li>
 
@@ -92,19 +98,19 @@
                 <li>
                     <a href="#">@Html.ActionLink("Hóa đơn xuất", "Index", "DonHangXuats")</a>
                 </li>
+                @if (sNguoiDung.ChucVu == "Quản lý")
+                {
+                    <li>
+                        <a href="#">@Html.ActionLink("Báo cáo doanh thu", "Index", "DoanhThu")</a>
+                    </li>
+                }
                 <li>
-                    <a href="#">@Html.ActionLink("Báo cáo doanh thu", "Index", "DoanhThu")</a>
+                    <a href="#">@Html.ActionLink("Kho Hàng", "Index", "Hangs")</a>
                 </li>
-                @*<li>
-                    <a href="#">Báo cáo kho</a>
-                </li>*@
             </ul>
         </div>
         <div id="page-content-wrapper">
             @RenderBody()
-        </div>
-        <div class="foott jumbotron text-center">
-            <h2>Nhóm 8 - 59-CNTT2</h2><br>
         </div>
     </div>
     @RenderSection("scripts", required: false)

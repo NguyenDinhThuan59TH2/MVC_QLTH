@@ -1,5 +1,6 @@
 ﻿create database QLTapHoa
 use QLTapHoa
+drop database QLTapHoa
 create table NguoiDung(
 	MaND varchar(10) primary key not null,
 	TaiKhoan varchar(100) not null,
@@ -125,7 +126,33 @@ INSERT INTO MauHang VALUES
 	('MH3',N'Bia Heineken 24 Lon',N'Thùng',N'bia-heineken-thung-24-lon-330ml.jpg',N'Cồn 5.6 độ'),
 	('MH4',N'Đường trắng biên hòa 1KG',N'Gói',N'Duong-trang-BIen-Hoa-1kg.jpg',N'Đường tinh nguyên'),
 	('MH5',N'Nước mắm Nam Ngư 270ml',N'Chai',N'nuoc-mam-nam-ngu.jpg',N'Nước mắm mặn'),
-	('MH6',N'Rượu cúng',N'Chai',N'Default.jpg',N'Rượu 39 độ')
+	('MH6',N'Xì dầu tam thái tử',N'Chai',N'nuoctuongtamthaitu.jpg',N'Rượu 39 độ'),
+	('MH7',N'Khuôn làm đá',N'cái',N'khuondaMini',N'khuôn đá nhựa'),
+	('MH8',N'Tiêu xay sẵn 100g',N'gói',N'tieuXay.jpg',N'hạt tiêu xay nhuyễn'),
+	('MH9',N'Kẹo oishi hương ổi',N'gói',N'Default.jpg',N'Kẹo thơm rẻ'),
+	('MH10',N'Bánh gạo One One',N'gói',N'banhgao.jpg',N'Bánh sản xuất trong nước'),
+	('MH11',N'Muỗng Inox',N'chục',N'muongInox.jpg',N'Muỗng Trung Quốc - rẻ'),
+	('MH12',N'Mì hảo hảo',N'thùng',N'haoHao.jpg',N'bán lẻ 3.5k 1 gói'),
+	('MH13',N'Mì Omachi sốt Spaghetti',N'thùng',N'omachiSpaghetti.jpg',N'Ngon'),
+	('MH14',N'Mì ký Vifon 1kg',N'Gói',N'miVifon1kg.png',N'Rẻ, hương vị ổn'),
+	('MH15',N'Rượu Vodka',N'Chai',N'vodka.png',N'Rượu 39 độ'),
+	('MH16',N'Bánh tráng nướng (chưa nướng)',N'banhDa.jpg',N'Default.jpg',N'Bánh tráng địa phương'),
+	('MH17',N'Nui Safoco 500g',N'Chai',N'nuiSafoco.jpg',N'ít bán được'),
+	('MH18',N'Bột ngọt Ajino-moto 200g',N'gói',N'botngotAjonomoto.jpg',N'Công nghệ nhật bản'),
+	('MH19',N'Hạt nêm Knorr gói 200g',N'',N'knorr.jpg',N'Dùng ít thôi, có hại'),
+	('MH20',N'Vở 200 trang',N'cái',N'vo200.jpg',N'Rẻ'),
+	('MH21',N'Ớt bột 100g',N'hũ',N'otBot.jpg',N'Cay gớm'),
+	('MH22',N'Muối iot 500g',N'gói',N'MuoiIot.jpg',N'Ủng hộ bà con làm muối, bán rẻ'),
+	('MH23',N'Sườn non chay 1kg',N'gói',N'suonNonChay.jpg',N'Đồ chay giá rẻ'),
+	('MH24',N'Gạo ST25 bao 5kg',N'Bao',N'gaoST25.jpg',N'Gạo ngon nhất thế giới ST25'),
+	('MH25',N'Tôm khô 200g',N'gói',N'tomKho200g.jpg',N'Hàng trôi nổi ngoài chợ'),
+	('MH26',N'Dầu đậu nành Simply 1L',N'Chai',N'dauDauNanhSimply.jpg',N'Đắt nhưng tốt'),
+	('MH27',N'Dầu thực vật cái lân 1L',N'Chai',N'dauCaiLan.jpg',N'Rẻ - dùng để chiên rồi đổ'),
+	('MH28',N'Dép tổ ong nhiều màu',N'Đôi 2 chiếc',N'depToOng.jpg',N'rẻ đẹp kém bền'),
+	('MH29',N'Chổi Đót',N'cái',N'choiDot.jpg',N'Độ bền trung bình'),
+	('MH30',N'Vá inox',N'cái',N'vaInox.jpg',N'Hàng Trung Quốc - rẻ'),
+	('MH31',N'Sữa cô gái hà lan - lốc 4 hộp',N'lốc',N'suahopCoGaiHaLan.jpg',N'Sữa Hộp nhập theo thùng, bán thùng và lẻ')
+	
 
 
 Insert into NhomHang Values

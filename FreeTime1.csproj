@@ -493,6 +493,7 @@
     <Content Include="Views\Hangs\SearchHang.cshtml" />
     <Content Include="Views\DoanhThu\Index.cshtml" />
     <Content Include="Scripts\countries.json" />
+    <Content Include="Views\Shared\_Layout_Ban_Hang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />

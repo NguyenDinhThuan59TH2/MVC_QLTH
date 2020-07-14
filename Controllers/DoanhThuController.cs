@@ -13,6 +13,8 @@ namespace FreeTime1.Controllers
         private QLTapHoaEntities db = new QLTapHoaEntities();
         public ActionResult Index()
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             List<DoanhThu> doanhThus = new List<DoanhThu>();
             var DonHangNhaps = db.DonHangNhaps.Include(d => d.HangDonHangNhaps).ToList();
             var DonHangXuats = db.DonHangXuats.Include(d => d.HangDonHangXuats).ToList();
@@ -73,6 +75,8 @@ namespace FreeTime1.Controllers
         }
         public ActionResult TimKiem(string LoaiDonHang, string GiaTriDonHangBD, string GiaTriDonHangKT, string NgayThucHienBD, string NgayThucHienKT)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             ViewBag.LoaiDonHang = LoaiDonHang;
             ViewBag.GiaTriDonHangBD = GiaTriDonHangBD;
             ViewBag.GiaTriDonHangKT = GiaTriDonHangKT;
