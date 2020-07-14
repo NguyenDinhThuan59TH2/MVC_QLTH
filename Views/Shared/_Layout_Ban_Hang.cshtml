@@ -1,7 +1,7 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Cửa Hàng Tạp Hóa";
     Layout = null;
+    FreeTime1.Models.KhachHang khachHang = Session["khachHang"] as FreeTime1.Models.KhachHang;
 }
 <!DOCTYPE html>
 <html>
@@ -40,14 +40,26 @@
             <div class="col-md-8 header">
                 <ul style="display: flex; justify-content: flex-end;">
                     <li>
-                        <button class="w3view-cart" style="background: none;">
-                            <img src="~/Images/shopping_cart.png" alt="Giỏ hàng" style="width: 100%;" />
-                        </button>
+                        @if (khachHang != null)
+                        {
+                            <button class="w3view-cart" style="background: none;">
+                                <img src="~/Images/shopping_cart.png" alt="Giỏ hàng" style="width: 100%;" />
+                            </button>
+                        }
                     </li>
                     <li>
-                        <a href="#" data-toggle="modal" data-target="#myModal2">
-                            Đăng xuất
-                        </a>
+                        @if (khachHang == null)
+                        {
+                            <a href="#" data-toggle="modal" data-target="#myModal2">
+                                @Html.ActionLink("Đăng nhập", "Index", "Login")
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" data-toggle="modal" data-target="#myModal2">
+                                @Html.ActionLink("Đăng xuất", "Logout", "Login")
+                            </a>
+                        }
                     </li>
                 </ul>
             </div>
