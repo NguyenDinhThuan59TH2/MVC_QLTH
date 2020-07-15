@@ -100,7 +100,7 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
                 return RedirectToAction("Index", "Login");
-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen");
+            ViewBag.MaKH = new SelectList(db.KhachHangs.Where(d => d.DaXoa == false), "MaKH", "HoTen");
             return View();
         }
         public ActionResult TimKiem(string MaDHX, string TenKH, string NgayXuatBD, string NgayXuatKT, string KieuGiamGia)

@@ -94,7 +94,7 @@ namespace FreeTime1.Controllers
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
-            ViewBag.MaNCC = new SelectList(db.NhaCungCaps, "MaNCC", "TenNCC");
+            ViewBag.MaNCC = new SelectList(db.NhaCungCaps.Where(d => d.DaXoa == false), "MaNCC", "TenNCC");
             return View();
         }
         public ActionResult AddStock (string MaDHN)
@@ -187,8 +187,8 @@ namespace FreeTime1.Controllers
                     TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
                 }
                 ViewBag.TongDonHang = String.Format("{0:n0}", TongDonHang);
-                ViewBag.MauHangs = db.MauHangs.ToList();
-                ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();
+                ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();
+                ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();
                 return View("Create", donHangNhap);
             }
             ViewBag.MaNCC = new SelectList(db.NhaCungCaps, "MaNCC", "TenNCC");
@@ -273,8 +273,8 @@ namespace FreeTime1.Controllers
                 TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
             }
             ViewBag.TongDonHang = TongDonHang;
-            ViewBag.MauHangs = db.MauHangs.ToList();
-            ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();
+            ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();
+            ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();
             return View("Create", donHangNhap);
         }
         [HttpPost]
@@ -328,8 +328,8 @@ namespace FreeTime1.Controllers
                 TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
             }
             ViewBag.TongDonHang = TongDonHang;
-            ViewBag.MauHangs = db.MauHangs.ToList();
-            ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();
+            ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();
+            ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();
             return View("Create", donHangNhap);
         }
 

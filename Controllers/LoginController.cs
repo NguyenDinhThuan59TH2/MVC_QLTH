@@ -29,9 +29,12 @@ namespace FreeTime1.Controllers
                 {
                     if (SecurePasswordHasher.Verify(MatKhau, taiKhoanKhachHang.MatKhau))
                     {
-                        KhachHang khachHang = db.KhachHangs.Where(i => i.MaKH == taiKhoanKhachHang.MaKH).FirstOrDefault();
-                        Session["khachHang"] = khachHang;
-                        return RedirectToAction("Index", "Home");
+                        KhachHang khachHang = db.KhachHangs.Where(i => i.MaKH == taiKhoanKhachHang.MaKH && i.DaXoa == false).FirstOrDefault();
+                        if (khachHang != null)
+                        {
+                            Session["khachHang"] = khachHang;
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
             }
