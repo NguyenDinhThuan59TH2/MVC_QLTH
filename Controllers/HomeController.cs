@@ -11,7 +11,7 @@ namespace FreeTime1.Controllers
     public class HomeController : Controller
     {
         private QLTapHoaEntities db = new QLTapHoaEntities();
-        public ActionResult Index()
+        public ActionResult Index(string ThongBao = null)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             // if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
@@ -25,6 +25,10 @@ namespace FreeTime1.Controllers
                     {
                         ViewBag.SoLuongHangDat = db.HangDonHangDats.Where(d => d.MaDHD == donHangDat.MaDHD).Count();
                     }
+                }
+                if (ThongBao != null)
+                {
+                    ViewBag.ThongBao = ThongBao;
                 }
                 return View(db.Hangs.Where(i => i.SoLuong > 0).Include(i => i.MauHang).ToList());
             }
