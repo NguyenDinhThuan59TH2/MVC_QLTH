@@ -33,9 +33,11 @@
         </div>
         <div class="order-body-right">
             <div>Tổng cộng: @Tong VNĐ</div>
-            <button class="btn btn-success btn-sm order-submit" onclick="location.href='@Url.Action("OrderDocument", "DonHangDats")'">
-                Đặt đơn hàng
-            </button>
+            @using (Html.BeginForm("OrderDocument", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input class="form-input hide" name="MaKH" value="@khachHang.MaKH" />
+                <input type="submit" value="Đặt đơn hàng" class="btn btn-success btn-sm order-submit" />
+            }
         </div>
     </div>
 </div>
