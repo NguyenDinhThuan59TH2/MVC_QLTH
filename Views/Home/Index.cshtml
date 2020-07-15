@@ -3,12 +3,13 @@
 @{
     ViewBag.Title = "Trang chủ";
     FreeTime1.Models.NguoiDung nguoiDung = Session["nguoiDung"] as FreeTime1.Models.NguoiDung;
-    FreeTime1.Models.KhachHang khachHang = Session["nguoiDung"] as FreeTime1.Models.KhachHang;
+    FreeTime1.Models.KhachHang khachHang = Session["khachHang"] as FreeTime1.Models.KhachHang;
     Layout = nguoiDung == null ? "~/Views/Shared/_Layout_Ban_Hang.cshtml" : "~/Views/Shared/_Layout.cshtml";
 }
 
 @section styles {
     <link rel="stylesheet" type="text/css" href="~/Content/product.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/form.css">
 }
 
 @if (nguoiDung != null)
@@ -56,7 +57,20 @@ else
                                 <div class="product-info-count">Còn @item.SoLuong @item.MauHang.DonVi</div>
                                 <div class="product-info-des">@item.MauHang.ChuThich</div>
                                 <div class="product-action">
-                                    @Html.ActionLink("Đặt hàng", "Logout", "Login", new { @class = "btn btn-success btn-sm" })
+                                    @if (khachHang != null)
+                                    {
+                                        using (Html.BeginForm("OrderStock", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <input class="form-input hide" name="MaKH" value="@khachHang.MaKH" />
+                                            <input class="form-input hide" name="MaH" value="@item.MaH" />
+                                            <input type="number" class="form-input" name="SoLuong" id="soLuongInput" style="width: 75%; height: 33px; margin: 5px 0;" value="0" min="0" max="@item.SoLuong" />
+                                            <input type="submit" value="Đặt hàng" class="btn btn-success btn-sm" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Đặt hàng", "Index", "Login", null, new { @class = "btn btn-success btn-sm" })
+                                    }
                                 </div>
                             </div>
                         </div>

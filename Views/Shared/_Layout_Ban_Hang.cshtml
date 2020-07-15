@@ -42,9 +42,24 @@
                     <li>
                         @if (khachHang != null)
                         {
-                            <button class="w3view-cart" style="background: none;">
-                                <img src="~/Images/shopping_cart.png" alt="Giỏ hàng" style="width: 100%;" />
-                            </button>
+                            if (ViewBag.BackStore == null)
+                            {
+                                <button class="w3view-cart" onclick="location.href='@Url.Action("Orders", "DonHangDats")'" style="background: none; position: relative;">
+                                    <img src="~/Images/shopping_cart.png" alt="Giỏ hàng" style="width: 100%;" />
+                                    @if (ViewBag.SoLuongHangDat != null && ViewBag.SoLuongHangDat > 0)
+                                    {
+                                        <span class="badge badge-light" style="position: absolute; top: 0; right: -50%; background: #FF5722; color: white;">
+                                            @ViewBag.SoLuongHangDat
+                                        </span>
+                                    }
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="w3view-cart" onclick="location.href='@Url.Action("Index", "Home")'" style="background: none; position: relative;">
+                                    <img src="~/Images/store.png" alt="Giỏ hàng" style="width: 100%;" />
+                                </button>
+                            }
                         }
                     </li>
                     <li>

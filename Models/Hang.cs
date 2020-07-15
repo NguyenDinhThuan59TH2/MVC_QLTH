@@ -21,6 +21,7 @@ namespace FreeTime1.Models
         {
             this.HangDonHangNhaps = new HashSet<HangDonHangNhap>();
             this.HangDonHangXuats = new HashSet<HangDonHangXuat>();
+            this.HangDonHangDats = new HashSet<HangDonHangDat>();
         }
         [Key]
         [Display(Name = "Mã hàng")]
@@ -46,5 +47,6 @@ namespace FreeTime1.Models
         public virtual ICollection<HangDonHangXuat> HangDonHangXuats { get; set; }
         public virtual MauHang MauHang { get; set; }
         public virtual NhaCungCap NhaCungCap { get; set; }
+        public virtual ICollection<HangDonHangDat> HangDonHangDats { get; set; }
     }
 }

@@ -26,6 +26,11 @@
         <AssociationConnector Association="QLTapHoaModel.MauHangNhomHang" ManuallyRouted="false" />
         <EntityTypeShape EntityType="QLTapHoaModel.TaiKhoanKhachHang" Width="1.5" PointX="3" PointY="15.75" />
         <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_TaiKhoanKhachHang" />
+        <EntityTypeShape EntityType="QLTapHoaModel.DonHangDat" Width="1.5" PointX="3" PointY="18.75" />
+        <EntityTypeShape EntityType="QLTapHoaModel.HangDonHangDat" Width="1.5" PointX="5.25" PointY="12.625" />
+        <AssociationConnector Association="QLTapHoaModel.FK_DonHangDat_HangDonHangDat" />
+        <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_DonHangDat" />
+        <AssociationConnector Association="QLTapHoaModel.FK_Hang_DonHangDat" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

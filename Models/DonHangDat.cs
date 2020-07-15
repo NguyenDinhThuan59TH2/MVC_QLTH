@@ -12,18 +12,21 @@ namespace FreeTime1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class NhomHang
+    public partial class DonHangDat
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public NhomHang()
+        public DonHangDat()
         {
-            this.MauHangs = new HashSet<MauHang>();
+            this.HangDonHangDats = new HashSet<HangDonHangDat>();
         }
     
-        public string MaNH { get; set; }
-        public string TenNH { get; set; }
+        public string MaDHD { get; set; }
+        public string MaKH { get; set; }
+        public System.DateTime NgayDat { get; set; }
+        public string TrangThai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MauHang> MauHangs { get; set; }
+        public virtual ICollection<HangDonHangDat> HangDonHangDats { get; set; }
+        public virtual KhachHang KhachHang { get; set; }
     }
 }

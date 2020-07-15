@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="QLTapHoaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DonHangDat">
+          <Key>
+            <PropertyRef Name="MaDHD" />
+          </Key>
+          <Property Name="MaDHD" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MaKH" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="NgayDat" Type="datetime" Nullable="false" />
+          <Property Name="TrangThai" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="DonHangNhap">
           <Key>
             <PropertyRef Name="MaDHN" />
@@ -37,6 +46,15 @@
           <Property Name="GiaNhap" Type="money" Nullable="false" />
           <Property Name="SoLuong" Type="int" Nullable="false" />
           <Property Name="GiaBan" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HangDonHangDat">
+          <Key>
+            <PropertyRef Name="MaDHD" />
+            <PropertyRef Name="MaH" />
+          </Key>
+          <Property Name="MaDHD" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MaH" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SoLuong" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="HangDonHangNhap">
           <Key>
@@ -132,6 +150,18 @@
           <Property Name="TaiKhoan" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="MatKhau" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <Association Name="FK_DonHangDat_HangDonHangDat">
+          <End Role="DonHangDat" Type="Self.DonHangDat" Multiplicity="1" />
+          <End Role="HangDonHangDat" Type="Self.HangDonHangDat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DonHangDat">
+              <PropertyRef Name="MaDHD" />
+            </Principal>
+            <Dependent Role="HangDonHangDat">
+              <PropertyRef Name="MaDHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DonHangXuat_HangDonHangNhap">
           <End Role="DonHangNhap" Type="Self.DonHangNhap" Multiplicity="1" />
           <End Role="HangDonHangNhap" Type="Self.HangDonHangNhap" Multiplicity="*" />
@@ -156,6 +186,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Hang_DonHangDat">
+          <End Role="Hang" Type="Self.Hang" Multiplicity="1" />
+          <End Role="HangDonHangDat" Type="Self.HangDonHangDat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hang">
+              <PropertyRef Name="MaH" />
+            </Principal>
+            <Dependent Role="HangDonHangDat">
+              <PropertyRef Name="MaH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Hang_DonHangNhap">
           <End Role="Hang" Type="Self.Hang" Multiplicity="1" />
           <End Role="HangDonHangNhap" Type="Self.HangDonHangNhap" Multiplicity="*" />
@@ -177,6 +219,18 @@
             </Principal>
             <Dependent Role="HangDonHangXuat">
               <PropertyRef Name="MaH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KhachHang_DonHangDat">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
+          <End Role="DonHangDat" Type="Self.DonHangDat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="MaKH" />
+            </Principal>
+            <Dependent Role="DonHangDat">
+              <PropertyRef Name="MaKH" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -265,9 +319,11 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="QLTapHoaModelStoreContainer">
+          <EntitySet Name="DonHangDat" EntityType="Self.DonHangDat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DonHangNhap" EntityType="Self.DonHangNhap" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DonHangXuat" EntityType="Self.DonHangXuat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hang" EntityType="Self.Hang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HangDonHangDat" EntityType="Self.HangDonHangDat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HangDonHangNhap" EntityType="Self.HangDonHangNhap" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HangDonHangXuat" EntityType="Self.HangDonHangXuat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />
@@ -277,6 +333,10 @@
           <EntitySet Name="NhaCungCap" EntityType="Self.NhaCungCap" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhomHang" EntityType="Self.NhomHang" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiKhoanKhachHang" EntityType="Self.TaiKhoanKhachHang" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DonHangDat_HangDonHangDat" Association="Self.FK_DonHangDat_HangDonHangDat">
+            <End Role="DonHangDat" EntitySet="DonHangDat" />
+            <End Role="HangDonHangDat" EntitySet="HangDonHangDat" />
+          </AssociationSet>
           <AssociationSet Name="FK_DonHangXuat_HangDonHangNhap" Association="Self.FK_DonHangXuat_HangDonHangNhap">
             <End Role="DonHangNhap" EntitySet="DonHangNhap" />
             <End Role="HangDonHangNhap" EntitySet="HangDonHangNhap" />
@@ -285,6 +345,10 @@
             <End Role="DonHangXuat" EntitySet="DonHangXuat" />
             <End Role="HangDonHangXuat" EntitySet="HangDonHangXuat" />
           </AssociationSet>
+          <AssociationSet Name="FK_Hang_DonHangDat" Association="Self.FK_Hang_DonHangDat">
+            <End Role="Hang" EntitySet="Hang" />
+            <End Role="HangDonHangDat" EntitySet="HangDonHangDat" />
+          </AssociationSet>
           <AssociationSet Name="FK_Hang_DonHangNhap" Association="Self.FK_Hang_DonHangNhap">
             <End Role="Hang" EntitySet="Hang" />
             <End Role="HangDonHangNhap" EntitySet="HangDonHangNhap" />
@@ -292,6 +356,10 @@
           <AssociationSet Name="FK_Hang_DonHangXuat" Association="Self.FK_Hang_DonHangXuat">
             <End Role="Hang" EntitySet="Hang" />
             <End Role="HangDonHangXuat" EntitySet="HangDonHangXuat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KhachHang_DonHangDat" Association="Self.FK_KhachHang_DonHangDat">
+            <End Role="KhachHang" EntitySet="KhachHang" />
+            <End Role="DonHangDat" EntitySet="DonHangDat" />
           </AssociationSet>
           <AssociationSet Name="FK_KhachHang_DonHangXuat" Association="Self.FK_KhachHang_DonHangXuat">
             <End Role="KhachHang" EntitySet="KhachHang" />
@@ -366,6 +434,7 @@
           <NavigationProperty Name="HangDonHangXuats" Relationship="Self.FK_Hang_DonHangXuat" FromRole="Hang" ToRole="HangDonHangXuat" />
           <NavigationProperty Name="MauHang" Relationship="Self.FK_MauHang_Hang" FromRole="Hang" ToRole="MauHang" />
           <NavigationProperty Name="NhaCungCap" Relationship="Self.FK_NhaCungCap_Hang" FromRole="Hang" ToRole="NhaCungCap" />
+          <NavigationProperty Name="HangDonHangDats" Relationship="QLTapHoaModel.FK_Hang_DonHangDat" FromRole="Hang" ToRole="HangDonHangDat" />
         </EntityType>
         <EntityType Name="HangDonHangNhap">
           <Key>
@@ -404,6 +473,7 @@
           <NavigationProperty Name="DonHangXuats" Relationship="Self.FK_KhachHang_DonHangXuat" FromRole="KhachHang" ToRole="DonHangXuat" />
           <NavigationProperty Name="TaiKhoanKhachHangs" Relationship="QLTapHoaModel.FK_KhachHang_TaiKhoanKhachHang" FromRole="KhachHang" ToRole="TaiKhoanKhachHang" />
           <Property Name="DaXoa" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DonHangDats" Relationship="QLTapHoaModel.FK_KhachHang_DonHangDat" FromRole="KhachHang" ToRole="DonHangDat" />
         </EntityType>
         <EntityType Name="MauHang">
           <Key>
@@ -607,6 +677,20 @@
             <End Role="KhachHang" EntitySet="KhachHangs" />
             <End Role="TaiKhoanKhachHang" EntitySet="TaiKhoanKhachHangs" />
           </AssociationSet>
+          <EntitySet Name="DonHangDats" EntityType="QLTapHoaModel.DonHangDat" />
+          <EntitySet Name="HangDonHangDats" EntityType="QLTapHoaModel.HangDonHangDat" />
+          <AssociationSet Name="FK_DonHangDat_HangDonHangDat" Association="QLTapHoaModel.FK_DonHangDat_HangDonHangDat">
+            <End Role="DonHangDat" EntitySet="DonHangDats" />
+            <End Role="HangDonHangDat" EntitySet="HangDonHangDats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KhachHang_DonHangDat" Association="QLTapHoaModel.FK_KhachHang_DonHangDat">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
+            <End Role="DonHangDat" EntitySet="DonHangDats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hang_DonHangDat" Association="QLTapHoaModel.FK_Hang_DonHangDat">
+            <End Role="Hang" EntitySet="Hangs" />
+            <End Role="HangDonHangDat" EntitySet="HangDonHangDats" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="TaiKhoanKhachHang">
           <Key>
@@ -627,6 +711,64 @@
             </Principal>
             <Dependent Role="TaiKhoanKhachHang">
               <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DonHangDat">
+          <Key>
+            <PropertyRef Name="MaDHD" />
+          </Key>
+          <Property Name="MaDHD" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MaKH" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NgayDat" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TrangThai" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HangDonHangDats" Relationship="QLTapHoaModel.FK_DonHangDat_HangDonHangDat" FromRole="DonHangDat" ToRole="HangDonHangDat" />
+          <NavigationProperty Name="KhachHang" Relationship="QLTapHoaModel.FK_KhachHang_DonHangDat" FromRole="DonHangDat" ToRole="KhachHang" />
+        </EntityType>
+        <EntityType Name="HangDonHangDat">
+          <Key>
+            <PropertyRef Name="MaDHD" />
+            <PropertyRef Name="MaH" />
+          </Key>
+          <Property Name="MaDHD" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MaH" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SoLuong" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DonHangDat" Relationship="QLTapHoaModel.FK_DonHangDat_HangDonHangDat" FromRole="HangDonHangDat" ToRole="DonHangDat" />
+          <NavigationProperty Name="Hang" Relationship="QLTapHoaModel.FK_Hang_DonHangDat" FromRole="HangDonHangDat" ToRole="Hang" />
+        </EntityType>
+        <Association Name="FK_DonHangDat_HangDonHangDat">
+          <End Type="QLTapHoaModel.DonHangDat" Role="DonHangDat" Multiplicity="1" />
+          <End Type="QLTapHoaModel.HangDonHangDat" Role="HangDonHangDat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DonHangDat">
+              <PropertyRef Name="MaDHD" />
+            </Principal>
+            <Dependent Role="HangDonHangDat">
+              <PropertyRef Name="MaDHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KhachHang_DonHangDat">
+          <End Type="QLTapHoaModel.KhachHang" Role="KhachHang" Multiplicity="1" />
+          <End Type="QLTapHoaModel.DonHangDat" Role="DonHangDat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="MaKH" />
+            </Principal>
+            <Dependent Role="DonHangDat">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hang_DonHangDat">
+          <End Type="QLTapHoaModel.Hang" Role="Hang" Multiplicity="1" />
+          <End Type="QLTapHoaModel.HangDonHangDat" Role="HangDonHangDat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hang">
+              <PropertyRef Name="MaH" />
+            </Principal>
+            <Dependent Role="HangDonHangDat">
+              <PropertyRef Name="MaH" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -768,6 +910,25 @@
                 <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
                 <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
                 <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DonHangDats">
+            <EntityTypeMapping TypeName="QLTapHoaModel.DonHangDat">
+              <MappingFragment StoreEntitySet="DonHangDat">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="NgayDat" ColumnName="NgayDat" />
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="MaDHD" ColumnName="MaDHD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HangDonHangDats">
+            <EntityTypeMapping TypeName="QLTapHoaModel.HangDonHangDat">
+              <MappingFragment StoreEntitySet="HangDonHangDat">
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="MaH" ColumnName="MaH" />
+                <ScalarProperty Name="MaDHD" ColumnName="MaDHD" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
