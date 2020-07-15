@@ -20,6 +20,7 @@ namespace FreeTime1.Models
         {
             this.DonHangXuats = new HashSet<DonHangXuat>();
             this.TaiKhoanKhachHangs = new HashSet<TaiKhoanKhachHang>();
+            this.DonHangDats = new HashSet<DonHangDat>();
         }
         [Key]
         public string MaKH { get; set; }
@@ -50,5 +51,6 @@ namespace FreeTime1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DonHangXuat> DonHangXuats { get; set; }
         public virtual ICollection<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }
+        public virtual ICollection<DonHangDat> DonHangDats { get; set; }
     }
 }

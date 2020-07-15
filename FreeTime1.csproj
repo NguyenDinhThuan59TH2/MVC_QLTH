@@ -130,6 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DoanhThuController.cs" />
+    <Compile Include="Controllers\DonHangDatsController.cs" />
     <Compile Include="Controllers\DonHangNhapsController.cs" />
     <Compile Include="Controllers\DonHangXuatsController.cs" />
     <Compile Include="Controllers\HangDonHangNhapsController.cs" />
@@ -149,6 +150,9 @@
     <Compile Include="Migrations\Version2.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DoanhThu.cs" />
+    <Compile Include="Models\DonHangDat.cs">
+      <DependentUpon>QLTHModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DonHangNhap.cs">
       <DependentUpon>QLTHModels.tt</DependentUpon>
     </Compile>
@@ -156,6 +160,9 @@
       <DependentUpon>QLTHModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Hang.cs">
+      <DependentUpon>QLTHModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangDonHangDat.cs">
       <DependentUpon>QLTHModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HangDonHangNhap.cs">
@@ -360,6 +367,7 @@
     <Content Include="Content\grid.css" />
     <Content Include="Content\image.css" />
     <Content Include="Content\noti.css" />
+    <Content Include="Content\order.css" />
     <Content Include="Content\partition.css" />
     <Content Include="Content\product.css" />
     <Content Include="Content\search.css" />
@@ -503,6 +511,12 @@
     <Content Include="Views\DoanhThu\Index.cshtml" />
     <Content Include="Scripts\countries.json" />
     <Content Include="Views\Shared\_Layout_Ban_Hang.cshtml" />
+    <Content Include="Views\DonHangDats\Create.cshtml" />
+    <Content Include="Views\DonHangDats\Delete.cshtml" />
+    <Content Include="Views\DonHangDats\Details.cshtml" />
+    <Content Include="Views\DonHangDats\Edit.cshtml" />
+    <Content Include="Views\DonHangDats\Index.cshtml" />
+    <Content Include="Views\DonHangDats\Order.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />

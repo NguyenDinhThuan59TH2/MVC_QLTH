@@ -1,0 +1,89 @@
+﻿.order {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order-title {
+    font-size: 25px;
+    margin: 10px 0;
+    color: #356116;
+    font-weight: bold;
+}
+
+.order-body {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.order-body-left {
+    width: 75%;
+    background: #e0e0e0;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    padding: 20px;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.order-stock {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    background: white;
+}
+
+.order-stock-img {
+    width: 30%;
+}
+
+.order-stock-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.order-stock-info-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4a4af1;
+}
+
+.order-stock-info-price {
+    font-size: 15px;
+    font-style: italic;
+    color: #192f02;
+}
+
+.order-stock-info-count {
+    font-weight: bold;
+    color: #4a4af1;
+}
+
+.order-stock-info-total {
+    font-size: 17px;
+    font-weight: bold;
+    color: #09438c;
+}
+
+.order-body-right {
+    width: 25%;
+    border-left: 2px solid #356116;
+    padding-left: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #09438c;
+}
+
+.order-submit {
+    width: 50%;
+    height: 60px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #ff6a00;
+    background: #c7ffc8;
+}

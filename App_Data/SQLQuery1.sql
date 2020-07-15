@@ -93,6 +93,20 @@ create table DonHangXuat(
 	KieuGiamGia Nvarchar(100),
 )
 
+create table DonHangDat(
+	MaDHD VARCHAR(10) primary key not null,
+	MaKH VARCHAR(10)  not null,
+	NgayDat DATETIME not null,
+	TrangThai NVARCHAR(30) not null
+)
+
+create table HangDonHangDat(
+	MaDHD VARCHAR(10) not null,
+	MaH VARCHAR(10) not null,
+	SoLuong int NOT NULL,
+	PRIMARY KEY (MaDHD,MaH)
+)
+
 
 create table HangDonHangNhap(
 	MaDHN VARCHAR(10) not null,
@@ -118,12 +132,16 @@ ALTER TABLE Hang ADD CONSTRAINT FK_NhaCungCap_Hang FOREIGN KEY (MaNCC) REFERENCE
 
 ALTER TABLE DonHangNhap ADD CONSTRAINT FK_NhaCungCap_DonHangNhap FOREIGN KEY (MaNCC) REFERENCES NhaCungCap(MaNCC)
 ALTER TABLE DonHangXuat ADD CONSTRAINT FK_KhachHang_DonHangXuat FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)
+ALTER TABLE DonHangDat ADD CONSTRAINT FK_KhachHang_DonHangDat FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)
 
 ALTER TABLE HangDonHangNhap ADD CONSTRAINT FK_DonHangXuat_HangDonHangNhap FOREIGN KEY (MaDHN) REFERENCES DonHangNhap(MaDHN)
 ALTER TABLE HangDonHangNhap ADD CONSTRAINT FK_Hang_DonHangNhap FOREIGN KEY (MaH) REFERENCES Hang(MaH)
 
 ALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_DonHangXuat_HangDonHangXuat FOREIGN KEY (MaDHX) REFERENCES DonHangXuat(MaDHX)
 ALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_Hang_DonHangXuat FOREIGN KEY (MaH) REFERENCES Hang(MaH)
+
+ALTER TABLE HangDonHangDat ADD CONSTRAINT FK_DonHangDat_HangDonHangDat FOREIGN KEY (MaDHD) REFERENCES DonHangDat(MaDHD)
+ALTER TABLE HangDonHangDat ADD CONSTRAINT FK_Hang_DonHangDat FOREIGN KEY (MaH) REFERENCES Hang(MaH)
 
 ALTER TABLE TaiKhoanKhachHang ADD CONSTRAINT FK_KhachHang_TaiKhoanKhachHang FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)
 
@@ -202,9 +220,9 @@ insert into TaiKhoanKhachHang values
 	('KH5', 'tuong.ngo', '$MYHASH$V1$10000$oqgMYomAysw1sF5JiXq9IXv7e2+0evXP6NFeTM+18Lfbepfh')
 
 insert into Hang values
-	('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','10','10000'),
-	('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','10','30000'),
-	('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','10','15000'),
+	('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','5','10000'),
+	('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','3','30000'),
+	('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','2','15000'),
 	('H4','MH2','NCC4','2021/12/12','2020/5/8','120000','10','130000'),
 	('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','10','300000'),
 	('H6','MH4','NCC5','2021/09/12','2020/5/8','300000','10','330000')
@@ -224,6 +242,16 @@ insert into DonHangXuat values
 	('DHX3','KH3','2020/11/11','20000',N'VNĐ'),
 	('DHX4','KH4','2020/11/11','15',N'%'),
 	('DHX5','KH5','2020/11/11','25',N'%')
+
+insert into DonHangDat values
+	('DHD1','KH2','2020/11/11',N'Đang đặt'),
+	('DHD2','KH3','2020/11/11',N'Đang giao'),
+	('DHD3','KH4','2020/11/11',N'Đã thanh toán')
+
+insert into HangDonHangDat values
+	('DHD1','H1','1'),
+	('DHD2','H2','1'),
+	('DHD3','H3','1')
 
 insert into HangDonHangNhap values
 	('DHN1','H1','10'),

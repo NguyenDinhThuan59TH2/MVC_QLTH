@@ -18,6 +18,14 @@ namespace FreeTime1.Controllers
             KhachHang sKhachHang = Session["khachHang"] as KhachHang;
             if (sNguoiDung == null || sKhachHang != null)
             {
+                if (sKhachHang != null)
+                {
+                    DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaKH == sKhachHang.MaKH && d.TrangThai == "Đang đặt").FirstOrDefault();
+                    if (donHangDat != null)
+                    {
+                        ViewBag.SoLuongHangDat = db.HangDonHangDats.Where(d => d.MaDHD == donHangDat.MaDHD).Count();
+                    }
+                }
                 return View(db.Hangs.Where(i => i.SoLuong > 0).Include(i => i.MauHang).ToList());
             }
             return View();
