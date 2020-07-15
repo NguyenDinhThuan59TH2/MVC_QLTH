@@ -358,6 +358,7 @@
     <Content Include="Content\image.css" />
     <Content Include="Content\noti.css" />
     <Content Include="Content\partition.css" />
+    <Content Include="Content\product.css" />
     <Content Include="Content\search.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\jquery.dataTables.min.css" />

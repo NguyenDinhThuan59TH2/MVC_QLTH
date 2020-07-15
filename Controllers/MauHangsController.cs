@@ -201,6 +201,7 @@ namespace FreeTime1.Controllers
             MauHang mauHang = db.MauHangs.Find(id);
             mauHang.DaXoa = true;
             db.SaveChanges();
+            ViewBag.XoaThanhCong = "Xóa khách hàng " + mauHang.TenMH + " thành công!";
             return View("Index", db.MauHangs.Where(i=>i.DaXoa==false).ToList());
         }
 
