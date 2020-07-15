@@ -22,8 +22,11 @@ namespace FreeTime1.Models
     
         public string MaDHD { get; set; }
         public string MaKH { get; set; }
-        public System.DateTime NgayDat { get; set; }
+        public Nullable<System.DateTime> NgayDat { get; set; }
         public string TrangThai { get; set; }
+        public Nullable<System.DateTime> NgayGiao { get; set; }
+        public Nullable<System.DateTime> NgayHoanThanh { get; set; }
+        public System.DateTime NgayBatDau { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HangDonHangDat> HangDonHangDats { get; set; }

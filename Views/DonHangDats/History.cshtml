@@ -1,0 +1,55 @@
+﻿@model IEnumerable<FreeTime1.Models.DonHangDat>
+
+@{
+    ViewBag.Title = "Lịch Sử Đặt Hàng";
+    FreeTime1.Models.KhachHang khachHang = Session["khachHang"] as FreeTime1.Models.KhachHang;
+    Layout = "~/Views/Shared/_Layout_Ban_Hang.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/history.css">
+}
+<div class="ads-grid history">
+    <div class="history-title">Lịch sử đặt hàng</div>
+    <div class="history-body">
+        @foreach (FreeTime1.Models.DonHangDat donHangDat in Model)
+        {
+        <div class="history-doc">
+            @if (donHangDat.TrangThai == "Đã đặt")
+            {
+            <div class="history-doc-status-wait">
+                Đã đặt ngày @donHangDat.NgayDat đang chờ duyệt...
+                @*@using (Html.BeginForm("CancelOrderDoc", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input class="form-input hide" name="MaDHD" value="@donHangDat.MaDHD" />
+                    <input type="submit" value="Xóa" class="btn btn-sm order-stock-delete" />
+                }*@
+            </div>
+            }
+            else if (donHangDat.TrangThai == "Đang giao")
+            {
+                <div class="history-doc-status-delivering">Đã đặt ngày @donHangDat.NgayDat đang giao</div>
+            }
+            else if (donHangDat.TrangThai == "Đã thanh toán")
+            {
+                <div class="history-doc-status-success">Đã hoàn thành @donHangDat.NgayHoanThanh</div>
+            }
+            <div class="history-list-stock">
+                @foreach (FreeTime1.Models.HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)
+                {
+                <div class="history-stock">
+                    <img src="~/Images/MauHangs/@hangDonHangDat.Hang.MauHang.Anh" alt="@hangDonHangDat.Hang.MauHang.TenMH" style="width: 30%; margin-right: 1%;" />
+                    <div style="width: 69%">
+                        <div class="history-stock-name">@hangDonHangDat.Hang.MauHang.TenMH</div>
+                        <div class="history-stock-count">@hangDonHangDat.SoLuong@hangDonHangDat.Hang.MauHang.DonVi: @(hangDonHangDat.SoLuong*hangDonHangDat.Hang.GiaBan)VNĐ</div>
+                        <div class="history-stock-price">Giá: @(hangDonHangDat.Hang.GiaBan)VNĐ/1@(hangDonHangDat.Hang.MauHang.DonVi)</div>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="history-doc-total">Tổng đơn hàng: </div>
+        </div>
+        }
+    </div>
+</div>
+

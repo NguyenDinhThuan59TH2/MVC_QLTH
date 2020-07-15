@@ -18,7 +18,9 @@
             window.scrollTo(0, 1);
         }
     </script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="~/fonts/font-awesome/font-awesome-4.7.0/css/font-awesome.min.css">
     <link href="~/Content/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="~/Content/font-awesome.css" rel="stylesheet">
     <link href="~/Content/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
@@ -39,10 +41,27 @@
             </div>
             <div class="col-md-8 header">
                 <ul style="display: flex; justify-content: flex-end;">
+                    @if (khachHang != null)
+                    {
+                        if (ViewBag.HistoryBackStore == null)
+                        {
+                            <li style="font-size: 15px; font-weight: bold; display: flex; justify-content: center; align-items: center;">
+                                @Html.ActionLink("Lịch sử", "History", "DonHangDats", new { MaKH = khachHang.MaKH }, new { @style = "color: #ffac2f;" })
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <button class="w3view-cart" onclick="location.href='@Url.Action("Index", "Home")'" style="background: none; position: relative;">
+                                    <img src="~/Images/store.png" alt="Giỏ hàng" style="width: 100%;" />
+                                </button>
+                            </li>
+                        }
+                    }
                     <li>
                         @if (khachHang != null)
                         {
-                            if (ViewBag.BackStore == null)
+                            if (ViewBag.CartBackStore == null)
                             {
                                 <button class="w3view-cart" onclick="location.href='@Url.Action("Orders", "DonHangDats")'" style="background: none; position: relative;">
                                     <img src="~/Images/shopping_cart.png" alt="Giỏ hàng" style="width: 100%;" />

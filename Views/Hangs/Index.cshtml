@@ -122,7 +122,7 @@
         {
             grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
             grid.Column("MaH","Mã Mặt Hàng"),
-            grid.Column("MauHang.TenMH","Tên Mặt Hàng"  ),
+            grid.Column("MauHang.TenMH","Tên Mặt Hàng"),
             grid.Column("SoLuong","Số Lượng"),
             grid.Column("GiaNhap","Giá Nhập",format:@item => @item.GiaNhap.ToString("#,##0.")),
             grid.Column("GiaBan","Giá Bán",format:@item => @item.GiaBan.ToString("#,##0.")),

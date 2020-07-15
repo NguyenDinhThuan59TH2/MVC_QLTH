@@ -18,7 +18,7 @@ namespace FreeTime1.Models
         public string MaH { get; set; }
         public int SoLuong { get; set; }
     
-        public virtual DonHangXuat DonHangXuat { get; set; }
         public virtual Hang Hang { get; set; }
+        public virtual DonHangXuat DonHangXuat { get; set; }
     }
 }
