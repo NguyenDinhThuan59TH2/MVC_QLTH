@@ -25,8 +25,6 @@ namespace FreeTime1.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<DonHangNhap> DonHangNhaps { get; set; }
-        public virtual DbSet<DonHangXuat> DonHangXuats { get; set; }
         public virtual DbSet<Hang> Hangs { get; set; }
         public virtual DbSet<HangDonHangNhap> HangDonHangNhaps { get; set; }
         public virtual DbSet<HangDonHangXuat> HangDonHangXuats { get; set; }
@@ -38,6 +36,7 @@ namespace FreeTime1.Models
         public virtual DbSet<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }
         public virtual DbSet<DonHangDat> DonHangDats { get; set; }
         public virtual DbSet<HangDonHangDat> HangDonHangDats { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<DonHangNhap> DonHangNhaps { get; set; }
+        public virtual DbSet<DonHangXuat> DonHangXuats { get; set; }
     }
 }

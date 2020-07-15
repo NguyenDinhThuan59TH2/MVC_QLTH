@@ -201,9 +201,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QLTHModels.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>QLTHModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TaiKhoanKhachHang.cs">
       <DependentUpon>QLTHModels.tt</DependentUpon>
     </Compile>
@@ -365,6 +362,7 @@
     <Content Include="Content\button.css" />
     <Content Include="Content\form.css" />
     <Content Include="Content\grid.css" />
+    <Content Include="Content\history.css" />
     <Content Include="Content\image.css" />
     <Content Include="Content\noti.css" />
     <Content Include="Content\order.css" />
@@ -517,6 +515,8 @@
     <Content Include="Views\DonHangDats\Edit.cshtml" />
     <Content Include="Views\DonHangDats\Index.cshtml" />
     <Content Include="Views\DonHangDats\Order.cshtml" />
+    <Content Include="Views\DonHangNhaps\CreateMauHangs.cshtml" />
+    <Content Include="Views\DonHangDats\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />

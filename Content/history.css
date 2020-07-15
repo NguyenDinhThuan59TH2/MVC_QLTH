@@ -1,0 +1,88 @@
+﻿.history {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.history-title {
+    font-size: 25px;
+    margin: 10px 0;
+    color: #356116;
+    font-weight: bold;
+}
+
+.history-body {
+    padding: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.history-doc {
+    width: 100%;
+    background: #daddda;
+    margin-bottom: 10px;
+}
+
+.history-doc-status-wait {
+    padding: 5px;
+    background: #bc613b;
+    color: #fff;
+    font-size: 18px;
+    font-style: italic;
+}
+
+.history-doc-status-delivering {
+    padding: 5px;
+    background: #307995;
+    color: #fff;
+    font-size: 18px;
+    font-style: italic;
+}
+
+.history-doc-status-success {
+    padding: 5px;
+    background: #3c763d;
+    color: #fff;
+    font-size: 18px;
+    font-style: italic;
+}
+
+.history-list-stock {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    padding: 5px;
+}
+
+.history-stock {
+    display: flex;
+    background: #fff;
+    padding: 5px;
+    width: 100%;
+}
+
+.history-stock-name {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.history-stock-count {
+    font-size: 13px;
+    color: #e33838;
+    font-weight: bold;
+}
+
+.history-stock-price {
+    font-size: 13px;
+    color: #9b9191;
+    font-style: italic;
+}
+
+.history-doc-total {
+    padding: 5px;
+    background: #767a7c;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+}

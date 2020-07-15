@@ -24,7 +24,7 @@ namespace FreeTime1.Controllers
             KhachHang skhachHang = Session["khachHang"] as KhachHang;
             if (skhachHang == null || db.KhachHangs.Where(d => d.MaKH == skhachHang.MaKH).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaKH == skhachHang.MaKH && d.TrangThai == "Đang đặt").Include(d => d.HangDonHangDats).FirstOrDefault();
-            if (donHangDat == null)
+            if (donHangDat == null || donHangDat.HangDonHangDats.Count() == 0)
             {
                 return RedirectToAction("Index", "Home", new { ThongBao = "Đơn hàng trống" });
             }
@@ -33,8 +33,32 @@ namespace FreeTime1.Controllers
                 Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).Include(d => d.MauHang).FirstOrDefault();
                 hangDonHangDat.Hang = hang;
             }
-            ViewBag.BackStore = true;
+            ViewBag.CartBackStore = true;
             return View("Order", donHangDat);
+        }
+        public ActionResult History(string MaKH)
+        {
+            KhachHang skhachHang = Session["khachHang"] as KhachHang;
+            if (skhachHang == null || MaKH != skhachHang.MaKH || db.KhachHangs.Where(d => d.MaKH == skhachHang.MaKH).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            System.Diagnostics.Debug.WriteLine("MaKH", MaKH);
+            var donHangDats = db.DonHangDats.Where(d =>
+                d.MaKH == MaKH &&
+                (d.TrangThai == "Đã đặt" || d.TrangThai == "Đang giao" || d.TrangThai == "Đã thanh toán")
+            ).Include(d => d.HangDonHangDats).ToList();
+            if (donHangDats.Count() <= 0) return RedirectToAction("Index", "Home", new { ThongBao = "Chưa có lịch sử" });
+            foreach (DonHangDat donHangDat in donHangDats)
+            {
+                if (donHangDat != null)
+                {
+                    foreach (HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)
+                    {
+                        Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).Include(d => d.MauHang).FirstOrDefault();
+                        hangDonHangDat.Hang = hang;
+                    }
+                }
+            }
+            ViewBag.HistoryBackStore = true;
+            return View("History", donHangDats);
         }
         public ActionResult Details(string id)
         {
@@ -68,6 +92,21 @@ namespace FreeTime1.Controllers
             ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen", donHangDat.MaKH);
             return View(donHangDat);
         }
+
+        [HttpPost]
+        public ActionResult DeleteOrder(string MaDHD, string MaH)
+        {
+            KhachHang skhachHang = Session["khachHang"] as KhachHang;
+            if (skhachHang == null || db.KhachHangs.Where(d => d.MaKH == skhachHang.MaKH && d.DaXoa == false).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            HangDonHangDat hangDonHangDat = db.HangDonHangDats.Where(d => d.MaDHD == MaDHD && d.MaH == MaH).FirstOrDefault();
+            if (hangDonHangDat != null)
+            {
+                db.HangDonHangDats.Remove(hangDonHangDat);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Orders");
+        }
+
         [HttpPost]
         public ActionResult OrderDocument(string MaKH)
         {
@@ -82,7 +121,7 @@ namespace FreeTime1.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            donHangDat.TrangThai = "Đang giao";
+            donHangDat.TrangThai = "Đã đặt";
             donHangDat.NgayDat = DateTime.Now;
             db.SaveChanges();
             return RedirectToAction("Index", "Home", new { ThongBao = "Đặt thành công" });
@@ -121,7 +160,7 @@ namespace FreeTime1.Controllers
                     int count = db.DonHangDats.Count() + 1;
                     donHangDatMoi.MaDHD = "DHD" + count.ToString();
                     donHangDatMoi.MaKH = MaKH;
-                    donHangDatMoi.NgayDat = DateTime.Now;
+                    donHangDatMoi.NgayBatDau = DateTime.Now;
                     donHangDatMoi.TrangThai = "Đang đặt";
 
                     HangDonHangDat hangDonHangDatMoi = new HangDonHangDat();

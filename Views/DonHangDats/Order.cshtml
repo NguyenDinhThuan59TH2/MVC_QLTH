@@ -20,15 +20,21 @@
         <div class="order-body-left">
             @foreach (FreeTime1.Models.HangDonHangDat hangDonHangDat in Model.HangDonHangDats)
             {
-                <div class="order-stock">
-                    <img class="order-stock-img" src="~/Images/MauHangs/@hangDonHangDat.Hang.MauHang.Anh" alt="@hangDonHangDat.Hang.MauHang.TenMH" />
-                    <div class="order-stock-info">
-                        <div class="order-stock-info-name">@hangDonHangDat.Hang.MauHang.TenMH</div>
-                        <div class="order-stock-info-price">Đơn giá: 1 @hangDonHangDat.Hang.MauHang.DonVi/ @hangDonHangDat.Hang.GiaBan VNĐ</div>
-                        <div class="order-stock-info-count">Đang đặt: @hangDonHangDat.SoLuong @hangDonHangDat.Hang.MauHang.DonVi</div>
-                        <div class="order-stock-info-total">Tổng: @hangDonHangDat.SoLuong*@hangDonHangDat.Hang.GiaBan VNĐ</div>
-                    </div>
+            <div class="order-stock">
+                <img class="order-stock-img" src="~/Images/MauHangs/@hangDonHangDat.Hang.MauHang.Anh" alt="@hangDonHangDat.Hang.MauHang.TenMH" />
+                <div class="order-stock-info">
+                    <div class="order-stock-info-name">@hangDonHangDat.Hang.MauHang.TenMH</div>
+                    <div class="order-stock-info-price">Đơn giá: 1 @hangDonHangDat.Hang.MauHang.DonVi/ @hangDonHangDat.Hang.GiaBan VNĐ</div>
+                    <div class="order-stock-info-count">Đang đặt: @hangDonHangDat.SoLuong @hangDonHangDat.Hang.MauHang.DonVi</div>
+                    <div class="order-stock-info-total">Tổng: @(hangDonHangDat.SoLuong*hangDonHangDat.Hang.GiaBan)VNĐ</div>
                 </div>
+                @using (Html.BeginForm("DeleteOrder", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input class="form-input hide" name="MaDHD" value="@hangDonHangDat.MaDHD" />
+                    <input class="form-input hide" name="MaH" value="@hangDonHangDat.MaH" />
+                    <input type="submit" value="Xóa" class="btn btn-sm order-stock-delete" />
+                }
+            </div>
             }
         </div>
         <div class="order-body-right">
