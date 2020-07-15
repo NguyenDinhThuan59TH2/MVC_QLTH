@@ -1,8 +1,14 @@
-﻿@{
+﻿@model IEnumerable<FreeTime1.Models.Hang>
+
+@{
     ViewBag.Title = "Trang chủ";
     FreeTime1.Models.NguoiDung nguoiDung = Session["nguoiDung"] as FreeTime1.Models.NguoiDung;
     FreeTime1.Models.KhachHang khachHang = Session["nguoiDung"] as FreeTime1.Models.KhachHang;
     Layout = nguoiDung == null ? "~/Views/Shared/_Layout_Ban_Hang.cshtml" : "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/product.css">
 }
 
 @if (nguoiDung != null)
@@ -40,6 +46,21 @@ else
             </div>
             <div class="agileinfo-ads-display col-md-9">
                 <div class="wrapper">
+                    @foreach (var item in Model)
+                    {
+                        <div class="product">
+                            <img class="product-img" src="~/Images/MauHangs/@item.MauHang.Anh" />
+                            <div class="product-info">
+                                <div class="product-info-name">@item.MauHang.TenMH</div>
+                                <div class="product-info-price">1 @item.MauHang.DonVi/ @item.GiaBan</div>
+                                <div class="product-info-count">Còn @item.SoLuong @item.MauHang.DonVi</div>
+                                <div class="product-info-des">@item.MauHang.ChuThich</div>
+                                <div class="product-action">
+                                    @Html.ActionLink("Đặt hàng", "Logout", "Login", new { @class = "btn btn-success btn-sm" })
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
