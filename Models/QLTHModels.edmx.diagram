@@ -31,6 +31,7 @@
         <AssociationConnector Association="QLTapHoaModel.FK_DonHangDat_HangDonHangDat" />
         <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_DonHangDat" />
         <AssociationConnector Association="QLTapHoaModel.FK_Hang_DonHangDat" />
+        <EntityTypeShape EntityType="QLTapHoaModel.sysdiagram" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

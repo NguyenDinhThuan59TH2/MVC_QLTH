@@ -38,5 +38,6 @@ namespace FreeTime1.Models
         public virtual DbSet<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }
         public virtual DbSet<DonHangDat> DonHangDats { get; set; }
         public virtual DbSet<HangDonHangDat> HangDonHangDats { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

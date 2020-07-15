@@ -125,6 +125,7 @@
             grid.Column("GiamGia","Giảm giá"),
             grid.Column("KieuGiamGia","Kiểu giảm giá"),
             grid.Column("TongDonHang","Tổng đơn hàng",format:@item => @item.TongDonHang.ToString("#,##0.")),
+            grid.Column("DaDuyet","Trạng thái",format: @item => @item.DaDuyet == true ? "Đã duyệt" : "Chưa duyệt"),
             grid.Column("", "", format:
 @<div>
     <a href="@Url.Action("Details", new { id = item.MaDHN })" class="btn btn-info btn-sm">

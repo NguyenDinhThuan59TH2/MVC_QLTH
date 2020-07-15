@@ -12,13 +12,12 @@ namespace FreeTime1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class HangDonHangXuat
+    public partial class sysdiagram
     {
-        public string MaDHX { get; set; }
-        public string MaH { get; set; }
-        public int SoLuong { get; set; }
-    
-        public virtual DonHangXuat DonHangXuat { get; set; }
-        public virtual Hang Hang { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
