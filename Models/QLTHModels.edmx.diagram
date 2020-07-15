@@ -26,6 +26,7 @@
         <AssociationConnector Association="QLTapHoaModel.MauHangNhomHang" ManuallyRouted="false" />
         <EntityTypeShape EntityType="QLTapHoaModel.TaiKhoanKhachHang" Width="1.5" PointX="3" PointY="15.75" />
         <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_TaiKhoanKhachHang" />
+        <EntityTypeShape EntityType="QLTapHoaModel.sysdiagram" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

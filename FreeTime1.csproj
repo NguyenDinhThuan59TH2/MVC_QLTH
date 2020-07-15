@@ -194,6 +194,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QLTHModels.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>QLTHModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TaiKhoanKhachHang.cs">
       <DependentUpon>QLTHModels.tt</DependentUpon>
     </Compile>
