@@ -26,8 +26,10 @@ namespace FreeTime1.Models
         [Display(Name = "Mã nhà cung cấp")]
         public string MaNCC { get; set; }
         [Display(Name = "Tên nhà cung cấp")]
+        [Required(ErrorMessage = "Tên nhà cung cấp là bắt buộc")]
         public string TenNCC { get; set; }
         [Display(Name = "Quốc gia")]
+        [Required(ErrorMessage = "Quốc gia là bắt buộc")]
         public string QuoGia { get; set; }
         [Display(Name = "Địa chỉ")]
         public string DiaChi { get; set; }
