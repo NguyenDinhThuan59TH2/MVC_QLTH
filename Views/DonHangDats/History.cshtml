@@ -17,14 +17,14 @@
         <div class="history-doc">
             @if (donHangDat.TrangThai == "Đã đặt")
             {
-            <div class="history-doc-status-wait">
-                Đã đặt ngày @donHangDat.NgayDat đang chờ duyệt...
-                @*@using (Html.BeginForm("CancelOrderDoc", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                    <input class="form-input hide" name="MaDHD" value="@donHangDat.MaDHD" />
-                    <input type="submit" value="Xóa" class="btn btn-sm order-stock-delete" />
-                }*@
-            </div>
+                <div class="history-doc-status-wait" style="display: flex; justify-content: space-between;">
+                    Đã đặt ngày @donHangDat.NgayDat đang chờ duyệt...
+                    @using (Html.BeginForm("CancelOrderDoc", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <input class="form-input hide" name="MaDHD" value="@donHangDat.MaDHD" />
+                        <input type="submit" value="Xóa đơn hàng này" class="btn btn-sm history-delete-doc" style="background: white; color: red; font-weight: bold;" />
+                    }
+                </div>
             }
             else if (donHangDat.TrangThai == "Đang giao")
             {
@@ -47,7 +47,7 @@
                 </div>
                 }
             </div>
-            <div class="history-doc-total">Tổng đơn hàng: </div>
+            <div class="history-doc-total">Tổng đơn hàng: @(donHangDat.TongDonHang)VNĐ</div>
         </div>
         }
     </div>

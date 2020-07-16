@@ -16,6 +16,7 @@
           <Property Name="NgayGiao" Type="datetime" />
           <Property Name="NgayHoanThanh" Type="datetime" />
           <Property Name="TrangThai" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="DaXoa" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DonHangNhap">
           <Key>
@@ -660,6 +661,7 @@
           <Property Name="NgayGiao" Type="DateTime" Precision="3" />
           <Property Name="NgayHoanThanh" Type="DateTime" Precision="3" />
           <Property Name="NgayBatDau" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DaXoa" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="HangDonHangDat">
           <Key>
@@ -904,6 +906,7 @@
           <EntitySetMapping Name="DonHangDats">
             <EntityTypeMapping TypeName="QLTapHoaModel.DonHangDat">
               <MappingFragment StoreEntitySet="DonHangDat">
+                <ScalarProperty Name="DaXoa" ColumnName="DaXoa" />
                 <ScalarProperty Name="NgayBatDau" ColumnName="NgayBatDau" />
                 <ScalarProperty Name="NgayHoanThanh" ColumnName="NgayHoanThanh" />
                 <ScalarProperty Name="NgayGiao" ColumnName="NgayGiao" />
