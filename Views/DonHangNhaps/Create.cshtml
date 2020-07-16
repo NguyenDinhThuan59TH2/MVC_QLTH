@@ -145,7 +145,8 @@ else
                         Ngày nhập
                     </dt>
                     <dd>
-                        @Html.DisplayFor(model => model.NgayNhap)
+                        @Convert.ToDateTime(Model.NgayNhap).ToString("dd/MM/yyyy")
+                        @*@Html.DisplayFor(model => model.NgayNhap)*@
                     </dd>
                 </div>
             </div>
@@ -294,7 +295,7 @@ else
                         grid.Column("SoLuong","Số lượng nhập"  ),
                         grid.Column("Hang.MauHang.DonVi","Đơn vị tính"  ),
                         grid.Column("Hang.GiaNhap","Giá nhập"),
-                        grid.Column("Hang.HanSuDung","Hạn sử dụng"),
+                        grid.Column("Hang.HanSuDung","Hạn sử dụng",format:@item => @item.Hang.HanSuDung.ToString(string.Format("dd/MM/yyyy"))),
                         grid.Column("", "", format:
             @<div>
                 <a href="@Url.Action("DeleteInStock", new { MaDHN = Model.MaDHN, MaH = item.MaH })" class="btn btn-danger btn-sm">

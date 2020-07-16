@@ -3,13 +3,104 @@
 @{
     ViewBag.Title = "Sửa đơn hàng nhập";
 }
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/image.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/noti.css" />
+}
+@section scripts {
+    <script src="~/Scripts/noti.js"></script>
+}
 
-<h2>Sửa đơn hàng nhập</h2>
+@if (ViewBag.LoiFile != null)
+{
+    <div class="noti">
+        <div class="noti-content">
+            <div class="noti-header">
+                Thông báo!
+                <div class="noti-close">
+                    đóng
+                </div>
+            </div>
+            <div class="noti-body">
+                @ViewBag.LoiFile
+            </div>
+        </div>
+    </div>
+}
 
-@using (Html.BeginForm())
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+
+<h2 class="text-title">
+    @Html.DisplayFor(model => model.MaDHN)
+</h2>
+
+@using (Html.BeginForm("Edit", "DonHangNhaps", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="partition partition-col">
+        <div class="form partition-half-width" style="grid-template-columns: auto">
+            <div class="form-group">
+                <input name="MaDHN" value="@Model.MaDHN" class="hide form-input" />
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.MaNCC)
+                    </div>
+                    <div>
+                        <input class="form-input" name="HoTen" multiple value="@Model.MaNCC" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.NgayNhap)
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(model => model.NgayNhap, new { @class = "form-input", type = "date" })
+                        @Html.ValidationMessageFor(model => model.NgayNhap, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.GiamGia)
+                    </div>
+                    <div>
+                        <input class="form-input" name="Email" multiple value="@Model.GiamGia" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.KieuGiamGia)
+                    </div>
+                    <div>
+                        <div class="form-radio-group">
+                            @Html.RadioButtonFor(model => model.KieuGiamGia, true, new { @checked = "checked" }) VNĐ
+                            @Html.RadioButtonFor(model => model.KieuGiamGia, false, false) %
+                            @Html.ValidationMessageFor(model => model.KieuGiamGia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-footer">
+        <div>
+            <input type="submit" value="Cập nhật" class="btn btn-success btn-sm" />
+        </div>
+    </div>
+}
+
+@*@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Đơn hàng nhập</h4>
         <hr />
@@ -27,7 +118,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NgayNhap, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NgayNhap, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.NgayNhap.ToString("mm/dd/yyyy"), new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NgayNhap, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -63,4 +154,4 @@
             Quay về
         </span>
     </a>
-</div>
+</div>*@

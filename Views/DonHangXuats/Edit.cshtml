@@ -6,51 +6,29 @@
 
 <h2>Sửa đơn hàng xuất</h2>
 
-@using (Html.BeginForm())
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/image.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/noti.css" />
+}
+@section scripts {
+    <script src="~/Scripts/noti.js"></script>
+}
+
+@if (ViewBag.LoiFile != null)
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Đơn hàng xuất</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.MaDHX)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MaKH, "MaKH", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("MaKH", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.MaKH, "", new { @class = "text-danger" })
+    <div class="noti">
+        <div class="noti-content">
+            <div class="noti-header">
+                Thông báo!
+                <div class="noti-close">
+                    đóng
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NgayXuat, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NgayXuat, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NgayXuat, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GiamGia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GiamGia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GiamGia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.KieuGiamGia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.KieuGiamGia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.KieuGiamGia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lưu" class="btn btn-success btn-sm" />
+            <div class="noti-body">
+                @ViewBag.LoiFile
             </div>
         </div>
     </div>
@@ -64,3 +42,60 @@
         </span>
     </a>
 </div>
+
+<h2 class="text-title">
+    @Html.DisplayFor(model => model.MaDHX)
+</h2>
+
+@using (Html.BeginForm("Edit", "DonHangNhaps", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="partition partition-col">
+        <div class="form partition-half-width" style="grid-template-columns: auto">
+            <div class="form-group">
+                <input name="MaDHN" value="@Model.MaDHX" class="hide form-input" />
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.MaKH)
+                    </div>
+                    <div>
+                        <input class="form-input" name="HoTen" multiple value="@Model.MaKH" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.NgayXuat)
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(model => model.NgayXuat, new { @class = "form-input", type = "date" })
+                        @Html.ValidationMessageFor(model => model.NgayXuat, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.GiamGia)
+                    </div>
+                    <div>
+                        <input class="form-input" name="Email" multiple value="@Model.GiamGia" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.KieuGiamGia)
+                    </div>
+                    <div>
+                        <div class="form-radio-group">
+                            @Html.RadioButtonFor(model => model.KieuGiamGia, true, new { @checked = "checked" }) VNĐ
+                            @Html.RadioButtonFor(model => model.KieuGiamGia, false, false) %
+                            @Html.ValidationMessageFor(model => model.KieuGiamGia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-footer">
+        <div>
+            <input type="submit" value="Cập nhật" class="btn btn-success btn-sm" />
+        </div>
+    </div>
+}
