@@ -92,7 +92,7 @@ create table DonHangXuat(
 	NgayXuat DATETIME not null,
 	GiamGia varchar(10),
 	KieuGiamGia Nvarchar(100),
-	DaDuyet bit not null,
+	DaDuyet bit not null
 )
 
 create table DonHangDat(
@@ -102,7 +102,8 @@ create table DonHangDat(
 	NgayDat DATETIME,
 	NgayGiao DATETIME,
 	NgayHoanThanh DATETIME,
-	TrangThai NVARCHAR(30) not null
+	TrangThai NVARCHAR(30) not null,
+	DaXoa bit not null
 )
 
 create table HangDonHangDat(
@@ -249,10 +250,10 @@ insert into DonHangXuat values
 	('DHX5','KH5','2020/11/11','25',N'%', '0')
 
 insert into DonHangDat values
-	('DHD1','KH2','2020/11/11','','','',N'Đang đặt'),
-	('DHD2','KH3','2020/11/11','2020/11/11','','',N'Đã đặt'),
-	('DHD3','KH4','2020/11/11','2020/11/11','2020/11/11','',N'Đang giao'),
-	('DHD4','KH5','2020/11/11','2020/11/11','2020/11/11','2020/11/11',N'Đã thanh toán')
+	('DHD1','KH2','2020/11/11',NULL,NULL,NULL,N'Đang đặt', '0'),
+	('DHD2','KH3','2020/11/11','2020/11/11',NULL,NULL,N'Đã đặt', '0'),
+	('DHD3','KH4','2020/11/11','2020/11/11','2020/11/11',NULL,N'Đang giao', '0'),
+	('DHD4','KH5','2020/11/11','2020/11/11','2020/11/11','2020/11/11',N'Đã thanh toán', '0')
 
 insert into HangDonHangDat values
 	('DHD1','H1','1'),

@@ -26,6 +26,8 @@
 }
 
 .history-doc-status-wait {
+    display: flex;
+    justify-content: space-between;
     padding: 5px;
     background: #bc613b;
     color: #fff;
@@ -84,5 +86,11 @@
     background: #767a7c;
     color: #fff;
     font-size: 18px;
+    font-weight: bold;
+}
+
+.history-delete-doc {
+    background: white;
+    color: red;
     font-weight: bold;
 }
