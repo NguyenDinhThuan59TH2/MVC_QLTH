@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/grid.css">
     <link rel="stylesheet" type="text/css" href="~/Content/text.css">
     <link rel="stylesheet" type="text/css" href="~/Content/noti.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/checkbox.css">
 }
 
 @section scripts {
@@ -17,7 +18,7 @@
 }
 
 
-@if (ViewBag.XoaThanhCong != null)
+@if (ViewBag.ThongBao != null)
 {
     <div class="noti">
         <div class="noti-content">
@@ -28,7 +29,7 @@
                 </div>
             </div>
             <div class="noti-body">
-                @ViewBag.XoaThanhCong
+                @ViewBag.ThongBao
             </div>
         </div>
     </div>
@@ -37,59 +38,65 @@
 
 <h2 class="text-title">Danh sách đơn nhập đặt</h2>
 <div class="search">
-    @using (Html.BeginForm("TimKiem", "DonHangNhaps", FormMethod.Get))
+    @using (Html.BeginForm("TimKiem", "DonHangDats", FormMethod.Get))
     {
-        @Html.AntiForgeryToken()
         <div class="search-group">
             <table class="search-table">
+                <tr class="search-table-tr">
+                    <td class="funkyradio" style="width: 240px">
+                        <div class="funkyradio-primary">
+                            @if (ViewBag.DaDat != null)
+                            {
+                                <input type="checkbox" name="DaDat" id="DaDat" checked />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="DaDat" id="DaDat" />
+                            }
+                            <label for="DaDat">Đang chờ duyệt</label>
+                        </div>
+                    </td>
+                </tr>
                 <tr class="search-table-tr">
                     <td class="search-table-td search-label">
                         <div>Mã đơn hàng</div>
                     </td>
                     <td class="search-table-td">
-                        <input type="text" name="MaDHN" value="@ViewBag.MaDHN" class="search-input" />
-                    </td>
-                </tr>
-                <tr class="search-table-tr">
-                    <td class="search-table-td search-label">
-                        <div>Nhà cung cấp</div>
-                    </td>
-                    <td class="search-table-td">
-                        <input type="text" name="TenNCC" value="@ViewBag.TenNCC" class="search-input" />
+                        <input type="text" name="MaDHD" value="@ViewBag.MaDHD" class="search-input" />
                     </td>
                 </tr>
             </table>
             <table class="search-table">
                 <tr class="search-table-tr">
-                    <td class="search-table-td search-label">
-                        <div>Ngày nhập</div>
-                    </td>
-                    <td class="search-table-td search-range-input">
-                        <input type="date" name="NgayNhapBD" value="@ViewBag.NgayNhapBD" class="search-input" />
-                        đến
-                        <input type="date" name="NgayNhapKT" value="@ViewBag.NgayNhapKT" class="search-input" />
+                    <td class="funkyradio" style="width: 240px;">
+                        <div class="funkyradio-primary">
+                            @if (ViewBag.DangGiao != null)
+                            {
+                                <input type="checkbox" name="DangGiao" id="DangGiao" checked />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="DangGiao" id="DangGiao" />
+                            }
+                            <label for="DangGiao">Đang giao</label>
+                        </div>
                     </td>
                 </tr>
+            </table>
+            <table class="search-table">
                 <tr class="search-table-tr">
-                    <td class="search-table-td search-label">
-                        <div>Kiểu giảm giá</div>
-                    </td>
-                    <td class="search-table-td">
-                        @if (@ViewBag.KieuGiamGia == "VNĐ")
-                        {
-                            <input type="radio" name="KieuGiamGia" value="VNĐ" checked class="search-checkbox" /><text>VNĐ</text>
-                            <input type="radio" name="KieuGiamGia" value="%" class="search-checkbox" /><text>%</text>
-                        }
-                        else if (ViewBag.KieuGiamGia == "%")
-                        {
-                            <input type="radio" name="KieuGiamGia" value="VNĐ" class="search-checkbox" /><text>VNĐ</text>
-                            <input type="radio" name="KieuGiamGia" value="%" checked class="search-checkbox" /><text>%</text>
-                        }
-                        else
-                        {
-                            <input type="radio" name="KieuGiamGia" value="VNĐ" class="search-checkbox" /><text>VNĐ</text>
-                            <input type="radio" name="KieuGiamGia" value="%" class="search-checkbox" /><text>%</text>
-                        }
+                    <td class="funkyradio" style="width: 240px;">
+                        <div class="funkyradio-primary">
+                            @if (ViewBag.DaThanhToan != null)
+                            {
+                                <input type="checkbox" name="DaThanhToan" id="DaThanhToan" checked />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="DaThanhToan" id="DaThanhToan" />
+                            }
+                            <label for="DaThanhToan">Thành công</label>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -114,17 +121,57 @@
         {
             grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
             grid.Column("MaDHD","Mã đơn hàng"),
-            grid.Column("KhachHang.HoTen","Khách hàng"  ),
-            grid.Column("NgayDat","Ngày đặt",format:@item => @item.NgayDat.ToString(string.Format("dd/MM/yyyy"))),
-            grid.Column("NgayGiao","Ngày bắt đầu giao",format:@item => @item.NgayGiao != null ? @item.NgayGiao.ToString(string.Format("dd/MM/yyyy")) : "-"),
-            grid.Column("NgayHoanThanh","Ngày kết thúc",format:@item => @item.NgayHoanThanh != null ? @item.NgayHoanThanh.ToString(string.Format("dd/MM/yyyy")) : "-"),
-            grid.Column("TongDonHang","Tổng đơn hàng",format:@item => @item.TongDonHang.ToString("#,##0.")),
-            grid.Column("", "", format:
+            grid.Column(
+                "TrangThai",
+                "Trạng thái đơn hàng",
+                format:
+@<div>
+    @if (item.TrangThai == "Đã đặt")
+                    {
+    <div>Đang chờ duyệt</div>
+                    }
+                    else if (item.TrangThai == "Đang giao")
+                    {
+    <div>Đang giao</div>
+                    }
+                    else if (item.TrangThai == "Đã thanh toán")
+                    {
+    <div>Thành công</div>
+                    }
+</div>
+),
+grid.Column("KhachHang.HoTen","Khách hàng"  ),
+grid.Column("NgayDat","Ngày đặt",format:@item => @item.NgayDat != null ? @item.NgayDat.ToString(string.Format("dd/MM/yyyy")) : ""),
+grid.Column("NgayGiao","Ngày bắt đầu giao",format:@item => @item.NgayGiao != null ? @item.NgayGiao.ToString(string.Format("dd/MM/yyyy")) : "-"),
+grid.Column("NgayHoanThanh","Ngày kết thúc",format:@item => @item.NgayHoanThanh != null ? @item.NgayHoanThanh.ToString(string.Format("dd/MM/yyyy")) : "-"),
+grid.Column("TongDonHang","Tổng đơn hàng",format:@item => @item.TongDonHang.ToString("#,##0.")),
+grid.Column(
+"",
+"",
+format:
 @<div>
     <a href="@Url.Action("Details", new { id = item.MaDHD })" class="btn btn-info btn-sm">
         <i class="fa fa-info"></i>
-        <span>Xem thêm</span>
+        <span>Xem</span>
     </a>
+    @if (item.TrangThai == "Đã đặt")
+                    {
+    <form method="post" action="@Url.Action("DeliverOrder","DonHangDats")" style="display: initial">
+        <input class="form-input hide" name="MaDHD" value="@item.MaDHD" />
+        <input type="submit" value="Giao hàng" class="btn btn-warning btn-sm">
+    </form>
+                    }
+                    else if (item.TrangThai == "Đang giao")
+                    {
+    <form method="post" action="@Url.Action("CancelDeliverOrder","DonHangDats")" style="display: initial">
+        <input class="form-input hide" name="MaDHD" value="@item.MaDHD" />
+        <input type="submit" value="Hủy giao" class="btn btn-warning btn-sm">
+    </form>
+    <form method="post" action="@Url.Action("VerifyOrder","DonHangDats")" style="display: initial">
+        <input class="form-input hide" name="MaDHD" value="@item.MaDHD" />
+        <input type="submit" value="Hoàn thành" class="btn btn-danger btn-sm">
+    </form>
+                    }
 </div>
 ),
 }

@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using FreeTime1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace FreeTime1.Controllers
 {
     public class DonHangDatsController : Controller
     {
         private QLTapHoaEntities db = new QLTapHoaEntities();
-        public ActionResult Index()
+        public ActionResult Index(string ThongBao = null)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND && d.DaXoa == false).FirstOrDefault() == null)
@@ -37,6 +39,7 @@ namespace FreeTime1.Controllers
                     donHangDat.TongDonHang = tongDonHang;
                 }
             }
+            ViewBag.ThongBao = ThongBao;
             return View(donHangDats.ToList());
         }
         public ActionResult Orders()
@@ -88,6 +91,61 @@ namespace FreeTime1.Controllers
             ViewBag.HistoryBackStore = true;
             return View("History", donHangDats);
         }
+
+        public ActionResult TimKiem(string MaDHD, string DaDat, string DangGiao, string DaThanhToan)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            bool khongTimKiemTrangThai = true;
+            bool timKiemDaDat = false;
+            bool timKiemDangGiao = false;
+            bool timKiemDaThanhToan = false;
+            if (DaDat != null)
+            {
+                khongTimKiemTrangThai = false;
+                timKiemDaDat = true;
+            }
+            if (DangGiao != null)
+            {
+                khongTimKiemTrangThai = false;
+                timKiemDangGiao = true;
+            }
+            if (DaThanhToan != null)
+            {
+                khongTimKiemTrangThai = false;
+                timKiemDaThanhToan = true;
+            }
+            var donHangDats = db.DonHangDats.Include(d => d.KhachHang).Include(d => d.HangDonHangDats).Where(d =>
+                (MaDHD == "" || d.MaDHD.Contains(MaDHD)) &&
+                (
+                    khongTimKiemTrangThai || 
+                    (timKiemDaDat && d.TrangThai == "Đã đặt") ||
+                    (timKiemDangGiao && d.TrangThai == "Đang giao") ||
+                    (timKiemDaThanhToan && d.TrangThai == "Đã thanh toán")
+                ) &&
+                d.DaXoa == false
+            );
+            foreach (DonHangDat donHangDat in donHangDats)
+            {
+                if (donHangDat != null)
+                {
+                    decimal tongDonHang = 0;
+                    foreach (HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)
+                    {
+                        Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).Include(d => d.MauHang).FirstOrDefault();
+                        hangDonHangDat.Hang = hang;
+                        tongDonHang += hangDonHangDat.SoLuong * hangDonHangDat.Hang.GiaBan;
+                    }
+                    donHangDat.TongDonHang = tongDonHang;
+                }
+            }
+            ViewBag.MaDHD = MaDHD;
+            ViewBag.DaDat = DaDat;
+            ViewBag.DangGiao = DangGiao;
+            ViewBag.DaThanhToan = DaThanhToan;
+            return View("Index", donHangDats.ToList());
+        }
+
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -119,6 +177,69 @@ namespace FreeTime1.Controllers
 
             ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen", donHangDat.MaKH);
             return View(donHangDat);
+        }
+
+        [HttpPost]
+        public ActionResult DeliverOrder (string MaDHD)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND && d.DaXoa == false).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaDHD == MaDHD && d.DaXoa == false && d.TrangThai == "Đã đặt").Include(d => d.HangDonHangDats).FirstOrDefault();
+            if (donHangDat == null) return RedirectToAction("Index");
+            bool duHang = true;
+            foreach (HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)
+            {
+                Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).FirstOrDefault();
+                if (hang.SoLuong < hangDonHangDat.SoLuong)
+                {
+                    duHang = false;
+                    break;
+                }
+            }
+            if (duHang)
+            {
+                donHangDat.TrangThai = "Đang giao";
+                donHangDat.NgayGiao = DateTime.Now;
+                foreach (HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)
+                {
+                    Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).FirstOrDefault();
+                    hang.SoLuong -= hangDonHangDat.SoLuong;
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index", new { ThongBao = "Xác nhận giao hàng cho đơn hàng " + MaDHD + " thành công" });
+            }
+            return RedirectToAction("Index", new { ThongBao = "Không đủ số lượng hàng cho đơn hàng  " + MaDHD + ". Bấm 'Xem' để kiểm tra" });
+        }
+
+        [HttpPost]
+        public ActionResult CancelDeliverOrder(string MaDHD)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND && d.DaXoa == false).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaDHD == MaDHD && d.DaXoa == false && d.TrangThai == "Đang giao").FirstOrDefault();
+            if (donHangDat == null) return RedirectToAction("Index");
+            donHangDat.TrangThai = "Đã đặt";
+            donHangDat.NgayGiao = null;
+            foreach (HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)
+            {
+                Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).FirstOrDefault();
+                hang.SoLuong += hangDonHangDat.SoLuong;
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index", new { ThongBao = "Xác nhận hủy giao hàng cho đơn hàng " + MaDHD + " thành công" });
+        }
+
+        [HttpPost]
+        public ActionResult VerifyOrder(string MaDHD)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND && d.DaXoa == false).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaDHD == MaDHD && d.DaXoa == false && d.TrangThai == "Đang giao").FirstOrDefault();
+            if (donHangDat == null) return RedirectToAction("Index");
+            donHangDat.TrangThai = "Đã thanh toán";
+            donHangDat.NgayHoanThanh = DateTime.Now;
+            db.SaveChanges();
+            return RedirectToAction("Index", new { ThongBao = "Xác nhận hoàn thành đơn hàng " + MaDHD + " thành công" });
         }
 
         [HttpPost]
