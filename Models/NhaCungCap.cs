@@ -12,6 +12,7 @@ namespace FreeTime1.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class NhaCungCap
     {
@@ -21,8 +22,8 @@ namespace FreeTime1.Models
             this.DonHangNhaps = new HashSet<DonHangNhap>();
             this.Hangs = new HashSet<Hang>();
         }
+
         [Display(Name = "Mã nhà cung cấp")]
-        [Required(ErrorMessage = "Mã nhà cung cấp là bắt buộc")]
         public string MaNCC { get; set; }
         [Display(Name = "Tên nhà cung cấp")]
         [Required(ErrorMessage = "Tên nhà cung cấp là bắt buộc")]
@@ -40,7 +41,7 @@ namespace FreeTime1.Models
         [EmailAddress(ErrorMessage = "Xin nhập đúng Email")]
         public string Email { get; set; }
         public bool DaXoa { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DonHangNhap> DonHangNhaps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -21,6 +21,7 @@ namespace FreeTime1.Controllers
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
                 return RedirectToAction("Index", "Login");
             var donHangXuats = db.DonHangXuats.Include(d => d.KhachHang);
+            decimal TongGiaTriXuat = 0;
             foreach (DonHangXuat donHangXuat in donHangXuats)
             {
                 donHangXuat.TongDonHang = 0;
@@ -43,7 +44,9 @@ namespace FreeTime1.Controllers
                         
                     }
                 }
+                TongGiaTriXuat += donHangXuat.TongDonHang;
             }
+            ViewBag.TongGiaTriXuat = TongGiaTriXuat;
             return View(donHangXuats.ToList());
         }
 

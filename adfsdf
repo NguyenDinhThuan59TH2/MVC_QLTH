@@ -1,0 +1,2824 @@
+[1mdiff --git a/App_Data/QLTH.sql b/App_Data/QLTH.sql[m
+[1mnew file mode 100644[m
+[1mindex 0000000..3586544[m
+[1m--- /dev/null[m
+[1m+++ b/App_Data/QLTH.sql[m
+[36m@@ -0,0 +1,221 @@[m
+[32m+[m[32m﻿create database QLTapHoa[m
+[32m+[m[32mgo[m[41m [m
+[32m+[m[32muse QLTapHoa[m
+[32m+[m[32mgo[m
+[32m+[m
+[32m+[m
+[32m+[m[32mcreate table NguoiDung([m
+[32m+[m	[32mMaND varchar(10) primary key not null,[m
+[32m+[m	[32mTaiKhoan varchar(100) not null,[m
+[32m+[m	[32mMatKhau varchar(100) not null,[m
+[32m+[m	[32mChucVu nvarchar(100) not null,[m
+[32m+[m	[32mHoTen nvarchar(300) not null,[m[41m [m
+[32m+[m	[32mSDT varchar(20),[m
+[32m+[m	[32mAnh nvarchar(100) not null,[m
+[32m+[m	[32mDiaChi nvarchar(max) ,[m
+[32m+[m	[32mGioiTinh bit not null,[m
+[32m+[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m
+[32m+[m[32mcreate table MauHang([m
+[32m+[m	[32mMaMH varchar(10) primary key not null,[m
+[32m+[m	[32mTenMH nvarchar(300) not null,[m
+[32m+[m	[32mDonVi nvarchar(100) not null,[m
+[32m+[m	[32mAnh nvarchar(100) not null,[m
+[32m+[m	[32mChuThich nvarchar(max) ,[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mcreate table NhomHang([m
+[32m+[m	[32mMaNH varchar(10) primary key not null,[m
+[32m+[m	[32mTenNH nvarchar(300) not null,[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mcreate table MauHangNhomHang([m
+[32m+[m	[32mMaMH VARCHAR(10) NOT NULL,[m[41m [m
+[32m+[m	[32mMaNH VARCHAR(10) NOT NULL,[m
+[32m+[m	[32mPRIMARY KEY(MaMH, MaNH)[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mCREATE TABLE NhaCungCap([m
+[32m+[m	[32mMaNCC VARCHAR(10) PRIMARY KEY not null,[m
+[32m+[m	[32mTenNCC NVARCHAR(100) NOT NULL,[m
+[32m+[m	[32mQuoGia NVARCHAR(100) NOT NULL,[m
+[32m+[m	[32mDiaChi NVARCHAR(max),[m
+[32m+[m	[32mSDT VARCHAR(20) NOT NULL,[m
+[32m+[m	[32mEmail VARCHAR(20) NOT NULL,[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mcreate table KhachHang([m
+[32m+[m	[32mMaKH varchar(10) primary key not null,[m
+[32m+[m	[32mHoTen nvarchar(100) not null,[m
+[32m+[m	[32mAnh nvarchar(100) not null,[m
+[32m+[m	[32mDiaChi nvarchar(max),[m
+[32m+[m	[32mSDT VARCHAR(20) NOT NULL,[m
+[32m+[m	[32mEmail VARCHAR(20) NOT NULL,[m
+[32m+[m	[32mNgaySinh DATE not null,[m
+[32m+[m	[32mGioiTinh bit not null,[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mcreate table Hang([m
+[32m+[m	[32mMaH VARCHAR(10) PRIMARY KEY not null,[m
+[32m+[m	[32mMaMH VARCHAR(10) NOT NULL,[m
+[32m+[m	[32mMaNCC VARCHAR(10) not null,[m
+[32m+[m	[32mHanSuDung DATETIME NOT NULL,[m
+[32m+[m	[32mNgayNhap DATETIME NOT NULL,[m
+[32m+[m	[32mGiaNhap money NOT NULL,[m
+[32m+[m	[32mSoLuong int NOT NULL,[m
+[32m+[m	[32mGiaBan money not null,[m
+[32m+[m	[32m--DonViTinh NVARCHAR(20) NOT NULL,[m
+[32m+[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mcreate table DonHangNhap([m
+[32m+[m	[32mMaDHN VARCHAR(10) PRIMARY KEY not null,[m
+[32m+[m	[32mMaNCC VARCHAR(10) not null,[m
+[32m+[m	[32mNgayNhap DATETIME not null,[m
+[32m+[m	[32mGiamGia varchar(10),[m
+[32m+[m	[32mKieuGiamGia Nvarchar(100),[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m
+[32m+[m[41m [m
+[32m+[m[32mcreate table DonHangXuat([m
+[32m+[m	[32mMaDHX VARCHAR(10) primary key not null,[m
+[32m+[m	[32mMaKH VARCHAR(10)  not null,[m
+[32m+[m	[32mNgayXuat DATETIME not null,[m
+[32m+[m	[32mGiamGia varchar(10),[m
+[32m+[m	[32mKieuGiamGia Nvarchar(100),[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m
+[32m+[m[32mcreate table HangDonHangNhap([m
+[32m+[m	[32mMaDHN VARCHAR(10) not null,[m
+[32m+[m	[32mMaH VARCHAR(10) not null,[m
+[32m+[m	[32mSoLuong int NOT NULL,[m
+[32m+[m	[32mPRIMARY KEY (MaDHN,MaH)[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mcreate table HangDonHangXuat([m
+[32m+[m	[32mMaDHX VARCHAR(10)  not null,[m
+[32m+[m	[32mMaH VARCHAR(10) not null,[m
+[32m+[m	[32mSoLuong int NOT NULL,[m
+[32m+[m	[32mPRIMARY KEY (MaDHX,MaH)[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32m--ADD CONSTRANIT FOREIGN KEY[m
+[32m+[m
+[32m+[m[32mALTER TABLE MauHangNhomHang ADD CONSTRAINT FK_MauHang_MauHangNhomHang FOREIGN KEY (MaMH) REFERENCES MauHang(MaMH)[m
+[32m+[m[32mALTER TABLE MauHangNhomHang ADD CONSTRAINT FK_NhomHang_MauHangNhomHang FOREIGN KEY (MaNH) REFERENCES NhomHang(MaNH)[m
+[32m+[m
+[32m+[m[32mALTER TABLE Hang ADD CONSTRAINT FK_MauHang_Hang FOREIGN KEY (MaMH) REFERENCES MauHang(MaMH)[m
+[32m+[m[32mALTER TABLE Hang ADD CONSTRAINT FK_NhaCungCap_Hang FOREIGN KEY (MaNCC) REFERENCES NhaCungCap(MaNCC)[m
+[32m+[m
+[32m+[m[32mALTER TABLE DonHangNhap ADD CONSTRAINT FK_NhaCungCap_DonHangNhap FOREIGN KEY (MaNCC) REFERENCES NhaCungCap(MaNCC)[m
+[32m+[m[32mALTER TABLE DonHangXuat ADD CONSTRAINT FK_KhachHang_DonHangXuat FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)[m
+[32m+[m
+[32m+[m[32mALTER TABLE HangDonHangNhap ADD CONSTRAINT FK_DonHangXuat_HangDonHangNhap FOREIGN KEY (MaDHN) REFERENCES DonHangNhap(MaDHN)[m
+[32m+[m[32mALTER TABLE HangDonHangNhap ADD CONSTRAINT FK_Hang_DonHangNhap FOREIGN KEY (MaH) REFERENCES Hang(MaH)[m
+[32m+[m
+[32m+[m[32mALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_DonHangXuat_HangDonHangXuat FOREIGN KEY (MaDHX) REFERENCES DonHangXuat(MaDHX)[m
+[32m+[m[32mALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_Hang_DonHangXuat FOREIGN KEY (MaH) REFERENCES Hang(MaH)[m
+[32m+[m
+[32m+[m[32mINSERT INTO NguoiDung VALUES[m
+[32m+[m	[32m('QL1','admin','$MYHASH$V1$10000$mb6sZl2WmoJcfPNeJ/PVKEhtLAKHUK/DppE1mhKkpfxCW7G/',N'Quản lý',N'Admin','999999','MacDinh.png',N'Dia chi','1')[m
+[32m+[m
+[32m+[m[32mINSERT INTO MauHang VALUES[m
+[32m+[m	[32m('MH1',N'Oishi Snack Phô Mai 1',N'Gói',N'Default.jpg',N'Khong chu thich'),[m
+[32m+[m	[32m('MH2',N'bánh quy Cosy Marie',N'Gói',N'banhquyCosyMarie.jpg',N'Khong chu thich'),[m
+[32m+[m	[32m('MH3',N'Bia Heineken 24 Lon',N'Thùng',N'bia-heineken-thung-24-lon-330ml.jpg',N'Khong chu thich'),[m
+[32m+[m	[32m('MH4',N'Đường trắng biên hòa 1KG',N'Gói',N'Duong-trang-BIen-Hoa-1kg.jpg',N'Khong chu thich'),[m
+[32m+[m	[32m('MH5',N'Nước mắm Nam Ngư 270ml',N'Chai',N'nuoc-mam-nam-ngu.jpg',N'Khong chu thich'),[m
+[32m+[m	[32m('MH6',N'Rượu cúng',N'Chai',N'Default.jpg',N'Khong chu thich')[m
+[32m+[m
+[32m+[m
+[32m+[m[32mInsert into NhomHang Values[m
+[32m+[m	[32m('NH1',N'Bánh Kẹo'),[m
+[32m+[m	[32m('NH2',N'Bia Rượu'),[m
+[32m+[m	[32m('NH3',N'Gia Dụng'),[m
+[32m+[m	[32m('NH4',N'Vàng Mã'),[m
+[32m+[m	[32m('NH5',N'Nước Giải Khát')[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32mInsert into MauHangNhomHang values[m
+[32m+[m	[32m('MH1','NH1'),[m
+[32m+[m	[32m('MH2','NH2'),[m
+[32m+[m	[32m('MH3','NH3'),[m
+[32m+[m	[32m('MH4','NH4'),[m
+[32m+[m	[32m('MH5','NH5')[m
+[32m+[m
+[32m+[m
+[32m+[m[32minsert into NhaCungCap values[m
+[32m+[m	[32m('NCC1',N'Thúy Hương',N'Việt Nam',N'Nha Trang,Khánh Hòa','0972111640','thuy@gmail.com'),[m
+[32m+[m	[32m('NCC2',N'Lâm Bân',N'Thái Lan',N'Bang koc','0888186566','Ncc2@gmail.com'),[m
+[32m+[m	[32m('NCC3',N'Bình Đường',N'Mexico',N'Urafe','0921219990','Ncc3@gmail.com'),[m
+[32m+[m	[32m('NCC4',N'Cảnh Hùng',N'Lào',N'LeLeLe','0375323640','Ncc3@gmail.com'),[m
+[32m+[m	[32m('NCC5',N'Đình Thuận',N'Việt Nam',N'Nha Trang,Khánh Hòa','0364321274','Ncc5@gmail.com')[m
+[32m+[m
+[32m+[m
+[32m+[m[32minsert into KhachHang values[m
+[32m+[m	[32m('KH1',N'Ngô Nguyễn Tường Nghi',N'MacDinh.png',N'Diên Khánh, Khánh Hòa','0972111640','Nghi@gmail.com','1999/3/2','1'),[m
+[32m+[m	[32m('KH2',N'Ngô Bá Khá',N'MacDinh.png',N'Nha Trang, Khánh Hòa','0888186566','Kha@gmail.com','1998/3/12','1'),[m
+[32m+[m	[32m('KH3',N'Ngô Uyên Ương',N'MacDinh.png',N'Đà lạt','0921219990','Uong@gmail.com','1997/12/2','0'),[m
+[32m+[m	[32m('KH4',N'Ngô Văn Giàu',N'MacDinh.png',N'Cà Mau','0375323640','Giau@gmail.com','1999/6/6','0'),[m
+[32m+[m	[32m('KH5',N'Ngô Nguyễn Cát Tường',N'MacDinh.png',N'Hà Nội','0364321274','Tuong@gmail.com','1999/3/2','1')[m
+[32m+[m
+[32m+[m
+[32m+[m[32minsert into Hang values[m
+[32m+[m	[32m('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','10','10000'),[m
+[32m+[m	[32m('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','10','30000'),[m
+[32m+[m	[32m('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','10','15000'),[m
+[32m+[m	[32m('H4','MH2','NCC4','2021/12/12','2020/5/8','120000','10','130000'),[m
+[32m+[m	[32m('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','10','300000'),[m
+[32m+[m	[32m('H6','MH4','NCC5','2021/09/12','2020/5/8','300000','10','330000')[m
+[32m+[m
+[32m+[m
+[32m+[m[32minsert into DonHangNhap values[m[41m [m
+[32m+[m	[32m('DHN1','NCC1','2020/8/12','10',N'%'),[m
+[32m+[m	[32m('DHN2','NCC2','2020/8/12','10000',N'VNĐ'),[m
+[32m+[m	[32m('DHN3','NCC3','2020/8/12','20000',N'VNĐ'),[m
+[32m+[m	[32m('DHN4','NCC4','2020/8/12','15',N'%'),[m
+[32m+[m	[32m('DHN5','NCC5','2020/8/12','25',N'%')[m
+[32m+[m
+[32m+[m
+[32m+[m[32minsert into DonHangXuat values[m[41m [m
+[32m+[m	[32m('DHX1','KH1','2020/11/11','10',N'%'),[m
+[32m+[m	[32m('DHX2','KH2','2020/11/11','10000',N'VNĐ'),[m
+[32m+[m	[32m('DHX3','KH3','2020/11/11','20000',N'VNĐ'),[m
+[32m+[m	[32m('DHX4','KH4','2020/11/11','15',N'%'),[m
+[32m+[m	[32m('DHX5','KH5','2020/11/11','25',N'%')[m
+[32m+[m
+[32m+[m[32minsert into HangDonHangNhap values[m
+[32m+[m	[32m('DHN1','H1','10'),[m
+[32m+[m	[32m('DHN2','H2','10'),[m
+[32m+[m	[32m('DHN3','H3','10'),[m
+[32m+[m	[32m('DHN4','H4','10'),[m
+[32m+[m	[32m('DHN5','H5','10')[m
+[32m+[m
+[32m+[m[32minsert into HangDonHangXuat values[m
+[32m+[m	[32m('DHX1','H1','5'),[m
+[32m+[m	[32m('DHX2','H2','6'),[m
+[32m+[m	[32m('DHX3','H3','7'),[m
+[32m+[m	[32m('DHX4','H4','8'),[m
+[32m+[m	[32m('DHX5','H5','9')[m
+[32m+[m
+[32m+[m[32mselect * from KhachHang[m
+[32m+[m[32mselect * from NhaCungCap[m
+[32m+[m
+[32m+[m[32mALTER TABLE NguoiDung[m
+[32m+[m[32m ALTER COLUMN DiaChi nvarchar(max) NULL;[m
+[32m+[m
+[32m+[m[32m ALTER TABLE KhachHang[m
+[32m+[m[32m ALTER COLUMN DiaChi nvarchar(max) NULL;[m
+[32m+[m
+[32m+[m[32m ALTER TABLE KhachHang[m
+[32m+[m[32m ALTER COLUMN GioiTinh bit NULL;[m
+[32m+[m
+[32m+[m[32m ALTER TABLE KhachHang[m
+[32m+[m[32m ALTER COLUMN NgaySinh DATE NULL;[m
+[32m+[m
+[32m+[m[41m [m
+[1mdiff --git a/App_Data/SQLQuery1.sql b/App_Data/SQLQuery1.sql[m
+[1mindex 4dd7855..2b816d2 100644[m
+[1m--- a/App_Data/SQLQuery1.sql[m
+[1m+++ b/App_Data/SQLQuery1.sql[m
+[36m@@ -83,7 +83,6 @@[m [mcreate table DonHangNhap([m
+ 	NgayNhap DATETIME not null,[m
+ 	GiamGia varchar(10),[m
+ 	KieuGiamGia Nvarchar(100),[m
+[31m-	DaDuyet bit not null,[m
+ )[m
+ [m
+ create table DonHangXuat([m
+[36m@@ -92,24 +91,6 @@[m [mcreate table DonHangXuat([m
+ 	NgayXuat DATETIME not null,[m
+ 	GiamGia varchar(10),[m
+ 	KieuGiamGia Nvarchar(100),[m
+[31m-	DaDuyet bit not null,[m
+[31m-)[m
+[31m-[m
+[31m-create table DonHangDat([m
+[31m-	MaDHD VARCHAR(10) primary key not null,[m
+[31m-	MaKH VARCHAR(10)  not null,[m
+[31m-	NgayBatDau DATETIME not null,[m
+[31m-	NgayDat DATETIME,[m
+[31m-	NgayGiao DATETIME,[m
+[31m-	NgayHoanThanh DATETIME,[m
+[31m-	TrangThai NVARCHAR(30) not null[m
+[31m-)[m
+[31m-[m
+[31m-create table HangDonHangDat([m
+[31m-	MaDHD VARCHAR(10) not null,[m
+[31m-	MaH VARCHAR(10) not null,[m
+[31m-	SoLuong int NOT NULL,[m
+[31m-	PRIMARY KEY (MaDHD,MaH)[m
+ )[m
+ [m
+ [m
+[36m@@ -137,7 +118,6 @@[m [mALTER TABLE Hang ADD CONSTRAINT FK_NhaCungCap_Hang FOREIGN KEY (MaNCC) REFERENCE[m
+ [m
+ ALTER TABLE DonHangNhap ADD CONSTRAINT FK_NhaCungCap_DonHangNhap FOREIGN KEY (MaNCC) REFERENCES NhaCungCap(MaNCC)[m
+ ALTER TABLE DonHangXuat ADD CONSTRAINT FK_KhachHang_DonHangXuat FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)[m
+[31m-ALTER TABLE DonHangDat ADD CONSTRAINT FK_KhachHang_DonHangDat FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)[m
+ [m
+ ALTER TABLE HangDonHangNhap ADD CONSTRAINT FK_DonHangXuat_HangDonHangNhap FOREIGN KEY (MaDHN) REFERENCES DonHangNhap(MaDHN)[m
+ ALTER TABLE HangDonHangNhap ADD CONSTRAINT FK_Hang_DonHangNhap FOREIGN KEY (MaH) REFERENCES Hang(MaH)[m
+[36m@@ -145,9 +125,6 @@[m [mALTER TABLE HangDonHangNhap ADD CONSTRAINT FK_Hang_DonHangNhap FOREIGN KEY (MaH)[m
+ ALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_DonHangXuat_HangDonHangXuat FOREIGN KEY (MaDHX) REFERENCES DonHangXuat(MaDHX)[m
+ ALTER TABLE HangDonHangXuat ADD CONSTRAINT FK_Hang_DonHangXuat FOREIGN KEY (MaH) REFERENCES Hang(MaH)[m
+ [m
+[31m-ALTER TABLE HangDonHangDat ADD CONSTRAINT FK_DonHangDat_HangDonHangDat FOREIGN KEY (MaDHD) REFERENCES DonHangDat(MaDHD)[m
+[31m-ALTER TABLE HangDonHangDat ADD CONSTRAINT FK_Hang_DonHangDat FOREIGN KEY (MaH) REFERENCES Hang(MaH)[m
+[31m-[m
+ ALTER TABLE TaiKhoanKhachHang ADD CONSTRAINT FK_KhachHang_TaiKhoanKhachHang FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)[m
+ [m
+ INSERT INTO NguoiDung VALUES[m
+[36m@@ -225,40 +202,28 @@[m [minsert into TaiKhoanKhachHang values[m
+ 	('KH5', 'tuong.ngo', '$MYHASH$V1$10000$oqgMYomAysw1sF5JiXq9IXv7e2+0evXP6NFeTM+18Lfbepfh')[m
+ [m
+ insert into Hang values[m
+[31m-	('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','5','10000'),[m
+[31m-	('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','3','30000'),[m
+[31m-	('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','2','15000'),[m
+[32m+[m	[32m('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','10','10000'),[m
+[32m+[m	[32m('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','10','30000'),[m
+[32m+[m	[32m('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','10','15000'),[m
+ 	('H4','MH2','NCC4','2021/12/12','2020/5/8','120000','10','130000'),[m
+[31m-	('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','7','300000'),[m
+[32m+[m	[32m('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','10','300000'),[m
+ 	('H6','MH4','NCC5','2021/09/12','2020/5/8','300000','10','330000')[m
+ [m
+ [m
+ insert into DonHangNhap values[m
+[31m-	('DHN1','NCC1','2020/8/12','10',N'%', '1'),[m
+[31m-	('DHN2','NCC2','2020/8/12','10000',N'VNĐ', '1'),[m
+[31m-	('DHN3','NCC3','2020/8/12','20000',N'VNĐ', '1'),[m
+[31m-	('DHN4','NCC4','2020/8/12','15',N'%', '1'),[m
+[31m-	('DHN5','NCC5','2020/8/12','25',N'%', '0')[m
+[32m+[m	[32m('DHN1','NCC1','2020/8/12','10',N'%'),[m
+[32m+[m	[32m('DHN2','NCC2','2020/8/12','10000',N'VNĐ'),[m
+[32m+[m	[32m('DHN3','NCC3','2020/8/12','20000',N'VNĐ'),[m
+[32m+[m	[32m('DHN4','NCC4','2020/8/12','15',N'%'),[m
+[32m+[m	[32m('DHN5','NCC5','2020/8/12','25',N'%')[m
+ [m
+ [m
+ insert into DonHangXuat values[m
+[31m-	('DHX1','KH1','2020/11/11','10',N'%', '1'),[m
+[31m-	('DHX2','KH2','2020/11/11','10000',N'VNĐ', '1'),[m
+[31m-	('DHX3','KH3','2020/11/11','20000',N'VNĐ', '1'),[m
+[31m-	('DHX4','KH4','2020/11/11','15',N'%', '1'),[m
+[31m-	('DHX5','KH5','2020/11/11','25',N'%', '0')[m
+[31m-[m
+[31m-insert into DonHangDat values[m
+[31m-	('DHD1','KH2','2020/11/11','','','',N'Đang đặt'),[m
+[31m-	('DHD2','KH3','2020/11/11','2020/11/11','','',N'Đã đặt'),[m
+[31m-	('DHD3','KH4','2020/11/11','2020/11/11','2020/11/11','',N'Đang giao'),[m
+[31m-	('DHD4','KH5','2020/11/11','2020/11/11','2020/11/11','2020/11/11',N'Đã thanh toán')[m
+[31m-[m
+[31m-insert into HangDonHangDat values[m
+[31m-	('DHD1','H1','1'),[m
+[31m-	('DHD2','H2','1'),[m
+[31m-	('DHD3','H3','1'),[m
+[31m-	('DHD4','H5','3')[m
+[32m+[m	[32m('DHX1','KH1','2020/11/11','10',N'%'),[m
+[32m+[m	[32m('DHX2','KH2','2020/11/11','10000',N'VNĐ'),[m
+[32m+[m	[32m('DHX3','KH3','2020/11/11','20000',N'VNĐ'),[m
+[32m+[m	[32m('DHX4','KH4','2020/11/11','15',N'%'),[m
+[32m+[m	[32m('DHX5','KH5','2020/11/11','25',N'%')[m
+ [m
+ insert into HangDonHangNhap values[m
+ 	('DHN1','H1','10'),[m
+[1mdiff --git a/App_Start/RouteConfig.cs b/App_Start/RouteConfig.cs[m
+[1mindex fb2f88d..6690448 100644[m
+[1m--- a/App_Start/RouteConfig.cs[m
+[1m+++ b/App_Start/RouteConfig.cs[m
+[36m@@ -16,7 +16,7 @@[m [mnamespace FreeTime1[m
+             routes.MapRoute([m
+                 name: "Default",[m
+                 url: "{controller}/{action}/{id}",[m
+[31m-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }[m
+[32m+[m[32m                defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }[m
+             );[m
+         }[m
+     }[m
+[1mdiff --git a/Content/history.css b/Content/history.css[m
+[1mdeleted file mode 100644[m
+[1mindex 535de30..0000000[m
+[1m--- a/Content/history.css[m
+[1m+++ /dev/null[m
+[36m@@ -1,88 +0,0 @@[m
+[31m-﻿.history {[m
+[31m-    width: 100%;[m
+[31m-    display: flex;[m
+[31m-    flex-direction: column;[m
+[31m-    align-items: center;[m
+[31m-}[m
+[31m-[m
+[31m-.history-title {[m
+[31m-    font-size: 25px;[m
+[31m-    margin: 10px 0;[m
+[31m-    color: #356116;[m
+[31m-    font-weight: bold;[m
+[31m-}[m
+[31m-[m
+[31m-.history-body {[m
+[31m-    padding: 30px;[m
+[31m-    width: 100%;[m
+[31m-    display: flex;[m
+[31m-    flex-direction: column-reverse;[m
+[31m-}[m
+[31m-[m
+[31m-.history-doc {[m
+[31m-    width: 100%;[m
+[31m-    background: #daddda;[m
+[31m-    margin-bottom: 10px;[m
+[31m-}[m
+[31m-[m
+[31m-.history-doc-status-wait {[m
+[31m-    padding: 5px;[m
+[31m-    background: #bc613b;[m
+[31m-    color: #fff;[m
+[31m-    font-size: 18px;[m
+[31m-    font-style: italic;[m
+[31m-}[m
+[31m-[m
+[31m-.history-doc-status-delivering {[m
+[31m-    padding: 5px;[m
+[31m-    background: #307995;[m
+[31m-    color: #fff;[m
+[31m-    font-size: 18px;[m
+[31m-    font-style: italic;[m
+[31m-}[m
+[31m-[m
+[31m-.history-doc-status-success {[m
+[31m-    padding: 5px;[m
+[31m-    background: #3c763d;[m
+[31m-    color: #fff;[m
+[31m-    font-size: 18px;[m
+[31m-    font-style: italic;[m
+[31m-}[m
+[31m-[m
+[31m-.history-list-stock {[m
+[31m-    display: grid;[m
+[31m-    grid-template-columns: 20% 20% 20% 20% 20%;[m
+[31m-    padding: 5px;[m
+[31m-}[m
+[31m-[m
+[31m-.history-stock {[m
+[31m-    display: flex;[m
+[31m-    background: #fff;[m
+[31m-    padding: 5px;[m
+[31m-    width: 100%;[m
+[31m-}[m
+[31m-[m
+[31m-.history-stock-name {[m
+[31m-    font-size: 15px;[m
+[31m-    font-weight: bold;[m
+[31m-}[m
+[31m-[m
+[31m-.history-stock-count {[m
+[31m-    font-size: 13px;[m
+[31m-    color: #e33838;[m
+[31m-    font-weight: bold;[m
+[31m-}[m
+[31m-[m
+[31m-.history-stock-price {[m
+[31m-    font-size: 13px;[m
+[31m-    color: #9b9191;[m
+[31m-    font-style: italic;[m
+[31m-}[m
+[31m-[m
+[31m-.history-doc-total {[m
+[31m-    padding: 5px;[m
+[31m-    background: #767a7c;[m
+[31m-    color: #fff;[m
+[31m-    font-size: 18px;[m
+[31m-    font-weight: bold;[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Content/order.css b/Content/order.css[m
+[1mdeleted file mode 100644[m
+[1mindex 01b2d70..0000000[m
+[1m--- a/Content/order.css[m
+[1m+++ /dev/null[m
+[36m@@ -1,102 +0,0 @@[m
+[31m-﻿.order {[m
+[31m-    width: 100%;[m
+[31m-    display: flex;[m
+[31m-    flex-direction: column;[m
+[31m-    align-items: center;[m
+[31m-}[m
+[31m-[m
+[31m-.order-title {[m
+[31m-    font-size: 25px;[m
+[31m-    margin: 10px 0;[m
+[31m-    color: #356116;[m
+[31m-    font-weight: bold;[m
+[31m-}[m
+[31m-[m
+[31m-.order-body {[m
+[31m-    width: 100%;[m
+[31m-    display: flex;[m
+[31m-    flex-direction: row;[m
+[31m-}[m
+[31m-[m
+[31m-.order-body-left {[m
+[31m-    width: 75%;[m
+[31m-    background: #e0e0e0;[m
+[31m-    display: grid;[m
+[31m-    grid-template-columns: 33% 33% 33%;[m
+[31m-    padding: 20px;[m
+[31m-    grid-column-gap: 10px;[m
+[31m-    grid-row-gap: 10px;[m
+[31m-}[m
+[31m-[m
+[31m-.order-stock {[m
+[31m-    width: 100%;[m
+[31m-    display: flex;[m
+[31m-    justify-content: space-between;[m
+[31m-    background: white;[m
+[31m-}[m
+[31m-[m
+[31m-.order-stock-img {[m
+[31m-    width: 30%;[m
+[31m-}[m
+[31m-[m
+[31m-.order-stock-info {[m
+[31m-    display: flex;[m
+[31m-    flex-direction: column;[m
+[31m-    justify-content: center;[m
+[31m-}[m
+[31m-[m
+[31m-.order-stock-info-name {[m
+[31m-    font-size: 18px;[m
+[31m-    font-weight: bold;[m
+[31m-    color: #4a4af1;[m
+[31m-}[m
+[31m-[m
+[31m-.order-stock-info-price {[m
+[31m-    font-size: 15px;[m
+[31m-    font-style: italic;[m
+[31m-    color: #192f02;[m
+[31m-}[m
+[31m-[m
+[31m-.order-stock-info-count {[m
+[31m-    font-weight: bold;[m
+[31m-    color: #4a4af1;[m
+[31m-}[m
+[31m-[m
+[31m-.order-stock-info-total {[m
+[31m-    font-size: 17px;[m
+[31m-    font-weight: bold;[m
+[31m-    color: #09438c;[m
+[31m-}[m
+[31m-[m
+[31m-.order-body-right {[m
+[31m-    width: 25%;[m
+[31m-    border-left: 2px solid #356116;[m
+[31m-    padding-left: 20px;[m
+[31m-    font-size: 20px;[m
+[31m-    font-weight: 700;[m
+[31m-    color: #09438c;[m
+[31m-}[m
+[31m-[m
+[31m-.order-submit {[m
+[31m-    width: 50%;[m
+[31m-    height: 60px;[m
+[31m-    padding: 10px 20px;[m
+[31m-    font-size: 16px;[m
+[31m-    margin: 10px 0;[m
+[31m-    font-weight: bold;[m
+[31m-    color: #ff6a00;[m
+[31m-    background: #c7ffc8;[m
+[31m-}[m
+[31m-[m
+[31m-.order-stock-delete {[m
+[31m-    display: flex;[m
+[31m-    justify-content: center;[m
+[31m-    align-items: center;[m
+[31m-    font-size: 10px;[m
+[31m-    padding: 2px;[m
+[31m-    background: #e94141;[m
+[31m-    font-weight: bold;[m
+[31m-    color: #fff;[m
+[31m-    height: 100%;[m
+[31m-    border-radius: unset;[m
+[31m-}[m
+[1mdiff --git a/Content/product.css b/Content/product.css[m
+[1mdeleted file mode 100644[m
+[1mindex dad784e..0000000[m
+[1m--- a/Content/product.css[m
+[1m+++ /dev/null[m
+[36m@@ -1,42 +0,0 @@[m
+[31m-﻿.product {[m
+[31m-    display: inline-block;[m
+[31m-    width: 45%;[m
+[31m-    height: 200px;[m
+[31m-    position: relative;[m
+[31m-    padding: 5px;[m
+[31m-}[m
+[31m-[m
+[31m-.product-img {[m
+[31m-    width: 40%;[m
+[31m-    height: auto;[m
+[31m-    position: absolute;[m
+[31m-}[m
+[31m-[m
+[31m-.product-info {[m
+[31m-    width: 50%;[m
+[31m-    position: absolute;[m
+[31m-    right: 0;[m
+[31m-}[m
+[31m-[m
+[31m-.product-info-name {[m
+[31m-    font-size: 15px;[m
+[31m-    font-weight: bold;[m
+[31m-    color: #ea2b2b;[m
+[31m-}[m
+[31m-[m
+[31m-.product-info-count {[m
+[31m-    font-size: 13px;[m
+[31m-}[m
+[31m-[m
+[31m-.product-info-price {[m
+[31m-    font-size: 13px;[m
+[31m-}[m
+[31m-[m
+[31m-.product-info-des {[m
+[31m-    font-size: 13px;[m
+[31m-    color: #626262;[m
+[31m-}[m
+[31m-[m
+[31m-.product-action {[m
+[31m-[m
+[31m-}[m
+[1mdiff --git a/Controllers/DonHangDatsController.cs b/Controllers/DonHangDatsController.cs[m
+[1mdeleted file mode 100644[m
+[1mindex bd8bb26..0000000[m
+[1m--- a/Controllers/DonHangDatsController.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,238 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Data;[m
+[31m-using System.Data.Entity;[m
+[31m-using System.Linq;[m
+[31m-using System.Net;[m
+[31m-using System.Web;[m
+[31m-using System.Web.Configuration;[m
+[31m-using System.Web.Mvc;[m
+[31m-using FreeTime1.Models;[m
+[31m-[m
+[31m-namespace FreeTime1.Controllers[m
+[31m-{[m
+[31m-    public class DonHangDatsController : Controller[m
+[31m-    {[m
+[31m-        private QLTapHoaEntities db = new QLTapHoaEntities();[m
+[31m-        public ActionResult Index()[m
+[31m-        {[m
+[31m-            var donHangDats = db.DonHangDats.Include(d => d.KhachHang);[m
+[31m-            return View(donHangDats.ToList());[m
+[31m-        }[m
+[31m-        public ActionResult Orders()[m
+[31m-        {[m
+[31m-            KhachHang skhachHang = Session["khachHang"] as KhachHang;[m
+[31m-            if (skhachHang == null || db.KhachHangs.Where(d => d.MaKH == skhachHang.MaKH).FirstOrDefault() == null) return RedirectToAction("Index", "Login");[m
+[31m-            DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaKH == skhachHang.MaKH && d.TrangThai == "Đang đặt").Include(d => d.HangDonHangDats).FirstOrDefault();[m
+[31m-            if (donHangDat == null || donHangDat.HangDonHangDats.Count() == 0)[m
+[31m-            {[m
+[31m-                return RedirectToAction("Index", "Home", new { ThongBao = "Đơn hàng trống" });[m
+[31m-            }[m
+[31m-            foreach (HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)[m
+[31m-            {[m
+[31m-                Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).Include(d => d.MauHang).FirstOrDefault();[m
+[31m-                hangDonHangDat.Hang = hang;[m
+[31m-            }[m
+[31m-            ViewBag.CartBackStore = true;[m
+[31m-            return View("Order", donHangDat);[m
+[31m-        }[m
+[31m-        public ActionResult History(string MaKH)[m
+[31m-        {[m
+[31m-            KhachHang skhachHang = Session["khachHang"] as KhachHang;[m
+[31m-            if (skhachHang == null || MaKH != skhachHang.MaKH || db.KhachHangs.Where(d => d.MaKH == skhachHang.MaKH).FirstOrDefault() == null) return RedirectToAction("Index", "Login");[m
+[31m-            System.Diagnostics.Debug.WriteLine("MaKH", MaKH);[m
+[31m-            var donHangDats = db.DonHangDats.Where(d =>[m
+[31m-                d.MaKH == MaKH &&[m
+[31m-                (d.TrangThai == "Đã đặt" || d.TrangThai == "Đang giao" || d.TrangThai == "Đã thanh toán")[m
+[31m-            ).Include(d => d.HangDonHangDats).ToList();[m
+[31m-            if (donHangDats.Count() <= 0) return RedirectToAction("Index", "Home", new { ThongBao = "Chưa có lịch sử" });[m
+[31m-            foreach (DonHangDat donHangDat in donHangDats)[m
+[31m-            {[m
+[31m-                if (donHangDat != null)[m
+[31m-                {[m
+[31m-                    foreach (HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)[m
+[31m-                    {[m
+[31m-                        Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).Include(d => d.MauHang).FirstOrDefault();[m
+[31m-                        hangDonHangDat.Hang = hang;[m
+[31m-                    }[m
+[31m-                }[m
+[31m-            }[m
+[31m-            ViewBag.HistoryBackStore = true;[m
+[31m-            return View("History", donHangDats);[m
+[31m-        }[m
+[31m-        public ActionResult Details(string id)[m
+[31m-        {[m
+[31m-            if (id == null)[m
+[31m-            {[m
+[31m-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);[m
+[31m-            }[m
+[31m-            DonHangDat donHangDat = db.DonHangDats.Find(id);[m
+[31m-            if (donHangDat == null)[m
+[31m-            {[m
+[31m-                return HttpNotFound();[m
+[31m-            }[m
+[31m-            return View(donHangDat);[m
+[31m-        }[m
+[31m-        public ActionResult Create()[m
+[31m-        {[m
+[31m-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen");[m
+[31m-            return View();[m
+[31m-        }[m
+[31m-        [HttpPost][m
+[31m-        [ValidateAntiForgeryToken][m
+[31m-        public ActionResult Create([Bind(Include = "MaDHD,MaKH,NgayDat,TrangThai")] DonHangDat donHangDat)[m
+[31m-        {[m
+[31m-            if (ModelState.IsValid)[m
+[31m-            {[m
+[31m-                db.DonHangDats.Add(donHangDat);[m
+[31m-                db.SaveChanges();[m
+[31m-                return RedirectToAction("Index");[m
+[31m-            }[m
+[31m-[m
+[31m-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen", donHangDat.MaKH);[m
+[31m-            return View(donHangDat);[m
+[31m-        }[m
+[31m-[m
+[31m-        [HttpPost][m
+[31m-        public ActionResult DeleteOrder(string MaDHD, string MaH)[m
+[31m-        {[m
+[31m-            KhachHang skhachHang = Session["khachHang"] as KhachHang;[m
+[31m-            if (skhachHang == null || db.KhachHangs.Where(d => d.MaKH == skhachHang.MaKH && d.DaXoa == false).FirstOrDefault() == null) return RedirectToAction("Index", "Login");[m
+[31m-            HangDonHangDat hangDonHangDat = db.HangDonHangDats.Where(d => d.MaDHD == MaDHD && d.MaH == MaH).FirstOrDefault();[m
+[31m-            if (hangDonHangDat != null)[m
+[31m-            {[m
+[31m-                db.HangDonHangDats.Remove(hangDonHangDat);[m
+[31m-                db.SaveChanges();[m
+[31m-            }[m
+[31m-            return RedirectToAction("Orders");[m
+[31m-        }[m
+[31m-[m
+[31m-        [HttpPost][m
+[31m-        public ActionResult OrderDocument(string MaKH)[m
+[31m-        {[m
+[31m-            KhachHang khachHang = db.KhachHangs.Where(d => d.MaKH == MaKH && d.DaXoa == false).FirstOrDefault();[m
+[31m-            if (khachHang == null)[m
+[31m-            {[m
+[31m-                return RedirectToAction("Logout", "Login");[m
+[31m-            }[m
+[31m-            DonHangDat donHangDat = db.DonHangDats.Where(d => d.TrangThai == "Đang đặt" && d.MaKH == MaKH).FirstOrDefault();[m
+[31m-            System.Diagnostics.Debug.WriteLine("MaKH", MaKH);[m
+[31m-            if (donHangDat == null)[m
+[31m-            {[m
+[31m-                return RedirectToAction("Index", "Home");[m
+[31m-            }[m
+[31m-            donHangDat.TrangThai = "Đã đặt";[m
+[31m-            donHangDat.NgayDat = DateTime.Now;[m
+[31m-            db.SaveChanges();[m
+[31m-            return RedirectToAction("Index", "Home", new { ThongBao = "Đặt thành công" });[m
+[31m-        }[m
+[31m-        [HttpPost][m
+[31m-        public ActionResult OrderStock(string MaKH, string MaH, string SoLuong)[m
+[31m-        {[m
+[31m-            KhachHang skhachHang = Session["khachHang"] as KhachHang;[m
+[31m-            if (skhachHang == null || db.KhachHangs.Where(d => d.MaKH == skhachHang.MaKH && d.DaXoa == false).FirstOrDefault() == null) return RedirectToAction("Index", "Login");[m
+[31m-            if (SoLuong == "")[m
+[31m-            {[m
+[31m-                ViewBag.Loi = "Chưa nhập số lượng";[m
+[31m-            } else[m
+[31m-            {[m
+[31m-                int sl = int.Parse(SoLuong);[m
+[31m-                Hang hang = db.Hangs.Where(d => d.MaH == MaH).FirstOrDefault();[m
+[31m-                DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaKH == MaKH && d.TrangThai == "Đang đặt").Include(d => d.HangDonHangDats).FirstOrDefault();[m
+[31m-                if (donHangDat != null)[m
+[31m-                {[m
+[31m-                    HangDonHangDat hangDonHangDat = db.HangDonHangDats.Where(d => d.MaDHD == donHangDat.MaDHD && d.MaH == MaH).FirstOrDefault();[m
+[31m-                    if (hangDonHangDat != null)[m
+[31m-                    {[m
+[31m-                        hangDonHangDat.SoLuong += sl;[m
+[31m-                    } else[m
+[31m-                    {[m
+[31m-                        HangDonHangDat hangDonHangDatMoi = new HangDonHangDat();[m
+[31m-                        hangDonHangDatMoi.MaDHD = donHangDat.MaDHD;[m
+[31m-                        hangDonHangDatMoi.MaH = MaH;[m
+[31m-                        hangDonHangDatMoi.SoLuong = sl;[m
+[31m-                        db.HangDonHangDats.Add(hangDonHangDatMoi);[m
+[31m-                    }[m
+[31m-                    ViewBag.SoLuongHangDat = donHangDat.HangDonHangDats.Count() + 1;[m
+[31m-                } else[m
+[31m-                {[m
+[31m-                    DonHangDat donHangDatMoi = new DonHangDat();[m
+[31m-                    int count = db.DonHangDats.Count() + 1;[m
+[31m-                    donHangDatMoi.MaDHD = "DHD" + count.ToString();[m
+[31m-                    donHangDatMoi.MaKH = MaKH;[m
+[31m-                    donHangDatMoi.NgayBatDau = DateTime.Now;[m
+[31m-                    donHangDatMoi.TrangThai = "Đang đặt";[m
+[31m-[m
+[31m-                    HangDonHangDat hangDonHangDatMoi = new HangDonHangDat();[m
+[31m-                    hangDonHangDatMoi.MaDHD = donHangDatMoi.MaDHD;[m
+[31m-                    hangDonHangDatMoi.MaH = MaH;[m
+[31m-                    hangDonHangDatMoi.SoLuong = sl;[m
+[31m-                    db.DonHangDats.Add(donHangDatMoi);[m
+[31m-                    db.HangDonHangDats.Add(hangDonHangDatMoi);[m
+[31m-                    ViewBag.SoLuongHangDat = 1;[m
+[31m-                }[m
+[31m-                db.SaveChanges();[m
+[31m-            }[m
+[31m-            return RedirectToAction("Index", "Home");[m
+[31m-        }[m
+[31m-        public ActionResult Edit(string id)[m
+[31m-        {[m
+[31m-            if (id == null)[m
+[31m-            {[m
+[31m-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);[m
+[31m-            }[m
+[31m-            DonHangDat donHangDat = db.DonHangDats.Find(id);[m
+[31m-            if (donHangDat == null)[m
+[31m-            {[m
+[31m-                return HttpNotFound();[m
+[31m-            }[m
+[31m-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen", donHangDat.MaKH);[m
+[31m-            return View(donHangDat);[m
+[31m-        }[m
+[31m-        [HttpPost][m
+[31m-        [ValidateAntiForgeryToken][m
+[31m-        public ActionResult Edit([Bind(Include = "MaDHD,MaKH,NgayDat,TrangThai")] DonHangDat donHangDat)[m
+[31m-        {[m
+[31m-            if (ModelState.IsValid)[m
+[31m-            {[m
+[31m-                db.Entry(donHangDat).State = EntityState.Modified;[m
+[31m-                db.SaveChanges();[m
+[31m-                return RedirectToAction("Index");[m
+[31m-            }[m
+[31m-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen", donHangDat.MaKH);[m
+[31m-            return View(donHangDat);[m
+[31m-        }[m
+[31m-[m
+[31m-        public ActionResult Delete(string id)[m
+[31m-        {[m
+[31m-            if (id == null)[m
+[31m-            {[m
+[31m-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);[m
+[31m-            }[m
+[31m-            DonHangDat donHangDat = db.DonHangDats.Find(id);[m
+[31m-            if (donHangDat == null)[m
+[31m-            {[m
+[31m-                return HttpNotFound();[m
+[31m-            }[m
+[31m-            return View(donHangDat);[m
+[31m-        }[m
+[31m-        [HttpPost, ActionName("Delete")][m
+[31m-        [ValidateAntiForgeryToken][m
+[31m-        public ActionResult DeleteConfirmed(string id)[m
+[31m-        {[m
+[31m-            DonHangDat donHangDat = db.DonHangDats.Find(id);[m
+[31m-            db.DonHangDats.Remove(donHangDat);[m
+[31m-            db.SaveChanges();[m
+[31m-            return RedirectToAction("Index");[m
+[31m-        }[m
+[31m-[m
+[31m-        protected override void Dispose(bool disposing)[m
+[31m-        {[m
+[31m-            if (disposing)[m
+[31m-            {[m
+[31m-                db.Dispose();[m
+[31m-            }[m
+[31m-            base.Dispose(disposing);[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Controllers/DonHangNhapsController.cs b/Controllers/DonHangNhapsController.cs[m
+[1mindex 916db7b..68267bb 100644[m
+[1m--- a/Controllers/DonHangNhapsController.cs[m
+[1m+++ b/Controllers/DonHangNhapsController.cs[m
+[36m@@ -94,7 +94,7 @@[m [mnamespace FreeTime1.Controllers[m
+         {[m
+             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;[m
+             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");[m
+[31m-            ViewBag.MaNCC = new SelectList(db.NhaCungCaps.Where(d => d.DaXoa == false), "MaNCC", "TenNCC");[m
+[32m+[m[32m            ViewBag.MaNCC = new SelectList(db.NhaCungCaps, "MaNCC", "TenNCC");[m
+             return View();[m
+         }[m
+         public ActionResult AddStock (string MaDHN)[m
+[36m@@ -187,8 +187,8 @@[m [mnamespace FreeTime1.Controllers[m
+                     TongDonHang -= decimal.Parse(donHangNhap.GiamGia);[m
+                 }[m
+                 ViewBag.TongDonHang = String.Format("{0:n0}", TongDonHang);[m
+[31m-                ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();[m
+[31m-                ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();[m
+[32m+[m[32m                ViewBag.MauHangs = db.MauHangs.ToList();[m
+[32m+[m[32m                ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();[m
+                 return View("Create", donHangNhap);[m
+             }[m
+             ViewBag.MaNCC = new SelectList(db.NhaCungCaps, "MaNCC", "TenNCC");[m
+[36m@@ -273,8 +273,8 @@[m [mnamespace FreeTime1.Controllers[m
+                 TongDonHang -= decimal.Parse(donHangNhap.GiamGia);[m
+             }[m
+             ViewBag.TongDonHang = TongDonHang;[m
+[31m-            ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();[m
+[31m-            ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();[m
+[32m+[m[32m            ViewBag.MauHangs = db.MauHangs.ToList();[m
+[32m+[m[32m            ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();[m
+             return View("Create", donHangNhap);[m
+         }[m
+         [HttpPost][m
+[36m@@ -328,8 +328,8 @@[m [mnamespace FreeTime1.Controllers[m
+                 TongDonHang -= decimal.Parse(donHangNhap.GiamGia);[m
+             }[m
+             ViewBag.TongDonHang = TongDonHang;[m
+[31m-            ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();[m
+[31m-            ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();[m
+[32m+[m[32m            ViewBag.MauHangs = db.MauHangs.ToList();[m
+[32m+[m[32m            ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();[m
+             return View("Create", donHangNhap);[m
+         }[m
+ [m
+[36m@@ -361,10 +361,8 @@[m [mnamespace FreeTime1.Controllers[m
+         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.[m
+         [HttpPost][m
+         [ValidateAntiForgeryToken][m
+[31m-        public ActionResult CreateMauHangs(string MaDHN, string MaMH, string TenMH, string DonVi, string ChuThich)[m
+[32m+[m[32m        public ActionResult CreateMauHangs([Bind(Include = "MaMH,TenMH,DonVi,Anh,ChuThich")] MauHang mauHang)[m
+         {[m
+[31m-            var donHangNhap = db.DonHangNhaps.Where(d => d.MaDHN == MaDHN).FirstOrDefault();[m
+[31m-            MauHang mauHang = db.MauHangs.Single(d => d.MaMH == MaMH);[m
+             if (ModelState.IsValid)[m
+             {[m
+ [m
+[36m@@ -390,7 +388,7 @@[m [mnamespace FreeTime1.Controllers[m
+                 return View("Index", db.MauHangs.ToList());[m
+             }[m
+             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));[m
+[31m-            return View("CreateDocument");[m
+[32m+[m[32m            return View("Create");[m
+         }[m
+ [m
+         public ActionResult DeleteInStock(string MaDHN, string MaH)[m
+[1mdiff --git a/Controllers/DonHangXuatsController.cs b/Controllers/DonHangXuatsController.cs[m
+[1mindex 8ac714e..02ea45c 100644[m
+[1m--- a/Controllers/DonHangXuatsController.cs[m
+[1m+++ b/Controllers/DonHangXuatsController.cs[m
+[36m@@ -100,7 +100,7 @@[m [mnamespace FreeTime1.Controllers[m
+             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;[m
+             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)[m
+                 return RedirectToAction("Index", "Login");[m
+[31m-            ViewBag.MaKH = new SelectList(db.KhachHangs.Where(d => d.DaXoa == false), "MaKH", "HoTen");[m
+[32m+[m[32m            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTen");[m
+             return View();[m
+         }[m
+         public ActionResult TimKiem(string MaDHX, string TenKH, string NgayXuatBD, string NgayXuatKT, string KieuGiamGia)[m
+[1mdiff --git a/Controllers/HangsController.cs b/Controllers/HangsController.cs[m
+[1mindex 705643f..651ebca 100644[m
+[1m--- a/Controllers/HangsController.cs[m
+[1m+++ b/Controllers/HangsController.cs[m
+[36m@@ -42,66 +42,20 @@[m [mnamespace FreeTime1.Controllers[m
+             return View(hang);[m
+         }[m
+ [m
+[31m-        public ActionResult TimKiem(string MaH, string TenMH, string GiaNhapBD, string GiaNhapKT, string GiaBanBD, string GiaBanKT, string NgayNhapBD, string NgayNhapKT, string HanSuDungBD, string HanSuDungKT, string TenNCC)[m
+[32m+[m[32m        /*public ActionResult TimKiem(string MaH, string TenMH, string SoLuong, string GiaNhap, string GiaBan, string NgayNhap, string HanSuDung, string TenNCC)[m
+         {[m
+[31m-            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;[m
+[31m-            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");[m
+[31m-            ViewBag.MaH = MaH;[m
+[31m-            ViewBag.TenMH = TenMH;[m
+[31m-            ViewBag.GiaNhap = GiaNhapBD;[m
+[31m-            ViewBag.GiaNhap = GiaNhapKT;[m
+[31m-            ViewBag.GiaBan = GiaBanBD;[m
+[31m-            ViewBag.GiaBan = GiaBanKT;[m
+[31m-            ViewBag.NgayNhapBD = NgayNhapBD;[m
+[31m-            ViewBag.NgayNhapKT = NgayNhapKT;[m
+[31m-            ViewBag.HanSuDungBD = HanSuDungBD;[m
+[31m-            ViewBag.HanSuDungKT = HanSuDungKT;[m
+[31m-            ViewBag.TenNCC = TenNCC;[m
+[31m-[m
+[31m-            bool TimKiemGiaNhap = GiaNhapBD != "" && GiaNhapKT != "" ? true : false;[m
+[31m-            Decimal GiaNhapBDDecimal = new Decimal();[m
+[31m-            Decimal GiaNhapKTDecimal = new Decimal();[m
+[31m-            if (TimKiemGiaNhap)[m
+[31m-            {[m
+[31m-                GiaNhapBDDecimal = decimal.Parse(GiaNhapBD);[m
+[31m-                GiaNhapKTDecimal = decimal.Parse(GiaNhapKT);[m
+[31m-            }[m
+[31m-            bool TimKiemGiaBan = GiaBanBD != "" && GiaBanKT != "" ? true : false;[m
+[31m-            Decimal GiaBanBDDecimal = new Decimal();[m
+[31m-            Decimal GiaBanKTDecimal = new Decimal();[m
+[31m-            if (TimKiemGiaBan)[m
+[31m-            {[m
+[31m-                GiaBanBDDecimal = decimal.Parse(GiaNhapBD);[m
+[31m-                GiaBanKTDecimal = decimal.Parse(GiaNhapKT);[m
+[31m-            }[m
+[31m-            bool TimKiemNgayNhap = NgayNhapBD != "" && NgayNhapKT != "" ? true : false;[m
+[31m-            DateTime NgayNhapBDDate = new DateTime();[m
+[31m-            DateTime NgayNhapKTDate = new DateTime();[m
+[31m-            if (TimKiemNgayNhap)[m
+[31m-            {[m
+[31m-                NgayNhapBDDate = DateTime.ParseExact(NgayNhapBD, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);[m
+[31m-                NgayNhapKTDate = DateTime.ParseExact(NgayNhapKT, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);[m
+[31m-            }[m
+[31m-            bool TimKiemHSD = HanSuDungBD != "" && HanSuDungKT != "" ? true : false;[m
+[31m-            DateTime HanSuDungBDDate = new DateTime();[m
+[31m-            DateTime HanSuDungKTDate = new DateTime();[m
+[31m-            if (TimKiemHSD)[m
+[31m-            {[m
+[31m-                HanSuDungBDDate = DateTime.ParseExact(HanSuDungBD, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);[m
+[31m-                HanSuDungKTDate = DateTime.ParseExact(HanSuDungKT, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);[m
+[31m-            }[m
+[31m-[m
+             var Hangs = db.Hangs.Where(Hang =>[m
+                 (MaH == "" || Hang.MaH.Contains(MaH)) &&[m
+[31m-                (TenMH == "" || Hang.MauHang.TenMH.Contains(TenMH)) &&[m
+[31m-                ((TimKiemGiaNhap && GiaNhapBDDecimal <= Hang.GiaNhap && Hang.GiaNhap <= GiaNhapKTDecimal) || !TimKiemGiaNhap) &&[m
+[31m-                ((TimKiemGiaBan && GiaBanBDDecimal <= Hang.GiaBan && Hang.GiaBan <= GiaBanBDDecimal) || !TimKiemGiaBan) &&[m
+[31m-                ((TimKiemNgayNhap && NgayNhapBDDate <= Hang.NgayNhap && Hang.NgayNhap <= NgayNhapKTDate) || !TimKiemNgayNhap) &&[m
+[31m-                ((TimKiemHSD && HanSuDungBDDate <= Hang.HanSuDung && Hang.HanSuDung <= HanSuDungKTDate) || !TimKiemHSD) &&[m
+[31m-                (TenNCC == "" || Hang.NhaCungCap.TenNCC.Contains(TenNCC))[m
+[31m-                );[m
+[31m-            return View("Index", Hangs);[m
+[31m-        }[m
+[32m+[m[32m                (TenMH == "" || Hang.TenMH.Contains(TenMH)) &&[m
+[32m+[m[32m                (DonVi == "" || MauHang.DonVi.Contains(DonVi)) &&[m
+[32m+[m[32m                (ChuThich == "" || MauHang.ChuThich.Contains(ChuThich))[m
+[32m+[m[32m            );[m
+[32m+[m[32m            ViewBag.MaMH = MaMH;[m
+[32m+[m[32m            ViewBag.TenMH = TenMH;[m
+[32m+[m[32m            ViewBag.DonVi = DonVi;[m
+[32m+[m[32m            ViewBag.ChuThich = ChuThich;[m
+[32m+[m[32m            return View("Index", MauHangs);[m
+[32m+[m[32m        }*/[m
+ [m
+         //public ActionResult SearchHang(string HanSuDung = "", string NgayNhap = "",[m
+         //    string GiaNhap = "", string SoLuong = "", string GiaBan = "")[m
+[1mdiff --git a/Controllers/HomeController.cs b/Controllers/HomeController.cs[m
+[1mindex 7d5549e..6f79011 100644[m
+[1m--- a/Controllers/HomeController.cs[m
+[1m+++ b/Controllers/HomeController.cs[m
+[36m@@ -1,7 +1,6 @@[m
+ ﻿using FreeTime1.Models;[m
+ using System;[m
+ using System.Collections.Generic;[m
+[31m-using System.Data.Entity;[m
+ using System.Linq;[m
+ using System.Web;[m
+ using System.Web.Mvc;[m
+[36m@@ -11,27 +10,10 @@[m [mnamespace FreeTime1.Controllers[m
+     public class HomeController : Controller[m
+     {[m
+         private QLTapHoaEntities db = new QLTapHoaEntities();[m
+[31m-        public ActionResult Index(string ThongBao = null)[m
+[32m+[m[32m        public ActionResult Index()[m
+         {[m
+[31m-            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;[m
+[32m+[m[32m            // NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;[m
+             // if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");[m
+[31m-            KhachHang sKhachHang = Session["khachHang"] as KhachHang;[m
+[31m-            if (sNguoiDung == null || sKhachHang != null)[m
+[31m-            {[m
+[31m-                if (sKhachHang != null)[m
+[31m-                {[m
+[31m-                    DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaKH == sKhachHang.MaKH && d.TrangThai == "Đang đặt").FirstOrDefault();[m
+[31m-                    if (donHangDat != null)[m
+[31m-                    {[m
+[31m-                        ViewBag.SoLuongHangDat = db.HangDonHangDats.Where(d => d.MaDHD == donHangDat.MaDHD).Count();[m
+[31m-                    }[m
+[31m-                }[m
+[31m-                if (ThongBao != null)[m
+[31m-                {[m
+[31m-                    ViewBag.ThongBao = ThongBao;[m
+[31m-                }[m
+[31m-                return View(db.Hangs.Where(i => i.SoLuong > 0).Include(i => i.MauHang).ToList());[m
+[31m-            }[m
+             return View();[m
+         }[m
+ [m
+[1mdiff --git a/Controllers/LoginController.cs b/Controllers/LoginController.cs[m
+[1mindex c6fd19a..1ffb595 100644[m
+[1m--- a/Controllers/LoginController.cs[m
+[1m+++ b/Controllers/LoginController.cs[m
+[36m@@ -29,12 +29,9 @@[m [mnamespace FreeTime1.Controllers[m
+                 {[m
+                     if (SecurePasswordHasher.Verify(MatKhau, taiKhoanKhachHang.MatKhau))[m
+                     {[m
+[31m-                        KhachHang khachHang = db.KhachHangs.Where(i => i.MaKH == taiKhoanKhachHang.MaKH && i.DaXoa == false).FirstOrDefault();[m
+[31m-                        if (khachHang != null)[m
+[31m-                        {[m
+[31m-                            Session["khachHang"] = khachHang;[m
+[31m-                            return RedirectToAction("Index", "Home");[m
+[31m-                        }[m
+[32m+[m[32m                        KhachHang khachHang = db.KhachHangs.Where(i => i.MaKH == taiKhoanKhachHang.MaKH).FirstOrDefault();[m
+[32m+[m[32m                        Session["khachHang"] = khachHang;[m
+[32m+[m[32m                        return RedirectToAction("Index", "Home");[m
+                     }[m
+                 }[m
+             }[m
+[1mdiff --git a/Controllers/MauHangsController.cs b/Controllers/MauHangsController.cs[m
+[1mindex 4a8dbf5..37121ac 100644[m
+[1m--- a/Controllers/MauHangsController.cs[m
+[1m+++ b/Controllers/MauHangsController.cs[m
+[36m@@ -201,7 +201,6 @@[m [mnamespace FreeTime1.Controllers[m
+             MauHang mauHang = db.MauHangs.Find(id);[m
+             mauHang.DaXoa = true;[m
+             db.SaveChanges();[m
+[31m-            ViewBag.XoaThanhCong = "Xóa khách hàng " + mauHang.TenMH + " thành công!";[m
+             return View("Index", db.MauHangs.Where(i=>i.DaXoa==false).ToList());[m
+         }[m
+ [m
+[1mdiff --git a/FreeTime1.csproj b/FreeTime1.csproj[m
+[1mindex 9a98b77..f6429a3 100644[m
+[1m--- a/FreeTime1.csproj[m
+[1m+++ b/FreeTime1.csproj[m
+[36m@@ -130,7 +130,6 @@[m
+     <Compile Include="App_Start\FilterConfig.cs" />[m
+     <Compile Include="App_Start\RouteConfig.cs" />[m
+     <Compile Include="Controllers\DoanhThuController.cs" />[m
+[31m-    <Compile Include="Controllers\DonHangDatsController.cs" />[m
+     <Compile Include="Controllers\DonHangNhapsController.cs" />[m
+     <Compile Include="Controllers\DonHangXuatsController.cs" />[m
+     <Compile Include="Controllers\HangDonHangNhapsController.cs" />[m
+[36m@@ -150,9 +149,6 @@[m
+     <Compile Include="Migrations\Version2.cs" />[m
+     <Compile Include="Migrations\Configuration.cs" />[m
+     <Compile Include="Models\DoanhThu.cs" />[m
+[31m-    <Compile Include="Models\DonHangDat.cs">[m
+[31m-      <DependentUpon>QLTHModels.tt</DependentUpon>[m
+[31m-    </Compile>[m
+     <Compile Include="Models\DonHangNhap.cs">[m
+       <DependentUpon>QLTHModels.tt</DependentUpon>[m
+     </Compile>[m
+[36m@@ -162,9 +158,6 @@[m
+     <Compile Include="Models\Hang.cs">[m
+       <DependentUpon>QLTHModels.tt</DependentUpon>[m
+     </Compile>[m
+[31m-    <Compile Include="Models\HangDonHangDat.cs">[m
+[31m-      <DependentUpon>QLTHModels.tt</DependentUpon>[m
+[31m-    </Compile>[m
+     <Compile Include="Models\HangDonHangNhap.cs">[m
+       <DependentUpon>QLTHModels.tt</DependentUpon>[m
+     </Compile>[m
+[36m@@ -362,12 +355,9 @@[m
+     <Content Include="Content\button.css" />[m
+     <Content Include="Content\form.css" />[m
+     <Content Include="Content\grid.css" />[m
+[31m-    <Content Include="Content\history.css" />[m
+     <Content Include="Content\image.css" />[m
+     <Content Include="Content\noti.css" />[m
+[31m-    <Content Include="Content\order.css" />[m
+     <Content Include="Content\partition.css" />[m
+[31m-    <Content Include="Content\product.css" />[m
+     <Content Include="Content\search.css" />[m
+     <Content Include="Content\layout.css" />[m
+     <Content Include="Content\jquery.dataTables.min.css" />[m
+[36m@@ -509,14 +499,6 @@[m
+     <Content Include="Views\DoanhThu\Index.cshtml" />[m
+     <Content Include="Scripts\countries.json" />[m
+     <Content Include="Views\Shared\_Layout_Ban_Hang.cshtml" />[m
+[31m-    <Content Include="Views\DonHangDats\Create.cshtml" />[m
+[31m-    <Content Include="Views\DonHangDats\Delete.cshtml" />[m
+[31m-    <Content Include="Views\DonHangDats\Details.cshtml" />[m
+[31m-    <Content Include="Views\DonHangDats\Edit.cshtml" />[m
+[31m-    <Content Include="Views\DonHangDats\Index.cshtml" />[m
+[31m-    <Content Include="Views\DonHangDats\Order.cshtml" />[m
+[31m-    <Content Include="Views\DonHangNhaps\CreateMauHangs.cshtml" />[m
+[31m-    <Content Include="Views\DonHangDats\History.cshtml" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+     <Folder Include="Images\NguoiDungs\" />[m
+[1mdiff --git a/Images/KhachHangs/000060.jpeg b/Images/KhachHangs/000060.jpeg[m
+[1mdeleted file mode 100644[m
+[1mindex 820f3e9..0000000[m
+Binary files a/Images/KhachHangs/000060.jpeg and /dev/null differ
+[1mdiff --git a/Images/MauHangs/2020-14481.jpg b/Images/MauHangs/2020-14481.jpg[m
+[1mdeleted file mode 100644[m
+[1mindex 0edf4a5..0000000[m
+Binary files a/Images/MauHangs/2020-14481.jpg and /dev/null differ
+[1mdiff --git a/Images/store.png b/Images/store.png[m
+[1mdeleted file mode 100644[m
+[1mindex 6c4dc7f..0000000[m
+Binary files a/Images/store.png and /dev/null differ
+[1mdiff --git a/Models/DonHangDat.cs b/Models/DonHangDat.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 5910ee5..0000000[m
+[1m--- a/Models/DonHangDat.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,35 +0,0 @@[m
+[31m-//------------------------------------------------------------------------------[m
+[31m-// <auto-generated>[m
+[31m-//     This code was generated from a template.[m
+[31m-//[m
+[31m-//     Manual changes to this file may cause unexpected behavior in your application.[m
+[31m-//     Manual changes to this file will be overwritten if the code is regenerated.[m
+[31m-// </auto-generated>[m
+[31m-//------------------------------------------------------------------------------[m
+[31m-[m
+[31m-namespace FreeTime1.Models[m
+[31m-{[m
+[31m-    using System;[m
+[31m-    using System.Collections.Generic;[m
+[31m-    [m
+[31m-    public partial class DonHangDat[m
+[31m-    {[m
+[31m-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")][m
+[31m-        public DonHangDat()[m
+[31m-        {[m
+[31m-            this.HangDonHangDats = new HashSet<HangDonHangDat>();[m
+[31m-        }[m
+[31m-    [m
+[31m-        public string MaDHD { get; set; }[m
+[31m-        public string MaKH { get; set; }[m
+[31m-        public Nullable<System.DateTime> NgayDat { get; set; }[m
+[31m-        public string TrangThai { get; set; }[m
+[31m-        public Nullable<System.DateTime> NgayGiao { get; set; }[m
+[31m-        public Nullable<System.DateTime> NgayHoanThanh { get; set; }[m
+[31m-        public System.DateTime NgayBatDau { get; set; }[m
+[31m-    [m
+[31m-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")][m
+[31m-        public virtual ICollection<HangDonHangDat> HangDonHangDats { get; set; }[m
+[31m-        public virtual KhachHang KhachHang { get; set; }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Models/DonHangNhap.cs b/Models/DonHangNhap.cs[m
+[1mindex 3335eae..b77faf0 100644[m
+[1m--- a/Models/DonHangNhap.cs[m
+[1m+++ b/Models/DonHangNhap.cs[m
+[36m@@ -33,7 +33,6 @@[m [mnamespace FreeTime1.Models[m
+         [Display(Name = "Ngày Nhập")][m
+         public System.DateTime NgayNhap { get; set; }[m
+         public decimal TongDonHang { get; set; }[m
+[31m-        public bool DaDuyet { get; set; }[m
+         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")][m
+         public virtual ICollection<HangDonHangNhap> HangDonHangNhaps { get; set; }[m
+         public virtual NhaCungCap NhaCungCap { get; set; }[m
+[1mdiff --git a/Models/DonHangXuat.cs b/Models/DonHangXuat.cs[m
+[1mindex 6910c92..8d7a3b1 100644[m
+[1m--- a/Models/DonHangXuat.cs[m
+[1m+++ b/Models/DonHangXuat.cs[m
+[36m@@ -29,7 +29,6 @@[m [mnamespace FreeTime1.Models[m
+         [Display(Name = "Kiểu Giảm Giá")][m
+         public string KieuGiamGia { get; set; }[m
+         public decimal TongDonHang { get; set; }[m
+[31m-        public bool DaDuyet { get; set; }[m
+         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")][m
+         public virtual ICollection<HangDonHangXuat> HangDonHangXuats { get; set; }[m
+         public virtual KhachHang KhachHang { get; set; }[m
+[1mdiff --git a/Models/Hang.cs b/Models/Hang.cs[m
+[1mindex 192f4d1..7354098 100644[m
+[1m--- a/Models/Hang.cs[m
+[1m+++ b/Models/Hang.cs[m
+[36m@@ -21,7 +21,6 @@[m [mnamespace FreeTime1.Models[m
+         {[m
+             this.HangDonHangNhaps = new HashSet<HangDonHangNhap>();[m
+             this.HangDonHangXuats = new HashSet<HangDonHangXuat>();[m
+[31m-            this.HangDonHangDats = new HashSet<HangDonHangDat>();[m
+         }[m
+         [Key][m
+         [Display(Name = "Mã hàng")][m
+[36m@@ -47,6 +46,5 @@[m [mnamespace FreeTime1.Models[m
+         public virtual ICollection<HangDonHangXuat> HangDonHangXuats { get; set; }[m
+         public virtual MauHang MauHang { get; set; }[m
+         public virtual NhaCungCap NhaCungCap { get; set; }[m
+[31m-        public virtual ICollection<HangDonHangDat> HangDonHangDats { get; set; }[m
+     }[m
+ }[m
+[1mdiff --git a/Models/HangDonHangDat.cs b/Models/HangDonHangDat.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 20253e2..0000000[m
+[1m--- a/Models/HangDonHangDat.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,24 +0,0 @@[m
+[31m-//------------------------------------------------------------------------------[m
+[31m-// <auto-generated>[m
+[31m-//     This code was generated from a template.[m
+[31m-//[m
+[31m-//     Manual changes to this file may cause unexpected behavior in your application.[m
+[31m-//     Manual changes to this file will be overwritten if the code is regenerated.[m
+[31m-// </auto-generated>[m
+[31m-//------------------------------------------------------------------------------[m
+[31m-[m
+[31m-namespace FreeTime1.Models[m
+[31m-{[m
+[31m-    using System;[m
+[31m-    using System.Collections.Generic;[m
+[31m-    [m
+[31m-    public partial class HangDonHangDat[m
+[31m-    {[m
+[31m-        public string MaDHD { get; set; }[m
+[31m-        public string MaH { get; set; }[m
+[31m-        public int SoLuong { get; set; }[m
+[31m-    [m
+[31m-        public virtual DonHangDat DonHangDat { get; set; }[m
+[31m-        public virtual Hang Hang { get; set; }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Models/HangDonHangNhap.cs b/Models/HangDonHangNhap.cs[m
+[1mindex c31f796..6c332d8 100644[m
+[1m--- a/Models/HangDonHangNhap.cs[m
+[1m+++ b/Models/HangDonHangNhap.cs[m
+[36m@@ -11,14 +11,20 @@[m [mnamespace FreeTime1.Models[m
+ {[m
+     using System;[m
+     using System.Collections.Generic;[m
+[31m-    [m
+[32m+[m[32m    using System.ComponentModel.DataAnnotations;[m
+[32m+[m
+     public partial class HangDonHangNhap[m
+     {[m
+[32m+[m[32m        [Required][m
+         public string MaDHN { get; set; }[m
+[32m+[m[32m        [Required][m
+         public string MaH { get; set; }[m
+[32m+[m[32m        [Required][m
+         public int SoLuong { get; set; }[m
+[31m-    [m
+[31m-        public virtual Hang Hang { get; set; }[m
+[32m+[m[32m        [Required][m
+[32m+[m
+         public virtual DonHangNhap DonHangNhap { get; set; }[m
+[32m+[m[32m        [Required][m
+[32m+[m[32m        public virtual Hang Hang { get; set; }[m
+     }[m
+ }[m
+[1mdiff --git a/Models/HangDonHangXuat.cs b/Models/HangDonHangXuat.cs[m
+[1mindex 4c9f755..c44c2fc 100644[m
+[1m--- a/Models/HangDonHangXuat.cs[m
+[1m+++ b/Models/HangDonHangXuat.cs[m
+[36m@@ -11,14 +11,15 @@[m [mnamespace FreeTime1.Models[m
+ {[m
+     using System;[m
+     using System.Collections.Generic;[m
+[31m-    [m
+[32m+[m[32m    using System.ComponentModel.DataAnnotations;[m
+[32m+[m
+     public partial class HangDonHangXuat[m
+     {[m
+         public string MaDHX { get; set; }[m
+         public string MaH { get; set; }[m
+         public int SoLuong { get; set; }[m
+[31m-    [m
+[31m-        public virtual Hang Hang { get; set; }[m
+[32m+[m
+         public virtual DonHangXuat DonHangXuat { get; set; }[m
+[32m+[m[32m        public virtual Hang Hang { get; set; }[m
+     }[m
+ }[m
+[1mdiff --git a/Models/KhachHang.cs b/Models/KhachHang.cs[m
+[1mindex 90213c7..7675f32 100644[m
+[1m--- a/Models/KhachHang.cs[m
+[1m+++ b/Models/KhachHang.cs[m
+[36m@@ -20,7 +20,6 @@[m [mnamespace FreeTime1.Models[m
+         {[m
+             this.DonHangXuats = new HashSet<DonHangXuat>();[m
+             this.TaiKhoanKhachHangs = new HashSet<TaiKhoanKhachHang>();[m
+[31m-            this.DonHangDats = new HashSet<DonHangDat>();[m
+         }[m
+         [Key][m
+         public string MaKH { get; set; }[m
+[36m@@ -51,6 +50,5 @@[m [mnamespace FreeTime1.Models[m
+         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")][m
+         public virtual ICollection<DonHangXuat> DonHangXuats { get; set; }[m
+         public virtual ICollection<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }[m
+[31m-        public virtual ICollection<DonHangDat> DonHangDats { get; set; }[m
+     }[m
+ }[m
+[1mdiff --git a/Models/NhaCungCap.cs b/Models/NhaCungCap.cs[m
+[1mindex f2765bd..b4fd693 100644[m
+[1m--- a/Models/NhaCungCap.cs[m
+[1m+++ b/Models/NhaCungCap.cs[m
+[36m@@ -22,21 +22,24 @@[m [mnamespace FreeTime1.Models[m
+             this.DonHangNhaps = new HashSet<DonHangNhap>();[m
+             this.Hangs = new HashSet<Hang>();[m
+         }[m
+[31m-[m
+         [Display(Name = "Mã nhà cung cấp")][m
+         public string MaNCC { get; set; }[m
+         [Display(Name = "Tên nhà cung cấp")][m
+[32m+[m[32m        [Required(ErrorMessage = "Tên nhà cung cấp là bắt buộc")][m
+         public string TenNCC { get; set; }[m
+         [Display(Name = "Quốc gia")][m
+[32m+[m[32m        [Required(ErrorMessage = "Quốc gia là bắt buộc")][m
+         public string QuoGia { get; set; }[m
+         [Display(Name = "Địa chỉ")][m
+[32m+[m[32m        [Required(ErrorMessage = "Địa chỉ là bắt buộc")][m
+         public string DiaChi { get; set; }[m
+         [Display(Name = "Số điện thoại")][m
+[32m+[m[32m        [Required(ErrorMessage = "Số điện thoại là bắt buộc")][m
+         [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Số điện thoại phải từ 10 đến 11 số, xin nhập lại")][m
+         [Phone(ErrorMessage = "Số điện thoại phải là chữ số, xin nhập lại")][m
+         public string SDT { get; set; }[m
+         [Display(Name = "Email")][m
+[31m-        [EmailAddress(ErrorMessage = "Xin nhập đúng Email")][m
+[32m+[m[32m        [Required(ErrorMessage = "Tài khoản là bắt buộc")][m
+         public string Email { get; set; }[m
+         public bool DaXoa { get; set; }[m
+ [m
+[1mdiff --git a/Models/NhomHang.cs b/Models/NhomHang.cs[m
+[1mindex 0edf83f..a75a8b6 100644[m
+[1m--- a/Models/NhomHang.cs[m
+[1m+++ b/Models/NhomHang.cs[m
+[36m@@ -11,7 +11,7 @@[m [mnamespace FreeTime1.Models[m
+ {[m
+     using System;[m
+     using System.Collections.Generic;[m
+[31m-    [m
+[32m+[m
+     public partial class NhomHang[m
+     {[m
+         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")][m
+[36m@@ -19,10 +19,10 @@[m [mnamespace FreeTime1.Models[m
+         {[m
+             this.MauHangs = new HashSet<MauHang>();[m
+         }[m
+[31m-    [m
+[32m+[m
+         public string MaNH { get; set; }[m
+         public string TenNH { get; set; }[m
+[31m-    [m
+[32m+[m
+         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")][m
+         public virtual ICollection<MauHang> MauHangs { get; set; }[m
+     }[m
+[1mdiff --git a/Models/QLTHModels.Context.cs b/Models/QLTHModels.Context.cs[m
+[1mindex 6a8304f..8b8a301 100644[m
+[1m--- a/Models/QLTHModels.Context.cs[m
+[1m+++ b/Models/QLTHModels.Context.cs[m
+[36m@@ -25,6 +25,8 @@[m [mnamespace FreeTime1.Models[m
+             throw new UnintentionalCodeFirstException();[m
+         }[m
+     [m
+[32m+[m[32m        public virtual DbSet<DonHangNhap> DonHangNhaps { get; set; }[m
+[32m+[m[32m        public virtual DbSet<DonHangXuat> DonHangXuats { get; set; }[m
+         public virtual DbSet<Hang> Hangs { get; set; }[m
+         public virtual DbSet<HangDonHangNhap> HangDonHangNhaps { get; set; }[m
+         public virtual DbSet<HangDonHangXuat> HangDonHangXuats { get; set; }[m
+[36m@@ -34,9 +36,5 @@[m [mnamespace FreeTime1.Models[m
+         public virtual DbSet<NhaCungCap> NhaCungCaps { get; set; }[m
+         public virtual DbSet<NhomHang> NhomHangs { get; set; }[m
+         public virtual DbSet<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }[m
+[31m-        public virtual DbSet<DonHangDat> DonHangDats { get; set; }[m
+[31m-        public virtual DbSet<HangDonHangDat> HangDonHangDats { get; set; }[m
+[31m-        public virtual DbSet<DonHangNhap> DonHangNhaps { get; set; }[m
+[31m-        public virtual DbSet<DonHangXuat> DonHangXuats { get; set; }[m
+     }[m
+ }[m
+[1mdiff --git a/Models/QLTHModels.Designer.cs b/Models/QLTHModels.Designer.cs[m
+[1mindex 5378e0f..996b5a9 100644[m
+[1m--- a/Models/QLTHModels.Designer.cs[m
+[1m+++ b/Models/QLTHModels.Designer.cs[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-﻿// T4 code generation is enabled for model 'E:\SELF\CNTT2\K2-N3\WebApp\QLTH_Nhom\Models\QLTHModels.edmx'. [m
+[32m+[m[32m﻿// T4 code generation is enabled for model 'D:\MVC_QLTH\Models\QLTHModels.edmx'.[m[41m [m
+ // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer[m
+ // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model[m
+ // is open in the designer.[m
+[1mdiff --git a/Models/QLTHModels.edmx b/Models/QLTHModels.edmx[m
+[1mindex 5e5aed4..697e945 100644[m
+[1m--- a/Models/QLTHModels.edmx[m
+[1m+++ b/Models/QLTHModels.edmx[m
+[36m@@ -5,18 +5,6 @@[m
+     <!-- SSDL content -->[m
+     <edmx:StorageModels>[m
+     <Schema Namespace="QLTapHoaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">[m
+[31m-        <EntityType Name="DonHangDat">[m
+[31m-          <Key>[m
+[31m-            <PropertyRef Name="MaDHD" />[m
+[31m-          </Key>[m
+[31m-          <Property Name="MaDHD" Type="varchar" MaxLength="10" Nullable="false" />[m
+[31m-          <Property Name="MaKH" Type="varchar" MaxLength="10" Nullable="false" />[m
+[31m-          <Property Name="NgayBatDau" Type="datetime" Nullable="false" />[m
+[31m-          <Property Name="NgayDat" Type="datetime" />[m
+[31m-          <Property Name="NgayGiao" Type="datetime" />[m
+[31m-          <Property Name="NgayHoanThanh" Type="datetime" />[m
+[31m-          <Property Name="TrangThai" Type="nvarchar" MaxLength="30" Nullable="false" />[m
+[31m-        </EntityType>[m
+         <EntityType Name="DonHangNhap">[m
+           <Key>[m
+             <PropertyRef Name="MaDHN" />[m
+[36m@@ -26,7 +14,6 @@[m
+           <Property Name="NgayNhap" Type="datetime" Nullable="false" />[m
+           <Property Name="GiamGia" Type="varchar" MaxLength="10" />[m
+           <Property Name="KieuGiamGia" Type="nvarchar" MaxLength="100" />[m
+[31m-          <Property Name="DaDuyet" Type="bit" Nullable="false" />[m
+         </EntityType>[m
+         <EntityType Name="DonHangXuat">[m
+           <Key>[m
+[36m@@ -37,7 +24,6 @@[m
+           <Property Name="NgayXuat" Type="datetime" Nullable="false" />[m
+           <Property Name="GiamGia" Type="varchar" MaxLength="10" />[m
+           <Property Name="KieuGiamGia" Type="nvarchar" MaxLength="100" />[m
+[31m-          <Property Name="DaDuyet" Type="bit" Nullable="false" />[m
+         </EntityType>[m
+         <EntityType Name="Hang">[m
+           <Key>[m
+[36m@@ -52,15 +38,6 @@[m
+           <Property Name="SoLuong" Type="int" Nullable="false" />[m
+           <Property Name="GiaBan" Type="money" Nullable="false" />[m
+         </EntityType>[m
+[31m-        <EntityType Name="HangDonHangDat">[m
+[31m-          <Key>[m
+[31m-            <PropertyRef Name="MaDHD" />[m
+[31m-            <PropertyRef Name="MaH" />[m
+[31m-          </Key>[m
+[31m-          <Property Name="MaDHD" Type="varchar" MaxLength="10" Nullable="false" />[m
+[31m-          <Property Name="MaH" Type="varchar" MaxLength="10" Nullable="false" />[m
+[31m-          <Property Name="SoLuong" Type="int" Nullable="false" />[m
+[31m-        </EntityType>[m
+         <EntityType Name="HangDonHangNhap">[m
+           <Key>[m
+             <PropertyRef Name="MaDHN" />[m
+[36m@@ -155,18 +132,6 @@[m
+           <Property Name="TaiKhoan" Type="varchar" MaxLength="100" Nullable="false" />[m
+           <Property Name="MatKhau" Type="varchar" MaxLength="100" Nullable="false" />[m
+         </EntityType>[m
+[31m-        <Association Name="FK_DonHangDat_HangDonHangDat">[m
+[31m-          <End Role="DonHangDat" Type="Self.DonHangDat" Multiplicity="1" />[m
+[31m-          <End Role="HangDonHangDat" Type="Self.HangDonHangDat" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="DonHangDat">[m
+[31m-              <PropertyRef Name="MaDHD" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="HangDonHangDat">[m
+[31m-              <PropertyRef Name="MaDHD" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+         <Association Name="FK_DonHangXuat_HangDonHangNhap">[m
+           <End Role="DonHangNhap" Type="Self.DonHangNhap" Multiplicity="1" />[m
+           <End Role="HangDonHangNhap" Type="Self.HangDonHangNhap" Multiplicity="*" />[m
+[36m@@ -191,18 +156,6 @@[m
+             </Dependent>[m
+           </ReferentialConstraint>[m
+         </Association>[m
+[31m-        <Association Name="FK_Hang_DonHangDat">[m
+[31m-          <End Role="Hang" Type="Self.Hang" Multiplicity="1" />[m
+[31m-          <End Role="HangDonHangDat" Type="Self.HangDonHangDat" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="Hang">[m
+[31m-              <PropertyRef Name="MaH" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="HangDonHangDat">[m
+[31m-              <PropertyRef Name="MaH" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+         <Association Name="FK_Hang_DonHangNhap">[m
+           <End Role="Hang" Type="Self.Hang" Multiplicity="1" />[m
+           <End Role="HangDonHangNhap" Type="Self.HangDonHangNhap" Multiplicity="*" />[m
+[36m@@ -227,18 +180,6 @@[m
+             </Dependent>[m
+           </ReferentialConstraint>[m
+         </Association>[m
+[31m-        <Association Name="FK_KhachHang_DonHangDat">[m
+[31m-          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />[m
+[31m-          <End Role="DonHangDat" Type="Self.DonHangDat" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="KhachHang">[m
+[31m-              <PropertyRef Name="MaKH" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="DonHangDat">[m
+[31m-              <PropertyRef Name="MaKH" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+         <Association Name="FK_KhachHang_DonHangXuat">[m
+           <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />[m
+           <End Role="DonHangXuat" Type="Self.DonHangXuat" Multiplicity="*" />[m
+[36m@@ -324,11 +265,9 @@[m
+           </ReferentialConstraint>[m
+         </Association>[m
+         <EntityContainer Name="QLTapHoaModelStoreContainer">[m
+[31m-          <EntitySet Name="DonHangDat" EntityType="Self.DonHangDat" Schema="dbo" store:Type="Tables" />[m
+           <EntitySet Name="DonHangNhap" EntityType="Self.DonHangNhap" Schema="dbo" store:Type="Tables" />[m
+           <EntitySet Name="DonHangXuat" EntityType="Self.DonHangXuat" Schema="dbo" store:Type="Tables" />[m
+           <EntitySet Name="Hang" EntityType="Self.Hang" Schema="dbo" store:Type="Tables" />[m
+[31m-          <EntitySet Name="HangDonHangDat" EntityType="Self.HangDonHangDat" Schema="dbo" store:Type="Tables" />[m
+           <EntitySet Name="HangDonHangNhap" EntityType="Self.HangDonHangNhap" Schema="dbo" store:Type="Tables" />[m
+           <EntitySet Name="HangDonHangXuat" EntityType="Self.HangDonHangXuat" Schema="dbo" store:Type="Tables" />[m
+           <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />[m
+[36m@@ -338,10 +277,6 @@[m
+           <EntitySet Name="NhaCungCap" EntityType="Self.NhaCungCap" Schema="dbo" store:Type="Tables" />[m
+           <EntitySet Name="NhomHang" EntityType="Self.NhomHang" Schema="dbo" store:Type="Tables" />[m
+           <EntitySet Name="TaiKhoanKhachHang" EntityType="Self.TaiKhoanKhachHang" Schema="dbo" store:Type="Tables" />[m
+[31m-          <AssociationSet Name="FK_DonHangDat_HangDonHangDat" Association="Self.FK_DonHangDat_HangDonHangDat">[m
+[31m-            <End Role="DonHangDat" EntitySet="DonHangDat" />[m
+[31m-            <End Role="HangDonHangDat" EntitySet="HangDonHangDat" />[m
+[31m-          </AssociationSet>[m
+           <AssociationSet Name="FK_DonHangXuat_HangDonHangNhap" Association="Self.FK_DonHangXuat_HangDonHangNhap">[m
+             <End Role="DonHangNhap" EntitySet="DonHangNhap" />[m
+             <End Role="HangDonHangNhap" EntitySet="HangDonHangNhap" />[m
+[36m@@ -350,10 +285,6 @@[m
+             <End Role="DonHangXuat" EntitySet="DonHangXuat" />[m
+             <End Role="HangDonHangXuat" EntitySet="HangDonHangXuat" />[m
+           </AssociationSet>[m
+[31m-          <AssociationSet Name="FK_Hang_DonHangDat" Association="Self.FK_Hang_DonHangDat">[m
+[31m-            <End Role="Hang" EntitySet="Hang" />[m
+[31m-            <End Role="HangDonHangDat" EntitySet="HangDonHangDat" />[m
+[31m-          </AssociationSet>[m
+           <AssociationSet Name="FK_Hang_DonHangNhap" Association="Self.FK_Hang_DonHangNhap">[m
+             <End Role="Hang" EntitySet="Hang" />[m
+             <End Role="HangDonHangNhap" EntitySet="HangDonHangNhap" />[m
+[36m@@ -362,10 +293,6 @@[m
+             <End Role="Hang" EntitySet="Hang" />[m
+             <End Role="HangDonHangXuat" EntitySet="HangDonHangXuat" />[m
+           </AssociationSet>[m
+[31m-          <AssociationSet Name="FK_KhachHang_DonHangDat" Association="Self.FK_KhachHang_DonHangDat">[m
+[31m-            <End Role="KhachHang" EntitySet="KhachHang" />[m
+[31m-            <End Role="DonHangDat" EntitySet="DonHangDat" />[m
+[31m-          </AssociationSet>[m
+           <AssociationSet Name="FK_KhachHang_DonHangXuat" Association="Self.FK_KhachHang_DonHangXuat">[m
+             <End Role="KhachHang" EntitySet="KhachHang" />[m
+             <End Role="DonHangXuat" EntitySet="DonHangXuat" />[m
+[36m@@ -399,6 +326,30 @@[m
+     <!-- CSDL content -->[m
+     <edmx:ConceptualModels>[m
+       <Schema Namespace="QLTapHoaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">[m
+[32m+[m[32m        <EntityType Name="DonHangNhap">[m
+[32m+[m[32m          <Key>[m
+[32m+[m[32m            <PropertyRef Name="MaDHN" />[m
+[32m+[m[32m          </Key>[m
+[32m+[m[32m          <Property Name="MaDHN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />[m
+[32m+[m[32m          <Property Name="MaNCC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />[m
+[32m+[m[32m          <Property Name="NgayNhap" Type="DateTime" Nullable="false" Precision="3" />[m
+[32m+[m[32m          <Property Name="GiamGia" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[32m+[m[32m          <Property Name="KieuGiamGia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />[m
+[32m+[m[32m          <NavigationProperty Name="HangDonHangNhaps" Relationship="Self.FK_DonHangXuat_HangDonHangNhap" FromRole="DonHangNhap" ToRole="HangDonHangNhap" />[m
+[32m+[m[32m          <NavigationProperty Name="NhaCungCap" Relationship="Self.FK_NhaCungCap_DonHangNhap" FromRole="DonHangNhap" ToRole="NhaCungCap" />[m
+[32m+[m[32m        </EntityType>[m
+[32m+[m[32m        <EntityType Name="DonHangXuat">[m
+[32m+[m[32m          <Key>[m
+[32m+[m[32m            <PropertyRef Name="MaDHX" />[m
+[32m+[m[32m          </Key>[m
+[32m+[m[32m          <Property Name="MaDHX" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />[m
+[32m+[m[32m          <Property Name="MaKH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />[m
+[32m+[m[32m          <Property Name="NgayXuat" Type="DateTime" Nullable="false" Precision="3" />[m
+[32m+[m[32m          <Property Name="GiamGia" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[32m+[m[32m          <Property Name="KieuGiamGia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />[m
+[32m+[m[32m          <NavigationProperty Name="HangDonHangXuats" Relationship="Self.FK_DonHangXuat_HangDonHangXuat" FromRole="DonHangXuat" ToRole="HangDonHangXuat" />[m
+[32m+[m[32m          <NavigationProperty Name="KhachHang" Relationship="Self.FK_KhachHang_DonHangXuat" FromRole="DonHangXuat" ToRole="KhachHang" />[m
+[32m+[m[32m        </EntityType>[m
+         <EntityType Name="Hang">[m
+           <Key>[m
+             <PropertyRef Name="MaH" />[m
+[36m@@ -415,7 +366,6 @@[m
+           <NavigationProperty Name="HangDonHangXuats" Relationship="Self.FK_Hang_DonHangXuat" FromRole="Hang" ToRole="HangDonHangXuat" />[m
+           <NavigationProperty Name="MauHang" Relationship="Self.FK_MauHang_Hang" FromRole="Hang" ToRole="MauHang" />[m
+           <NavigationProperty Name="NhaCungCap" Relationship="Self.FK_NhaCungCap_Hang" FromRole="Hang" ToRole="NhaCungCap" />[m
+[31m-          <NavigationProperty Name="HangDonHangDats" Relationship="QLTapHoaModel.FK_Hang_DonHangDat" FromRole="Hang" ToRole="HangDonHangDat" />[m
+         </EntityType>[m
+         <EntityType Name="HangDonHangNhap">[m
+           <Key>[m
+[36m@@ -425,8 +375,8 @@[m
+           <Property Name="MaDHN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />[m
+           <Property Name="MaH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />[m
+           <Property Name="SoLuong" Type="Int32" Nullable="false" />[m
+[32m+[m[32m          <NavigationProperty Name="DonHangNhap" Relationship="Self.FK_DonHangXuat_HangDonHangNhap" FromRole="HangDonHangNhap" ToRole="DonHangNhap" />[m
+           <NavigationProperty Name="Hang" Relationship="Self.FK_Hang_DonHangNhap" FromRole="HangDonHangNhap" ToRole="Hang" />[m
+[31m-          <NavigationProperty Name="DonHangNhap" Relationship="QLTapHoaModel.FK_DonHangXuat_HangDonHangNhap" FromRole="HangDonHangNhap" ToRole="DonHangNhap" />[m
+         </EntityType>[m
+         <EntityType Name="HangDonHangXuat">[m
+           <Key>[m
+[36m@@ -436,8 +386,8 @@[m
+           <Property Name="MaDHX" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />[m
+           <Property Name="MaH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />[m
+           <Property Name="SoLuong" Type="Int32" Nullable="false" />[m
+[32m+[m[32m          <NavigationProperty Name="DonHangXuat" Relationship="Self.FK_DonHangXuat_HangDonHangXuat" FromRole="HangDonHangXuat" ToRole="DonHangXuat" />[m
+           <NavigationProperty Name="Hang" Relationship="Self.FK_Hang_DonHangXuat" FromRole="HangDonHangXuat" ToRole="Hang" />[m
+[31m-          <NavigationProperty Name="DonHangXuat" Relationship="QLTapHoaModel.FK_DonHangXuat_HangDonHangXuat" FromRole="HangDonHangXuat" ToRole="DonHangXuat" />[m
+         </EntityType>[m
+         <EntityType Name="KhachHang">[m
+           <Key>[m
+[36m@@ -451,10 +401,9 @@[m
+           <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />[m
+           <Property Name="NgaySinh" Type="DateTime" Nullable="false" Precision="0" />[m
+           <Property Name="GioiTinh" Type="Boolean" Nullable="false" />[m
+[32m+[m[32m          <NavigationProperty Name="DonHangXuats" Relationship="Self.FK_KhachHang_DonHangXuat" FromRole="KhachHang" ToRole="DonHangXuat" />[m
+           <NavigationProperty Name="TaiKhoanKhachHangs" Relationship="QLTapHoaModel.FK_KhachHang_TaiKhoanKhachHang" FromRole="KhachHang" ToRole="TaiKhoanKhachHang" />[m
+           <Property Name="DaXoa" Type="Boolean" Nullable="false" />[m
+[31m-          <NavigationProperty Name="DonHangDats" Relationship="QLTapHoaModel.FK_KhachHang_DonHangDat" FromRole="KhachHang" ToRole="DonHangDat" />[m
+[31m-          <NavigationProperty Name="DonHangXuats" Relationship="QLTapHoaModel.FK_KhachHang_DonHangXuat" FromRole="KhachHang" ToRole="DonHangXuat" />[m
+         </EntityType>[m
+         <EntityType Name="MauHang">[m
+           <Key>[m
+[36m@@ -494,9 +443,9 @@[m
+           <Property Name="DiaChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />[m
+           <Property Name="SDT" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />[m
+           <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />[m
+[32m+[m[32m          <NavigationProperty Name="DonHangNhaps" Relationship="Self.FK_NhaCungCap_DonHangNhap" FromRole="NhaCungCap" ToRole="DonHangNhap" />[m
+           <NavigationProperty Name="Hangs" Relationship="Self.FK_NhaCungCap_Hang" FromRole="NhaCungCap" ToRole="Hang" />[m
+           <Property Name="DaXoa" Type="Boolean" Nullable="false" />[m
+[31m-          <NavigationProperty Name="DonHangNhaps" Relationship="QLTapHoaModel.FK_NhaCungCap_DonHangNhap" FromRole="NhaCungCap" ToRole="DonHangNhap" />[m
+         </EntityType>[m
+         <EntityType Name="NhomHang">[m
+           <Key>[m
+[36m@@ -506,6 +455,54 @@[m
+           <Property Name="TenNH" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />[m
+           <NavigationProperty Name="MauHangs" Relationship="Self.MauHangNhomHang" FromRole="NhomHang" ToRole="MauHang" />[m
+         </EntityType>[m
+[32m+[m[32m        <Association Name="FK_DonHangXuat_HangDonHangNhap">[m
+[32m+[m[32m          <End Role="DonHangNhap" Type="Self.DonHangNhap" Multiplicity="1" />[m
+[32m+[m[32m          <End Role="HangDonHangNhap" Type="Self.HangDonHangNhap" Multiplicity="*" />[m
+[32m+[m[32m          <ReferentialConstraint>[m
+[32m+[m[32m            <Principal Role="DonHangNhap">[m
+[32m+[m[32m              <PropertyRef Name="MaDHN" />[m
+[32m+[m[32m            </Principal>[m
+[32m+[m[32m            <Dependent Role="HangDonHangNhap">[m
+[32m+[m[32m              <PropertyRef Name="MaDHN" />[m
+[32m+[m[32m            </Dependent>[m
+[32m+[m[32m          </ReferentialConstraint>[m
+[32m+[m[32m        </Association>[m
+[32m+[m[32m        <Association Name="FK_NhaCungCap_DonHangNhap">[m
+[32m+[m[32m          <End Role="NhaCungCap" Type="Self.NhaCungCap" Multiplicity="1" />[m
+[32m+[m[32m          <End Role="DonHangNhap" Type="Self.DonHangNhap" Multiplicity="*" />[m
+[32m+[m[32m          <ReferentialConstraint>[m
+[32m+[m[32m            <Principal Role="NhaCungCap">[m
+[32m+[m[32m              <PropertyRef Name="MaNCC" />[m
+[32m+[m[32m            </Principal>[m
+[32m+[m[32m            <Dependent Role="DonHangNhap">[m
+[32m+[m[32m              <PropertyRef Name="MaNCC" />[m
+[32m+[m[32m            </Dependent>[m
+[32m+[m[32m          </ReferentialConstraint>[m
+[32m+[m[32m        </Association>[m
+[32m+[m[32m        <Association Name="FK_DonHangXuat_HangDonHangXuat">[m
+[32m+[m[32m          <End Role="DonHangXuat" Type="Self.DonHangXuat" Multiplicity="1" />[m
+[32m+[m[32m          <End Role="HangDonHangXuat" Type="Self.HangDonHangXuat" Multiplicity="*" />[m
+[32m+[m[32m          <ReferentialConstraint>[m
+[32m+[m[32m            <Principal Role="DonHangXuat">[m
+[32m+[m[32m              <PropertyRef Name="MaDHX" />[m
+[32m+[m[32m            </Principal>[m
+[32m+[m[32m            <Dependent Role="HangDonHangXuat">[m
+[32m+[m[32m              <PropertyRef Name="MaDHX" />[m
+[32m+[m[32m            </Dependent>[m
+[32m+[m[32m          </ReferentialConstraint>[m
+[32m+[m[32m        </Association>[m
+[32m+[m[32m        <Association Name="FK_KhachHang_DonHangXuat">[m
+[32m+[m[32m          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />[m
+[32m+[m[32m          <End Role="DonHangXuat" Type="Self.DonHangXuat" Multiplicity="*" />[m
+[32m+[m[32m          <ReferentialConstraint>[m
+[32m+[m[32m            <Principal Role="KhachHang">[m
+[32m+[m[32m              <PropertyRef Name="MaKH" />[m
+[32m+[m[32m            </Principal>[m
+[32m+[m[32m            <Dependent Role="DonHangXuat">[m
+[32m+[m[32m              <PropertyRef Name="MaKH" />[m
+[32m+[m[32m            </Dependent>[m
+[32m+[m[32m          </ReferentialConstraint>[m
+[32m+[m[32m        </Association>[m
+         <Association Name="FK_Hang_DonHangNhap">[m
+           <End Role="Hang" Type="Self.Hang" Multiplicity="1" />[m
+           <End Role="HangDonHangNhap" Type="Self.HangDonHangNhap" Multiplicity="*" />[m
+[36m@@ -559,6 +556,8 @@[m
+           <End Role="NhomHang" Type="Self.NhomHang" Multiplicity="*" />[m
+         </Association>[m
+         <EntityContainer Name="QLTapHoaEntities" annotation:LazyLoadingEnabled="true">[m
+[32m+[m[32m          <EntitySet Name="DonHangNhaps" EntityType="Self.DonHangNhap" />[m
+[32m+[m[32m          <EntitySet Name="DonHangXuats" EntityType="Self.DonHangXuat" />[m
+           <EntitySet Name="Hangs" EntityType="Self.Hang" />[m
+           <EntitySet Name="HangDonHangNhaps" EntityType="Self.HangDonHangNhap" />[m
+           <EntitySet Name="HangDonHangXuats" EntityType="Self.HangDonHangXuat" />[m
+[36m@@ -567,6 +566,22 @@[m
+           <EntitySet Name="NguoiDungs" EntityType="Self.NguoiDung" />[m
+           <EntitySet Name="NhaCungCaps" EntityType="Self.NhaCungCap" />[m
+           <EntitySet Name="NhomHangs" EntityType="Self.NhomHang" />[m
+[32m+[m[32m          <AssociationSet Name="FK_DonHangXuat_HangDonHangNhap" Association="Self.FK_DonHangXuat_HangDonHangNhap">[m
+[32m+[m[32m            <End Role="DonHangNhap" EntitySet="DonHangNhaps" />[m
+[32m+[m[32m            <End Role="HangDonHangNhap" EntitySet="HangDonHangNhaps" />[m
+[32m+[m[32m          </AssociationSet>[m
+[32m+[m[32m          <AssociationSet Name="FK_NhaCungCap_DonHangNhap" Association="Self.FK_NhaCungCap_DonHangNhap">[m
+[32m+[m[32m            <End Role="NhaCungCap" EntitySet="NhaCungCaps" />[m
+[32m+[m[32m            <End Role="DonHangNhap" EntitySet="DonHangNhaps" />[m
+[32m+[m[32m          </AssociationSet>[m
+[32m+[m[32m          <AssociationSet Name="FK_DonHangXuat_HangDonHangXuat" Association="Self.FK_DonHangXuat_HangDonHangXuat">[m
+[32m+[m[32m            <End Role="DonHangXuat" EntitySet="DonHangXuats" />[m
+[32m+[m[32m            <End Role="HangDonHangXuat" EntitySet="HangDonHangXuats" />[m
+[32m+[m[32m          </AssociationSet>[m
+[32m+[m[32m          <AssociationSet Name="FK_KhachHang_DonHangXuat" Association="Self.FK_KhachHang_DonHangXuat">[m
+[32m+[m[32m            <End Role="KhachHang" EntitySet="KhachHangs" />[m
+[32m+[m[32m            <End Role="DonHangXuat" EntitySet="DonHangXuats" />[m
+[32m+[m[32m          </AssociationSet>[m
+           <AssociationSet Name="FK_Hang_DonHangNhap" Association="Self.FK_Hang_DonHangNhap">[m
+             <End Role="Hang" EntitySet="Hangs" />[m
+             <End Role="HangDonHangNhap" EntitySet="HangDonHangNhaps" />[m
+[36m@@ -592,38 +607,6 @@[m
+             <End Role="KhachHang" EntitySet="KhachHangs" />[m
+             <End Role="TaiKhoanKhachHang" EntitySet="TaiKhoanKhachHangs" />[m
+           </AssociationSet>[m
+[31m-          <EntitySet Name="DonHangDats" EntityType="QLTapHoaModel.DonHangDat" />[m
+[31m-          <EntitySet Name="HangDonHangDats" EntityType="QLTapHoaModel.HangDonHangDat" />[m
+[31m-          <AssociationSet Name="FK_DonHangDat_HangDonHangDat" Association="QLTapHoaModel.FK_DonHangDat_HangDonHangDat">[m
+[31m-            <End Role="DonHangDat" EntitySet="DonHangDats" />[m
+[31m-            <End Role="HangDonHangDat" EntitySet="HangDonHangDats" />[m
+[31m-          </AssociationSet>[m
+[31m-          <AssociationSet Name="FK_KhachHang_DonHangDat" Association="QLTapHoaModel.FK_KhachHang_DonHangDat">[m
+[31m-            <End Role="KhachHang" EntitySet="KhachHangs" />[m
+[31m-            <End Role="DonHangDat" EntitySet="DonHangDats" />[m
+[31m-          </AssociationSet>[m
+[31m-          <AssociationSet Name="FK_Hang_DonHangDat" Association="QLTapHoaModel.FK_Hang_DonHangDat">[m
+[31m-            <End Role="Hang" EntitySet="Hangs" />[m
+[31m-            <End Role="HangDonHangDat" EntitySet="HangDonHangDats" />[m
+[31m-          </AssociationSet>[m
+[31m-          <EntitySet Name="DonHangNhaps" EntityType="QLTapHoaModel.DonHangNhap" />[m
+[31m-          <EntitySet Name="DonHangXuats" EntityType="QLTapHoaModel.DonHangXuat" />[m
+[31m-          <AssociationSet Name="FK_DonHangXuat_HangDonHangNhap" Association="QLTapHoaModel.FK_DonHangXuat_HangDonHangNhap">[m
+[31m-            <End Role="DonHangNhap" EntitySet="DonHangNhaps" />[m
+[31m-            <End Role="HangDonHangNhap" EntitySet="HangDonHangNhaps" />[m
+[31m-          </AssociationSet>[m
+[31m-          <AssociationSet Name="FK_NhaCungCap_DonHangNhap" Association="QLTapHoaModel.FK_NhaCungCap_DonHangNhap">[m
+[31m-            <End Role="NhaCungCap" EntitySet="NhaCungCaps" />[m
+[31m-            <End Role="DonHangNhap" EntitySet="DonHangNhaps" />[m
+[31m-          </AssociationSet>[m
+[31m-          <AssociationSet Name="FK_DonHangXuat_HangDonHangXuat" Association="QLTapHoaModel.FK_DonHangXuat_HangDonHangXuat">[m
+[31m-            <End Role="DonHangXuat" EntitySet="DonHangXuats" />[m
+[31m-            <End Role="HangDonHangXuat" EntitySet="HangDonHangXuats" />[m
+[31m-          </AssociationSet>[m
+[31m-          <AssociationSet Name="FK_KhachHang_DonHangXuat" Association="QLTapHoaModel.FK_KhachHang_DonHangXuat">[m
+[31m-            <End Role="KhachHang" EntitySet="KhachHangs" />[m
+[31m-            <End Role="DonHangXuat" EntitySet="DonHangXuats" />[m
+[31m-          </AssociationSet>[m
+         </EntityContainer>[m
+         <EntityType Name="TaiKhoanKhachHang">[m
+           <Key>[m
+[36m@@ -647,147 +630,34 @@[m
+             </Dependent>[m
+           </ReferentialConstraint>[m
+         </Association>[m
+[31m-        <EntityType Name="DonHangDat">[m
+[31m-          <Key>[m
+[31m-            <PropertyRef Name="MaDHD" />[m
+[31m-          </Key>[m
+[31m-          <Property Name="MaDHD" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="MaKH" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="NgayDat" Type="DateTime" Precision="3" />[m
+[31m-          <Property Name="TrangThai" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />[m
+[31m-          <NavigationProperty Name="HangDonHangDats" Relationship="QLTapHoaModel.FK_DonHangDat_HangDonHangDat" FromRole="DonHangDat" ToRole="HangDonHangDat" />[m
+[31m-          <NavigationProperty Name="KhachHang" Relationship="QLTapHoaModel.FK_KhachHang_DonHangDat" FromRole="DonHangDat" ToRole="KhachHang" />[m
+[31m-          <Property Name="NgayGiao" Type="DateTime" Precision="3" />[m
+[31m-          <Property Name="NgayHoanThanh" Type="DateTime" Precision="3" />[m
+[31m-          <Property Name="NgayBatDau" Type="DateTime" Nullable="false" Precision="3" />[m
+[31m-        </EntityType>[m
+[31m-        <EntityType Name="HangDonHangDat">[m
+[31m-          <Key>[m
+[31m-            <PropertyRef Name="MaDHD" />[m
+[31m-            <PropertyRef Name="MaH" />[m
+[31m-          </Key>[m
+[31m-          <Property Name="MaDHD" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="MaH" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="SoLuong" Type="Int32" Nullable="false" />[m
+[31m-          <NavigationProperty Name="DonHangDat" Relationship="QLTapHoaModel.FK_DonHangDat_HangDonHangDat" FromRole="HangDonHangDat" ToRole="DonHangDat" />[m
+[31m-          <NavigationProperty Name="Hang" Relationship="QLTapHoaModel.FK_Hang_DonHangDat" FromRole="HangDonHangDat" ToRole="Hang" />[m
+[31m-        </EntityType>[m
+[31m-        <Association Name="FK_DonHangDat_HangDonHangDat">[m
+[31m-          <End Type="QLTapHoaModel.DonHangDat" Role="DonHangDat" Multiplicity="1" />[m
+[31m-          <End Type="QLTapHoaModel.HangDonHangDat" Role="HangDonHangDat" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="DonHangDat">[m
+[31m-              <PropertyRef Name="MaDHD" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="HangDonHangDat">[m
+[31m-              <PropertyRef Name="MaDHD" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+[31m-        <Association Name="FK_KhachHang_DonHangDat">[m
+[31m-          <End Type="QLTapHoaModel.KhachHang" Role="KhachHang" Multiplicity="1" />[m
+[31m-          <End Type="QLTapHoaModel.DonHangDat" Role="DonHangDat" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="KhachHang">[m
+[31m-              <PropertyRef Name="MaKH" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="DonHangDat">[m
+[31m-              <PropertyRef Name="MaKH" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+[31m-        <Association Name="FK_Hang_DonHangDat">[m
+[31m-          <End Type="QLTapHoaModel.Hang" Role="Hang" Multiplicity="1" />[m
+[31m-          <End Type="QLTapHoaModel.HangDonHangDat" Role="HangDonHangDat" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="Hang">[m
+[31m-              <PropertyRef Name="MaH" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="HangDonHangDat">[m
+[31m-              <PropertyRef Name="MaH" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+[31m-        <EntityType Name="DonHangNhap">[m
+[31m-          <Key>[m
+[31m-            <PropertyRef Name="MaDHN" />[m
+[31m-          </Key>[m
+[31m-          <Property Name="MaDHN" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="MaNCC" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="NgayNhap" Type="DateTime" Nullable="false" Precision="3" />[m
+[31m-          <Property Name="GiamGia" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="KieuGiamGia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />[m
+[31m-          <Property Name="DaDuyet" Type="Boolean" Nullable="false" />[m
+[31m-          <NavigationProperty Name="HangDonHangNhaps" Relationship="QLTapHoaModel.FK_DonHangXuat_HangDonHangNhap" FromRole="DonHangNhap" ToRole="HangDonHangNhap" />[m
+[31m-          <NavigationProperty Name="NhaCungCap" Relationship="QLTapHoaModel.FK_NhaCungCap_DonHangNhap" FromRole="DonHangNhap" ToRole="NhaCungCap" />[m
+[31m-        </EntityType>[m
+[31m-        <EntityType Name="DonHangXuat">[m
+[31m-          <Key>[m
+[31m-            <PropertyRef Name="MaDHX" />[m
+[31m-          </Key>[m
+[31m-          <Property Name="MaDHX" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="MaKH" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="NgayXuat" Type="DateTime" Nullable="false" Precision="3" />[m
+[31m-          <Property Name="GiamGia" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />[m
+[31m-          <Property Name="KieuGiamGia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />[m
+[31m-          <Property Name="DaDuyet" Type="Boolean" Nullable="false" />[m
+[31m-          <NavigationProperty Name="HangDonHangXuats" Relationship="QLTapHoaModel.FK_DonHangXuat_HangDonHangXuat" FromRole="DonHangXuat" ToRole="HangDonHangXuat" />[m
+[31m-          <NavigationProperty Name="KhachHang" Relationship="QLTapHoaModel.FK_KhachHang_DonHangXuat" FromRole="DonHangXuat" ToRole="KhachHang" />[m
+[31m-        </EntityType>[m
+[31m-        <Association Name="FK_DonHangXuat_HangDonHangNhap">[m
+[31m-          <End Type="QLTapHoaModel.DonHangNhap" Role="DonHangNhap" Multiplicity="1" />[m
+[31m-          <End Type="QLTapHoaModel.HangDonHangNhap" Role="HangDonHangNhap" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="DonHangNhap">[m
+[31m-              <PropertyRef Name="MaDHN" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="HangDonHangNhap">[m
+[31m-              <PropertyRef Name="MaDHN" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+[31m-        <Association Name="FK_NhaCungCap_DonHangNhap">[m
+[31m-          <End Type="QLTapHoaModel.NhaCungCap" Role="NhaCungCap" Multiplicity="1" />[m
+[31m-          <End Type="QLTapHoaModel.DonHangNhap" Role="DonHangNhap" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="NhaCungCap">[m
+[31m-              <PropertyRef Name="MaNCC" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="DonHangNhap">[m
+[31m-              <PropertyRef Name="MaNCC" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+[31m-        <Association Name="FK_DonHangXuat_HangDonHangXuat">[m
+[31m-          <End Type="QLTapHoaModel.DonHangXuat" Role="DonHangXuat" Multiplicity="1" />[m
+[31m-          <End Type="QLTapHoaModel.HangDonHangXuat" Role="HangDonHangXuat" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="DonHangXuat">[m
+[31m-              <PropertyRef Name="MaDHX" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="HangDonHangXuat">[m
+[31m-              <PropertyRef Name="MaDHX" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+[31m-        <Association Name="FK_KhachHang_DonHangXuat">[m
+[31m-          <End Type="QLTapHoaModel.KhachHang" Role="KhachHang" Multiplicity="1" />[m
+[31m-          <End Type="QLTapHoaModel.DonHangXuat" Role="DonHangXuat" Multiplicity="*" />[m
+[31m-          <ReferentialConstraint>[m
+[31m-            <Principal Role="KhachHang">[m
+[31m-              <PropertyRef Name="MaKH" />[m
+[31m-            </Principal>[m
+[31m-            <Dependent Role="DonHangXuat">[m
+[31m-              <PropertyRef Name="MaKH" />[m
+[31m-            </Dependent>[m
+[31m-          </ReferentialConstraint>[m
+[31m-        </Association>[m
+       </Schema>[m
+     </edmx:ConceptualModels>[m
+     <!-- C-S mapping content -->[m
+     <edmx:Mappings>[m
+       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">[m
+         <EntityContainerMapping StorageEntityContainer="QLTapHoaModelStoreContainer" CdmEntityContainer="QLTapHoaEntities">[m
+[32m+[m[32m          <EntitySetMapping Name="DonHangNhaps">[m
+[32m+[m[32m            <EntityTypeMapping TypeName="QLTapHoaModel.DonHangNhap">[m
+[32m+[m[32m              <MappingFragment StoreEntitySet="DonHangNhap">[m
+[32m+[m[32m                <ScalarProperty Name="MaDHN" ColumnName="MaDHN" />[m
+[32m+[m[32m                <ScalarProperty Name="MaNCC" ColumnName="MaNCC" />[m
+[32m+[m[32m                <ScalarProperty Name="NgayNhap" ColumnName="NgayNhap" />[m
+[32m+[m[32m                <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />[m
+[32m+[m[32m                <ScalarProperty Name="KieuGiamGia" ColumnName="KieuGiamGia" />[m
+[32m+[m[32m              </MappingFragment>[m
+[32m+[m[32m            </EntityTypeMapping>[m
+[32m+[m[32m          </EntitySetMapping>[m
+[32m+[m[32m          <EntitySetMapping Name="DonHangXuats">[m
+[32m+[m[32m            <EntityTypeMapping TypeName="QLTapHoaModel.DonHangXuat">[m
+[32m+[m[32m              <MappingFragment StoreEntitySet="DonHangXuat">[m
+[32m+[m[32m                <ScalarProperty Name="MaDHX" ColumnName="MaDHX" />[m
+[32m+[m[32m                <ScalarProperty Name="MaKH" ColumnName="MaKH" />[m
+[32m+[m[32m                <ScalarProperty Name="NgayXuat" ColumnName="NgayXuat" />[m
+[32m+[m[32m                <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />[m
+[32m+[m[32m                <ScalarProperty Name="KieuGiamGia" ColumnName="KieuGiamGia" />[m
+[32m+[m[32m              </MappingFragment>[m
+[32m+[m[32m            </EntityTypeMapping>[m
+[32m+[m[32m          </EntitySetMapping>[m
+           <EntitySetMapping Name="Hangs">[m
+             <EntityTypeMapping TypeName="QLTapHoaModel.Hang">[m
+               <MappingFragment StoreEntitySet="Hang">[m
+[36m@@ -901,52 +771,6 @@[m
+               </MappingFragment>[m
+             </EntityTypeMapping>[m
+           </EntitySetMapping>[m
+[31m-          <EntitySetMapping Name="DonHangDats">[m
+[31m-            <EntityTypeMapping TypeName="QLTapHoaModel.DonHangDat">[m
+[31m-              <MappingFragment StoreEntitySet="DonHangDat">[m
+[31m-                <ScalarProperty Name="NgayBatDau" ColumnName="NgayBatDau" />[m
+[31m-                <ScalarProperty Name="NgayHoanThanh" ColumnName="NgayHoanThanh" />[m
+[31m-                <ScalarProperty Name="NgayGiao" ColumnName="NgayGiao" />[m
+[31m-                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />[m
+[31m-                <ScalarProperty Name="NgayDat" ColumnName="NgayDat" />[m
+[31m-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />[m
+[31m-                <ScalarProperty Name="MaDHD" ColumnName="MaDHD" />[m
+[31m-              </MappingFragment>[m
+[31m-            </EntityTypeMapping>[m
+[31m-          </EntitySetMapping>[m
+[31m-          <EntitySetMapping Name="HangDonHangDats">[m
+[31m-            <EntityTypeMapping TypeName="QLTapHoaModel.HangDonHangDat">[m
+[31m-              <MappingFragment StoreEntitySet="HangDonHangDat">[m
+[31m-                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />[m
+[31m-                <ScalarProperty Name="MaH" ColumnName="MaH" />[m
+[31m-                <ScalarProperty Name="MaDHD" ColumnName="MaDHD" />[m
+[31m-              </MappingFragment>[m
+[31m-            </EntityTypeMapping>[m
+[31m-          </EntitySetMapping>[m
+[31m-          <EntitySetMapping Name="DonHangNhaps">[m
+[31m-            <EntityTypeMapping TypeName="QLTapHoaModel.DonHangNhap">[m
+[31m-              <MappingFragment StoreEntitySet="DonHangNhap">[m
+[31m-                <ScalarProperty Name="DaDuyet" ColumnName="DaDuyet" />[m
+[31m-                <ScalarProperty Name="KieuGiamGia" ColumnName="KieuGiamGia" />[m
+[31m-                <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />[m
+[31m-                <ScalarProperty Name="NgayNhap" ColumnName="NgayNhap" />[m
+[31m-                <ScalarProperty Name="MaNCC" ColumnName="MaNCC" />[m
+[31m-                <ScalarProperty Name="MaDHN" ColumnName="MaDHN" />[m
+[31m-              </MappingFragment>[m
+[31m-            </EntityTypeMapping>[m
+[31m-          </EntitySetMapping>[m
+[31m-          <EntitySetMapping Name="DonHangXuats">[m
+[31m-            <EntityTypeMapping TypeName="QLTapHoaModel.DonHangXuat">[m
+[31m-              <MappingFragment StoreEntitySet="DonHangXuat">[m
+[31m-                <ScalarProperty Name="DaDuyet" ColumnName="DaDuyet" />[m
+[31m-                <ScalarProperty Name="KieuGiamGia" ColumnName="KieuGiamGia" />[m
+[31m-                <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />[m
+[31m-                <ScalarProperty Name="NgayXuat" ColumnName="NgayXuat" />[m
+[31m-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />[m
+[31m-                <ScalarProperty Name="MaDHX" ColumnName="MaDHX" />[m
+[31m-              </MappingFragment>[m
+[31m-            </EntityTypeMapping>[m
+[31m-          </EntitySetMapping>[m
+         </EntityContainerMapping>[m
+       </Mapping>[m
+     </edmx:Mappings>[m
+[36m@@ -961,8 +785,8 @@[m
+     <Options>[m
+       <DesignerInfoPropertySet>[m
+         <DesignerProperty Name="ValidateOnBuild" Value="true" />[m
+[31m-        <DesignerProperty Name="EnablePluralization" Value="True" />[m
+[31m-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />[m
+[32m+[m[32m        <DesignerProperty Name="EnablePluralization" Value="true" />[m
+[32m+[m[32m        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />[m
+         <DesignerProperty Name="UseLegacyProvider" Value="false" />[m
+         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />[m
+       </DesignerInfoPropertySet>[m
+[1mdiff --git a/Models/QLTHModels.edmx.diagram b/Models/QLTHModels.edmx.diagram[m
+[1mindex 12b3da8..a63e82e 100644[m
+[1m--- a/Models/QLTHModels.edmx.diagram[m
+[1m+++ b/Models/QLTHModels.edmx.diagram[m
+[36m@@ -5,6 +5,8 @@[m
+     <!-- Diagram content (shape and connector positions) -->[m
+     <edmx:Diagrams>[m
+       <Diagram DiagramId="46e9c793701b4a54ba0fd50633204292" Name="Diagram1">[m
+[32m+[m[32m        <EntityTypeShape EntityType="QLTapHoaModel.DonHangNhap" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />[m
+[32m+[m[32m        <EntityTypeShape EntityType="QLTapHoaModel.DonHangXuat" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />[m
+         <EntityTypeShape EntityType="QLTapHoaModel.Hang" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />[m
+         <EntityTypeShape EntityType="QLTapHoaModel.HangDonHangNhap" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />[m
+         <EntityTypeShape EntityType="QLTapHoaModel.HangDonHangXuat" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />[m
+[36m@@ -13,6 +15,10 @@[m
+         <EntityTypeShape EntityType="QLTapHoaModel.NguoiDung" Width="1.5" PointX="5.75" PointY="8.125" IsExpanded="true" />[m
+         <EntityTypeShape EntityType="QLTapHoaModel.NhaCungCap" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />[m
+         <EntityTypeShape EntityType="QLTapHoaModel.NhomHang" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />[m
+[32m+[m[32m        <AssociationConnector Association="QLTapHoaModel.FK_DonHangXuat_HangDonHangNhap" ManuallyRouted="false" />[m
+[32m+[m[32m        <AssociationConnector Association="QLTapHoaModel.FK_NhaCungCap_DonHangNhap" ManuallyRouted="false" />[m
+[32m+[m[32m        <AssociationConnector Association="QLTapHoaModel.FK_DonHangXuat_HangDonHangXuat" ManuallyRouted="false" />[m
+[32m+[m[32m        <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_DonHangXuat" ManuallyRouted="false" />[m
+         <AssociationConnector Association="QLTapHoaModel.FK_Hang_DonHangNhap" ManuallyRouted="false" />[m
+         <AssociationConnector Association="QLTapHoaModel.FK_Hang_DonHangXuat" ManuallyRouted="false" />[m
+         <AssociationConnector Association="QLTapHoaModel.FK_MauHang_Hang" ManuallyRouted="false" />[m
+[36m@@ -20,17 +26,6 @@[m
+         <AssociationConnector Association="QLTapHoaModel.MauHangNhomHang" ManuallyRouted="false" />[m
+         <EntityTypeShape EntityType="QLTapHoaModel.TaiKhoanKhachHang" Width="1.5" PointX="3" PointY="15.75" />[m
+         <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_TaiKhoanKhachHang" />[m
+[31m-        <EntityTypeShape EntityType="QLTapHoaModel.DonHangDat" Width="1.5" PointX="3" PointY="18.75" />[m
+[31m-        <EntityTypeShape EntityType="QLTapHoaModel.HangDonHangDat" Width="1.5" PointX="5.25" PointY="12.625" />[m
+[31m-        <AssociationConnector Association="QLTapHoaModel.FK_DonHangDat_HangDonHangDat" />[m
+[31m-        <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_DonHangDat" />[m
+[31m-        <AssociationConnector Association="QLTapHoaModel.FK_Hang_DonHangDat" />[m
+[31m-        <EntityTypeShape EntityType="QLTapHoaModel.DonHangNhap" Width="1.5" PointX="3" PointY="0.875" />[m
+[31m-        <EntityTypeShape EntityType="QLTapHoaModel.DonHangXuat" Width="1.5" PointX="3" PointY="22.5" />[m
+[31m-        <AssociationConnector Association="QLTapHoaModel.FK_DonHangXuat_HangDonHangNhap" />[m
+[31m-        <AssociationConnector Association="QLTapHoaModel.FK_NhaCungCap_DonHangNhap" />[m
+[31m-        <AssociationConnector Association="QLTapHoaModel.FK_DonHangXuat_HangDonHangXuat" />[m
+[31m-        <AssociationConnector Association="QLTapHoaModel.FK_KhachHang_DonHangXuat" />[m
+       </Diagram>[m
+     </edmx:Diagrams>[m
+   </edmx:Designer>[m
+[1mdiff --git a/Models/TaiKhoanKhachHang.cs b/Models/TaiKhoanKhachHang.cs[m
+[1mindex 6292d13..c219342 100644[m
+[1m--- a/Models/TaiKhoanKhachHang.cs[m
+[1m+++ b/Models/TaiKhoanKhachHang.cs[m
+[36m@@ -11,13 +11,13 @@[m [mnamespace FreeTime1.Models[m
+ {[m
+     using System;[m
+     using System.Collections.Generic;[m
+[31m-    [m
+[32m+[m
+     public partial class TaiKhoanKhachHang[m
+     {[m
+         public string MaKH { get; set; }[m
+         public string TaiKhoan { get; set; }[m
+         public string MatKhau { get; set; }[m
+[31m-    [m
+[32m+[m
+         public virtual KhachHang KhachHang { get; set; }[m
+     }[m
+ }[m
+[1mdiff --git a/Views/DonHangDats/Create.cshtml b/Views/DonHangDats/Create.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex 9bdf2bc..0000000[m
+[1m--- a/Views/DonHangDats/Create.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,59 +0,0 @@[m
+[31m-﻿@model FreeTime1.Models.DonHangDat[m
+[31m-[m
+[31m-@{[m
+[31m-    ViewBag.Title = "Create";[m
+[31m-}[m
+[31m-[m
+[31m-<h2>Create</h2>[m
+[31m-[m
+[31m-@using (Html.BeginForm()) [m
+[31m-{[m
+[31m-    @Html.AntiForgeryToken()[m
+[31m-    [m
+[31m-    <div class="form-horizontal">[m
+[31m-        <h4>DonHangDat</h4>[m
+[31m-        <hr />[m
+[31m-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })[m
+[31m-        <div class="form-group">[m
+[31m-            @Html.LabelFor(model => model.MaDHD, htmlAttributes: new { @class = "control-label col-md-2" })[m
+[31m-            <div class="col-md-10">[m
+[31m-                @Html.EditorFor(model => model.MaDHD, new { htmlAttributes = new { @class = "form-control" } })[m
+[31m-                @Html.ValidationMessageFor(model => model.MaDHD, "", new { @class = "text-danger" })[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-[m
+[31m-        <div class="form-group">[m
+[31m-            @Html.LabelFor(model => model.MaKH, "MaKH", htmlAttributes: new { @class = "control-label col-md-2" })[m
+[31m-            <div class="col-md-10">[m
+[31m-                @Html.DropDownList("MaKH", null, htmlAttributes: new { @class = "form-control" })[m
+[31m-                @Html.ValidationMessageFor(model => model.MaKH, "", new { @class = "text-danger" })[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-[m
+[31m-        <div class="form-group">[m
+[31m-            @Html.LabelFor(model => model.NgayDat, htmlAttributes: new { @class = "control-label col-md-2" })[m
+[31m-            <div class="col-md-10">[m
+[31m-                @Html.EditorFor(model => model.NgayDat, new { htmlAttributes = new { @class = "form-control" } })[m
+[31m-                @Html.ValidationMessageFor(model => model.NgayDat, "", new { @class = "text-danger" })[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-[m
+[31m-        <div class="form-group">[m
+[31m-            @Html.LabelFor(model => model.TrangThai, htmlAttributes: new { @class = "control-label col-md-2" })[m
+[31m-            <div class="col-md-10">[m
+[31m-                @Html.EditorFor(model => model.TrangThai, new { htmlAttributes = new { @class = "form-control" } })[m
+[31m-                @Html.ValidationMessageFor(model => model.TrangThai, "", new { @class = "text-danger" })[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-[m
+[31m-        <div class="form-group">[m
+[31m-            <div class="col-md-offset-2 col-md-10">[m
+[31m-                <input type="submit" value="Create" class="btn btn-default" />[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-    </div>[m
+[31m-}[m
+[31m-[m
+[31m-<div>[m
+[31m-    @Html.ActionLink("Back to List", "Index")[m
+[31m-</div>[m
+[1mdiff --git a/Views/DonHangDats/Delete.cshtml b/Views/DonHangDats/Delete.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex 6ecda40..0000000[m
+[1m--- a/Views/DonHangDats/Delete.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,48 +0,0 @@[m
+[31m-﻿@model FreeTime1.Models.DonHangDat[m
+[31m-[m
+[31m-@{[m
+[31m-    ViewBag.Title = "Delete";[m
+[31m-}[m
+[31m-[m
+[31m-<h2>Delete</h2>[m
+[31m-[m
+[31m-<h3>Are you sure you want to delete this?</h3>[m
+[31m-<div>[m
+[31m-    <h4>DonHangDat</h4>[m
+[31m-    <hr />[m
+[31m-    <dl class="dl-horizontal">[m
+[31m-        <dt>[m
+[31m-            @Html.DisplayNameFor(model => model.NgayDat)[m
+[31m-        </dt>[m
+[31m-[m
+[31m-        <dd>[m
+[31m-            @Html.DisplayFor(model => model.NgayDat)[m
+[31m-        </dd>[m
+[31m-[m
+[31m-        <dt>[m
+[31m-            @Html.DisplayNameFor(model => model.TrangThai)[m
+[31m-        </dt>[m
+[31m-[m
+[31m-        <dd>[m
+[31m-            @Html.DisplayFor(model => model.TrangThai)[m
+[31m-        </dd>[m
+[31m-[m
+[31m-        <dt>[m
+[31m-            @Html.DisplayNameFor(model => model.KhachHang.HoTen)[m
+[31m-        </dt>[m
+[31m-[m
+[31m-        <dd>[m
+[31m-            @Html.DisplayFor(model => model.KhachHang.HoTen)[m
+[31m-        </dd>[m
+[31m-[m
+[31m-    </dl>[m
+[31m-[m
+[31m-    @using (Html.BeginForm()) {[m
+[31m-        @Html.AntiForgeryToken()[m
+[31m-[m
+[31m-        <div class="form-actions no-color">[m
+[31m-            <input type="submit" value="Delete" class="btn btn-default" /> |[m
+[31m-            @Html.ActionLink("Back to List", "Index")[m
+[31m-        </div>[m
+[31m-    }[m
+[31m-</div>[m
+[1mdiff --git a/Views/DonHangDats/Details.cshtml b/Views/DonHangDats/Details.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex c31d4c5..0000000[m
+[1m--- a/Views/DonHangDats/Details.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,42 +0,0 @@[m
+[31m-﻿@model FreeTime1.Models.DonHangDat[m
+[31m-[m
+[31m-@{[m
+[31m-    ViewBag.Title = "Details";[m
+[31m-}[m
+[31m-[m
+[31m-<h2>Details</h2>[m
+[31m-[m
+[31m-<div>[m
+[31m-    <h4>DonHangDat</h4>[m
+[31m-    <hr />[m
+[31m-    <dl class="dl-horizontal">[m
+[31m-        <dt>[m
+[31m-            @Html.DisplayNameFor(model => model.NgayDat)[m
+[31m-        </dt>[m
+[31m-[m
+[31m-        <dd>[m
+[31m-            @Html.DisplayFor(model => model.NgayDat)[m
+[31m-        </dd>[m
+[31m-[m
+[31m-        <dt>[m
+[31m-            @Html.DisplayNameFor(model => model.TrangThai)[m
+[31m-        </dt>[m
+[31m-[m
+[31m-        <dd>[m
+[31m-            @Html.DisplayFor(model => model.TrangThai)[m
+[31m-        </dd>[m
+[31m-[m
+[31m-        <dt>[m
+[31m-            @Html.DisplayNameFor(model => model.KhachHang.HoTen)[m
+[31m-        </dt>[m
+[31m-[m
+[31m-        <dd>[m
+[31m-            @Html.DisplayFor(model => model.KhachHang.HoTen)[m
+[31m-        </dd>[m
+[31m-[m
+[31m-    </dl>[m
+[31m-</div>[m
+[31m-<p>[m
+[31m-    @Html.ActionLink("Edit", "Edit", new { id = Model.MaDHD }) |[m
+[31m-    @Html.ActionLink("Back to List", "Index")[m
+[31m-</p>[m
+[1mdiff --git a/Views/DonHangDats/Edit.cshtml b/Views/DonHangDats/Edit.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex 8790c8e..0000000[m
+[1m--- a/Views/DonHangDats/Edit.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,53 +0,0 @@[m
+[31m-﻿@model FreeTime1.Models.DonHangDat[m
+[31m-[m
+[31m-@{[m
+[31m-    ViewBag.Title = "Edit";[m
+[31m-}[m
+[31m-[m
+[31m-<h2>Edit</h2>[m
+[31m-[m
+[31m-@using (Html.BeginForm())[m
+[31m-{[m
+[31m-    @Html.AntiForgeryToken()[m
+[31m-    [m
+[31m-    <div class="form-horizontal">[m
+[31m-        <h4>DonHangDat</h4>[m
+[31m-        <hr />[m
+[31m-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })[m
+[31m-        @Html.HiddenFor(model => model.MaDHD)[m
+[31m-[m
+[31m-        <div class="form-group">[m
+[31m-            @Html.LabelFor(model => model.MaKH, "MaKH", htmlAttributes: new { @class = "control-label col-md-2" })[m
+[31m-            <div class="col-md-10">[m
+[31m-                @Html.DropDownList("MaKH", null, htmlAttributes: new { @class = "form-control" })[m
+[31m-                @Html.ValidationMessageFor(model => model.MaKH, "", new { @class = "text-danger" })[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-[m
+[31m-        <div class="form-group">[m
+[31m-            @Html.LabelFor(model => model.NgayDat, htmlAttributes: new { @class = "control-label col-md-2" })[m
+[31m-            <div class="col-md-10">[m
+[31m-                @Html.EditorFor(model => model.NgayDat, new { htmlAttributes = new { @class = "form-control" } })[m
+[31m-                @Html.ValidationMessageFor(model => model.NgayDat, "", new { @class = "text-danger" })[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-[m
+[31m-        <div class="form-group">[m
+[31m-            @Html.LabelFor(model => model.TrangThai, htmlAttributes: new { @class = "control-label col-md-2" })[m
+[31m-            <div class="col-md-10">[m
+[31m-                @Html.EditorFor(model => model.TrangThai, new { htmlAttributes = new { @class = "form-control" } })[m
+[31m-                @Html.ValidationMessageFor(model => model.TrangThai, "", new { @class = "text-danger" })[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-[m
+[31m-        <div class="form-group">[m
+[31m-            <div class="col-md-offset-2 col-md-10">[m
+[31m-                <input type="submit" value="Save" class="btn btn-default" />[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-    </div>[m
+[31m-}[m
+[31m-[m
+[31m-<div>[m
+[31m-    @Html.ActionLink("Back to List", "Index")[m
+[31m-</div>[m
+[1mdiff --git a/Views/DonHangDats/History.cshtml b/Views/DonHangDats/History.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex 4ec0147..0000000[m
+[1m--- a/Views/DonHangDats/History.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,55 +0,0 @@[m
+[31m-﻿@model IEnumerable<FreeTime1.Models.DonHangDat>[m
+[31m-[m
+[31m-@{[m
+[31m-    ViewBag.Title = "Lịch Sử Đặt Hàng";[m
+[31m-    FreeTime1.Models.KhachHang khachHang = Session["khachHang"] as FreeTime1.Models.KhachHang;[m
+[31m-    Layout = "~/Views/Shared/_Layout_Ban_Hang.cshtml";[m
+[31m-}[m
+[31m-[m
+[31m-@section styles {[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/history.css">[m
+[31m-}[m
+[31m-<div class="ads-grid history">[m
+[31m-    <div class="history-title">Lịch sử đặt hàng</div>[m
+[31m-    <div class="history-body">[m
+[31m-        @foreach (FreeTime1.Models.DonHangDat donHangDat in Model)[m
+[31m-        {[m
+[31m-        <div class="history-doc">[m
+[31m-            @if (donHangDat.TrangThai == "Đã đặt")[m
+[31m-            {[m
+[31m-            <div class="history-doc-status-wait">[m
+[31m-                Đã đặt ngày @donHangDat.NgayDat đang chờ duyệt...[m
+[31m-                @*@using (Html.BeginForm("CancelOrderDoc", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))[m
+[31m-                {[m
+[31m-                    <input class="form-input hide" name="MaDHD" value="@donHangDat.MaDHD" />[m
+[31m-                    <input type="submit" value="Xóa" class="btn btn-sm order-stock-delete" />[m
+[31m-                }*@[m
+[31m-            </div>[m
+[31m-            }[m
+[31m-            else if (donHangDat.TrangThai == "Đang giao")[m
+[31m-            {[m
+[31m-                <div class="history-doc-status-delivering">Đã đặt ngày @donHangDat.NgayDat đang giao</div>[m
+[31m-            }[m
+[31m-            else if (donHangDat.TrangThai == "Đã thanh toán")[m
+[31m-            {[m
+[31m-                <div class="history-doc-status-success">Đã hoàn thành @donHangDat.NgayHoanThanh</div>[m
+[31m-            }[m
+[31m-            <div class="history-list-stock">[m
+[31m-                @foreach (FreeTime1.Models.HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)[m
+[31m-                {[m
+[31m-                <div class="history-stock">[m
+[31m-                    <img src="~/Images/MauHangs/@hangDonHangDat.Hang.MauHang.Anh" alt="@hangDonHangDat.Hang.MauHang.TenMH" style="width: 30%; margin-right: 1%;" />[m
+[31m-                    <div style="width: 69%">[m
+[31m-                        <div class="history-stock-name">@hangDonHangDat.Hang.MauHang.TenMH</div>[m
+[31m-                        <div class="history-stock-count">@hangDonHangDat.SoLuong@hangDonHangDat.Hang.MauHang.DonVi: @(hangDonHangDat.SoLuong*hangDonHangDat.Hang.GiaBan)VNĐ</div>[m
+[31m-                        <div class="history-stock-price">Giá: @(hangDonHangDat.Hang.GiaBan)VNĐ/1@(hangDonHangDat.Hang.MauHang.DonVi)</div>[m
+[31m-                    </div>[m
+[31m-                </div>[m
+[31m-                }[m
+[31m-            </div>[m
+[31m-            <div class="history-doc-total">Tổng đơn hàng: </div>[m
+[31m-        </div>[m
+[31m-        }[m
+[31m-    </div>[m
+[31m-</div>[m
+[31m-[m
+[1mdiff --git a/Views/DonHangDats/Index.cshtml b/Views/DonHangDats/Index.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex dbef98b..0000000[m
+[1m--- a/Views/DonHangDats/Index.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,45 +0,0 @@[m
+[31m-﻿@model IEnumerable<FreeTime1.Models.DonHangDat>[m
+[31m-[m
+[31m-@{[m
+[31m-    ViewBag.Title = "Index";[m
+[31m-}[m
+[31m-[m
+[31m-<h2>Index</h2>[m
+[31m-[m
+[31m-<p>[m
+[31m-    @Html.ActionLink("Create New", "Create")[m
+[31m-</p>[m
+[31m-<table class="table">[m
+[31m-    <tr>[m
+[31m-        <th>[m
+[31m-            @Html.DisplayNameFor(model => model.NgayDat)[m
+[31m-        </th>[m
+[31m-        <th>[m
+[31m-            @Html.DisplayNameFor(model => model.TrangThai)[m
+[31m-        </th>[m
+[31m-        <th>[m
+[31m-            @Html.DisplayNameFor(model => model.KhachHang.HoTen)[m
+[31m-        </th>[m
+[31m-        <th></th>[m
+[31m-    </tr>[m
+[31m-[m
+[31m-@foreach (var item in Model) {[m
+[31m-    <tr>[m
+[31m-        <td>[m
+[31m-            @Html.DisplayFor(modelItem => item.NgayDat)[m
+[31m-        </td>[m
+[31m-        <td>[m
+[31m-            @Html.DisplayFor(modelItem => item.TrangThai)[m
+[31m-        </td>[m
+[31m-        <td>[m
+[31m-            @Html.DisplayFor(modelItem => item.KhachHang.HoTen)[m
+[31m-        </td>[m
+[31m-        <td>[m
+[31m-            @Html.ActionLink("Edit", "Edit", new { id=item.MaDHD }) |[m
+[31m-            @Html.ActionLink("Details", "Details", new { id=item.MaDHD }) |[m
+[31m-            @Html.ActionLink("Delete", "Delete", new { id=item.MaDHD })[m
+[31m-        </td>[m
+[31m-    </tr>[m
+[31m-}[m
+[31m-[m
+[31m-</table>[m
+[1mdiff --git a/Views/DonHangDats/Order.cshtml b/Views/DonHangDats/Order.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex 06c01d8..0000000[m
+[1m--- a/Views/DonHangDats/Order.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,49 +0,0 @@[m
+[31m-﻿@model FreeTime1.Models.DonHangDat[m
+[31m-[m
+[31m-@{[m
+[31m-    ViewBag.Title = "Đơn Hàng Đặt";[m
+[31m-    FreeTime1.Models.KhachHang khachHang = Session["khachHang"] as FreeTime1.Models.KhachHang;[m
+[31m-    Layout = "~/Views/Shared/_Layout_Ban_Hang.cshtml";[m
+[31m-    decimal Tong = 0;[m
+[31m-    foreach (FreeTime1.Models.HangDonHangDat hangDonHangDat in Model.HangDonHangDats)[m
+[31m-    {[m
+[31m-        Tong += hangDonHangDat.Hang.GiaBan * hangDonHangDat.SoLuong;[m
+[31m-    }[m
+[31m-}[m
+[31m-[m
+[31m-@section styles {[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/order.css">[m
+[31m-}[m
+[31m-<div class="ads-grid order">[m
+[31m-    <div class="order-title">Danh sách mặt hàng đã chọn</div>[m
+[31m-    <div class="order-body">[m
+[31m-        <div class="order-body-left">[m
+[31m-            @foreach (FreeTime1.Models.HangDonHangDat hangDonHangDat in Model.HangDonHangDats)[m
+[31m-            {[m
+[31m-            <div class="order-stock">[m
+[31m-                <img class="order-stock-img" src="~/Images/MauHangs/@hangDonHangDat.Hang.MauHang.Anh" alt="@hangDonHangDat.Hang.MauHang.TenMH" />[m
+[31m-                <div class="order-stock-info">[m
+[31m-                    <div class="order-stock-info-name">@hangDonHangDat.Hang.MauHang.TenMH</div>[m
+[31m-                    <div class="order-stock-info-price">Đơn giá: 1 @hangDonHangDat.Hang.MauHang.DonVi/ @hangDonHangDat.Hang.GiaBan VNĐ</div>[m
+[31m-                    <div class="order-stock-info-count">Đang đặt: @hangDonHangDat.SoLuong @hangDonHangDat.Hang.MauHang.DonVi</div>[m
+[31m-                    <div class="order-stock-info-total">Tổng: @(hangDonHangDat.SoLuong*hangDonHangDat.Hang.GiaBan)VNĐ</div>[m
+[31m-                </div>[m
+[31m-                @using (Html.BeginForm("DeleteOrder", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))[m
+[31m-                {[m
+[31m-                    <input class="form-input hide" name="MaDHD" value="@hangDonHangDat.MaDHD" />[m
+[31m-                    <input class="form-input hide" name="MaH" value="@hangDonHangDat.MaH" />[m
+[31m-                    <input type="submit" value="Xóa" class="btn btn-sm order-stock-delete" />[m
+[31m-                }[m
+[31m-            </div>[m
+[31m-            }[m
+[31m-        </div>[m
+[31m-        <div class="order-body-right">[m
+[31m-            <div>Tổng cộng: @Tong VNĐ</div>[m
+[31m-            @using (Html.BeginForm("OrderDocument", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))[m
+[31m-            {[m
+[31m-                <input class="form-input hide" name="MaKH" value="@khachHang.MaKH" />[m
+[31m-                <input type="submit" value="Đặt đơn hàng" class="btn btn-success btn-sm order-submit" />[m
+[31m-            }[m
+[31m-        </div>[m
+[31m-    </div>[m
+[31m-</div>[m
+\ No newline at end of file[m
+[1mdiff --git a/Views/DonHangNhaps/Create.cshtml b/Views/DonHangNhaps/Create.cshtml[m
+[1mindex 014c5e1..b71abec 100644[m
+[1m--- a/Views/DonHangNhaps/Create.cshtml[m
+[1m+++ b/Views/DonHangNhaps/Create.cshtml[m
+[36m@@ -114,7 +114,7 @@[m [melse[m
+                     Kết thúc[m
+                 </span>[m
+             </a>[m
+[31m-            <a href="@Url.Action("CreateMauHangs", "DonHangNhaps", new { id = "" })" class="btn btn-success btn-sm">[m
+[32m+[m[32m            <a href="@Url.Action("Create", "MauHangs", new { id = "" })" class="btn btn-success btn-sm">[m
+                         <i class="fa fa-plus"></i>[m
+                         <span>[m
+                             Thêm mẫu hàng mới[m
+[1mdiff --git a/Views/DonHangNhaps/CreateMauHangs.cshtml b/Views/DonHangNhaps/CreateMauHangs.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex c40c615..0000000[m
+[1m--- a/Views/DonHangNhaps/CreateMauHangs.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,94 +0,0 @@[m
+[31m-﻿@model FreeTime1.Models.MauHang[m
+[31m-[m
+[31m-@{[m
+[31m-    ViewBag.Title = "Mẫu hàng mới";[m
+[31m-}[m
+[31m-[m
+[31m-@section styles {[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/text.css">[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/partition.css">[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/form.css">[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/noti.css" />[m
+[31m-}[m
+[31m-[m
+[31m-@section scripts {[m
+[31m-    <script src="~/Scripts/noti.js"></script>[m
+[31m-}[m
+[31m-@if (ViewBag.LoiFile != null)[m
+[31m-{[m
+[31m-    <div class="noti">[m
+[31m-        <div class="noti-content">[m
+[31m-            <div class="noti-header">[m
+[31m-                Thông báo![m
+[31m-                <div class="noti-close">[m
+[31m-                    đóng[m
+[31m-                </div>[m
+[31m-            </div>[m
+[31m-            <div class="noti-body">[m
+[31m-                @ViewBag.LoiFile[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-    </div>[m
+[31m-}[m
+[31m-<div>[m
+[31m-    <a href="@Url.Action("Create", new {})" class="btn btn-primary btn-sm">[m
+[31m-        <i class="fa fa-arrow-left"></i>[m
+[31m-        <span>[m
+[31m-            Quay về[m
+[31m-        </span>[m
+[31m-    </a>[m
+[31m-</div>[m
+[31m-<h2 class="text-title">Mẫu hàng mới</h2>[m
+[31m-@using (Html.BeginForm("CreateDocument", "DonHangNhaps", FormMethod.Post, new { enctype = "multipart/form-data" }))[m
+[31m-{[m
+[31m-    @Html.AntiForgeryToken()[m
+[31m-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })[m
+[31m-    <div class="form">[m
+[31m-        <div class="form-group">[m
+[31m-            <div class="form-field">[m
+[31m-                <div class="form-label">[m
+[31m-                    @Html.LabelFor(model => model.TenMH)[m
+[31m-                </div>[m
+[31m-                <div>[m
+[31m-                    @Html.EditorFor(model => model.TenMH, new { htmlAttributes = new { @class = "form-input" } })[m
+[31m-                    @Html.ValidationMessageFor(model => model.TenMH, "", new { @class = "text-danger" })[m
+[31m-                </div>[m
+[31m-            </div>[m
+[31m-            <div class="form-field">[m
+[31m-                <div class="form-label">[m
+[31m-                    @Html.LabelFor(model => model.DonVi)[m
+[31m-                </div>[m
+[31m-                <div>[m
+[31m-                    @Html.EditorFor(model => model.DonVi, new { htmlAttributes = new { @class = "form-input" } })[m
+[31m-                    @Html.ValidationMessageFor(model => model.DonVi, "", new { @class = "text-danger" })[m
+[31m-                </div>[m
+[31m-            </div>[m
+[31m-            <div class="form-field">[m
+[31m-                <div class="form-label">[m
+[31m-                    @Html.LabelFor(model => model.Anh)[m
+[31m-                </div>[m
+[31m-                <div>[m
+[31m-                    <div class="custom-file">[m
+[31m-                        <input type="file" class="custom-file-input" name="Anh" multiple id="customFile" />[m
+[31m-                    </div>[m
+[31m-                    @Html.ValidationMessageFor(model => model.Anh, "", new { @class = "text-danger" })[m
+[31m-                </div>[m
+[31m-            </div>[m
+[31m-            <div class="form-field">[m
+[31m-                <div class="form-label">[m
+[31m-                    @Html.LabelFor(model => model.ChuThich)[m
+[31m-                </div>[m
+[31m-                <div>[m
+[31m-                    @Html.EditorFor(model => model.ChuThich, new { htmlAttributes = new { @class = "form-input" } })[m
+[31m-                    @Html.ValidationMessageFor(model => model.ChuThich, "", new { @class = "text-danger" })[m
+[31m-                </div>[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-    </div>[m
+[31m-    <div class="form-footer">[m
+[31m-        <div>[m
+[31m-            <input type="submit" value="Tạo mẫu hàng" class="btn btn-success btn-sm" />[m
+[31m-        </div>[m
+[31m-    </div>[m
+[31m-}[m
+[31m-[m
+[1mdiff --git a/Views/DonHangNhaps/Index.cshtml b/Views/DonHangNhaps/Index.cshtml[m
+[1mindex 022939d..85c46b7 100644[m
+[1m--- a/Views/DonHangNhaps/Index.cshtml[m
+[1m+++ b/Views/DonHangNhaps/Index.cshtml[m
+[36m@@ -125,7 +125,6 @@[m
+             grid.Column("GiamGia","Giảm giá"),[m
+             grid.Column("KieuGiamGia","Kiểu giảm giá"),[m
+             grid.Column("TongDonHang","Tổng đơn hàng",format:@item => @item.TongDonHang.ToString("#,##0.")),[m
+[31m-            grid.Column("DaDuyet","Trạng thái",format: @item => @item.DaDuyet == true ? "Đã duyệt" : "Chưa duyệt"),[m
+             grid.Column("", "", format:[m
+ @<div>[m
+     <a href="@Url.Action("Details", new { id = item.MaDHN })" class="btn btn-info btn-sm">[m
+[1mdiff --git a/Views/DonHangXuats/Index.cshtml b/Views/DonHangXuats/Index.cshtml[m
+[1mindex 2310958..1dda3de 100644[m
+[1m--- a/Views/DonHangXuats/Index.cshtml[m
+[1m+++ b/Views/DonHangXuats/Index.cshtml[m
+[36m@@ -122,7 +122,6 @@[m
+             grid.Column("GiamGia","Giảm giá"),[m
+             grid.Column("KieuGiamGia","Kiểu giảm giá"),[m
+             grid.Column("TongDonHang","Tổng đơn hàng",format:@item => @item.TongDonHang.ToString("#,##0.")),[m
+[31m-            grid.Column("DaDuyet","Trạng thái",format: @item => @item.DaDuyet == true ? "Đã duyệt" : "Chưa duyệt"),[m
+             grid.Column("", "", format:[m
+             @<div>[m
+                 <a href="@Url.Action("Details", new { id = item.MaDHX })" class="btn btn-info btn-sm">[m
+[1mdiff --git a/Views/Hangs/Index.cshtml b/Views/Hangs/Index.cshtml[m
+[1mindex 1d72bfd..25af996 100644[m
+[1m--- a/Views/Hangs/Index.cshtml[m
+[1m+++ b/Views/Hangs/Index.cshtml[m
+[36m@@ -40,36 +40,24 @@[m
+                     <input type="text" name="TenMH" value="@ViewBag.TenMH" class="search-input" />[m
+                 </td>[m
+             </tr>[m
+[31m-            <tr class="search-table-tr">[m
+[31m-                <td class="search-table-td search-label">[m
+[31m-                    <div>Nhà Cung Cấp</div>[m
+[31m-                </td>[m
+[31m-                <td class="search-table-td">[m
+[31m-                    <input type="text" name="TenNCC" value="@ViewBag.TenNCC" class="search-input" />[m
+[31m-                </td>[m
+[31m-            </tr>[m
+         </table>[m
+         <table class="search-table">[m
+             <tr class="search-table-tr">[m
+                 <td class="search-table-td search-label">[m
+[31m-                    <div>Giá nhập</div>[m
+[32m+[m[32m                    <div>Giá trị hàng</div>[m
+                 </td>[m
+                 <td class="search-table-td search-range-input">[m
+[31m-                    từ[m
+[31m-                    <input name="GiaNhapBD" value="@ViewBag.GiaNhapBD" class="search-input" />[m
+[32m+[m[32m                    <input name="GiaTriHangBD" value="@ViewBag.GiaTriHangBD" class="search-input" />[m
+                     đến[m
+[31m-                    <input name="GiaNhapKT" value="@ViewBag.GiaNhapKT" class="search-input" />[m
+[32m+[m[32m                    <input name="GiaTriHangKT" value="@ViewBag.GiaTriHangKT" class="search-input" />[m
+                 </td>[m
+             </tr>[m
+             <tr class="search-table-tr">[m
+                 <td class="search-table-td search-label">[m
+[31m-                    <div>Giá bán</div>[m
+[32m+[m[32m                    <div>Nhà Cung Cấp</div>[m
+                 </td>[m
+[31m-                <td class="search-table-td search-range-input">[m
+[31m-                    từ[m
+[31m-                    <input name="GiaBanBD" value="@ViewBag.GiaBanBD" class="search-input" />[m
+[31m-                    đến[m
+[31m-                    <input name="GiaBanKT" value="@ViewBag.GiaBanKT" class="search-input" />[m
+[32m+[m[32m                <td class="search-table-td">[m
+[32m+[m[32m                    <input type="text" name="TenNCC" value="@ViewBag.TenNCC" class="search-input" />[m
+                 </td>[m
+             </tr>[m
+         </table>[m
+[36m@@ -122,7 +110,7 @@[m
+         {[m
+             grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),[m
+             grid.Column("MaH","Mã Mặt Hàng"),[m
+[31m-            grid.Column("MauHang.TenMH","Tên Mặt Hàng"),[m
+[32m+[m[32m            grid.Column("MauHang.TenMH","Tên Mặt Hàng"  ),[m
+             grid.Column("SoLuong","Số Lượng"),[m
+             grid.Column("GiaNhap","Giá Nhập",format:@item => @item.GiaNhap.ToString("#,##0.")),[m
+             grid.Column("GiaBan","Giá Bán",format:@item => @item.GiaBan.ToString("#,##0.")),[m
+[1mdiff --git a/Views/Home/Index.cshtml b/Views/Home/Index.cshtml[m
+[1mindex 8cc943f..99027c0 100644[m
+[1m--- a/Views/Home/Index.cshtml[m
+[1m+++ b/Views/Home/Index.cshtml[m
+[36m@@ -1,22 +1,10 @@[m
+[31m-﻿@model IEnumerable<FreeTime1.Models.Hang>[m
+[31m-[m
+[31m-@{[m
+[32m+[m[32m﻿@{[m
+     ViewBag.Title = "Trang chủ";[m
+     FreeTime1.Models.NguoiDung nguoiDung = Session["nguoiDung"] as FreeTime1.Models.NguoiDung;[m
+[31m-    FreeTime1.Models.KhachHang khachHang = Session["khachHang"] as FreeTime1.Models.KhachHang;[m
+[32m+[m[32m    FreeTime1.Models.KhachHang khachHang = Session["nguoiDung"] as FreeTime1.Models.KhachHang;[m
+     Layout = nguoiDung == null ? "~/Views/Shared/_Layout_Ban_Hang.cshtml" : "~/Views/Shared/_Layout.cshtml";[m
+ }[m
+ [m
+[31m-@section styles {[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/product.css">[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/form.css">[m
+[31m-    <link rel="stylesheet" type="text/css" href="~/Content/noti.css">[m
+[31m-[m
+[31m-}[m
+[31m-[m
+[31m-@section scripts {[m
+[31m-    <script src="~/Scripts/noti.js"></script>[m
+[31m-}[m
+ @if (nguoiDung != null)[m
+ {[m
+     <div>[m
+[36m@@ -25,22 +13,6 @@[m
+ }[m
+ else[m
+ {[m
+[31m-    if (ViewBag.ThongBao != null)[m
+[31m-    {[m
+[31m-        <div class="noti">[m
+[31m-            <div class="noti-content">[m
+[31m-                <div class="noti-header">[m
+[31m-                    Thông báo![m
+[31m-                    <div class="noti-close">[m
+[31m-                        đóng[m
+[31m-                    </div>[m
+[31m-                </div>[m
+[31m-                <div class="noti-body">[m
+[31m-                    @ViewBag.ThongBao[m
+[31m-                </div>[m
+[31m-            </div>[m
+[31m-        </div>[m
+[31m-    }[m
+     <div class="ads-grid">[m
+         <div class="container">[m
+             <h3 class="tittle-w3l">[m
+[36m@@ -68,34 +40,6 @@[m [melse[m
+             </div>[m
+             <div class="agileinfo-ads-display col-md-9">[m
+                 <div class="wrapper">[m
+[31m-                    @foreach (var item in Model)[m
+[31m-                    {[m
+[31m-                        <div class="product">[m
+[31m-                            <img class="product-img" src="~/Images/MauHangs/@item.MauHang.Anh" />[m
+[31m-                            <div class="product-info">[m
+[31m-                                <div class="product-info-name">@item.MauHang.TenMH</div>[m
+[31m-                                <div class="product-info-price">1 @item.MauHang.DonVi/ @item.GiaBan</div>[m
+[31m-                                <div class="product-info-count">Còn @item.SoLuong @item.MauHang.DonVi</div>[m
+[31m-                                <div class="product-info-des">@item.MauHang.ChuThich</div>[m
+[31m-                                <div class="product-action">[m
+[31m-                                    @if (khachHang != null)[m
+[31m-                                    {[m
+[31m-                                        using (Html.BeginForm("OrderStock", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))[m
+[31m-                                        {[m
+[31m-                                            <input class="form-input hide" name="MaKH" value="@khachHang.MaKH" />[m
+[31m-                                            <input class="form-input hide" name="MaH" value="@item.MaH" />[m
+[31m-                                            <input type="number" class="form-input" name="SoLuong" id="soLuongInput" style="width: 75%; height: 33px; margin: 5px 0;" value="0" min="0" max="@item.SoLuong" />[m
+[31m-                                            <input type="submit" value="Đặt hàng" class="btn btn-success btn-sm" />[m
+[31m-                                        }[m
+[31m-                                    }[m
+[31m-                                    else[m
+[31m-                                    {[m
+[31m-                                        @Html.ActionLink("Đặt hàng", "Index", "Login", null, new { @class = "btn btn-success btn-sm" })[m
+[31m-                                    }[m
+[31m-                                </div>[m
+[31m-                            </div>[m
+[31m-                        </div>[m
+[31m-                    }[m
+                 </div>[m
+             </div>[m
+         </div>[m
+[1mdiff --git a/Views/Shared/_Layout_Ban_Hang.cshtml b/Views/Shared/_Layout_Ban_Hang.cshtml[m
+[1mindex 1c6cca2..68674aa 100644[m
+[1m--- a/Views/Shared/_Layout_Ban_Hang.cshtml[m
+[1m+++ b/Views/Shared/_Layout_Ban_Hang.cshtml[m
+[36m@@ -18,9 +18,7 @@[m
+             window.scrollTo(0, 1);[m
+         }[m
+     </script>[m
+[31m-    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>[m
+     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" media="all" />[m
+[31m-    <link rel="stylesheet" href="~/fonts/font-awesome/font-awesome-4.7.0/css/font-awesome.min.css">[m
+     <link href="~/Content/style.css" rel="stylesheet" type="text/css" media="all" />[m
+     <link href="~/Content/font-awesome.css" rel="stylesheet">[m
+     <link href="~/Content/popuo-box.css" rel="stylesheet" type="text/css" media="all" />[m
+[36m@@ -41,44 +39,12 @@[m
+             </div>[m
+             <div class="col-md-8 header">[m
+                 <ul style="display: flex; justify-content: flex-end;">[m
+[31m-                    @if (khachHang != null)[m
+[31m-                    {[m
+[31m-                        if (ViewBag.HistoryBackStore == null)[m
+[31m-                        {[m
+[31m-                            <li style="font-size: 15px; font-weight: bold; display: flex; justify-content: center; align-items: center;">[m
+[31m-                                @Html.ActionLink("Lịch sử", "History", "DonHangDats", new { MaKH = khachHang.MaKH }, new { @style = "color: #ffac2f;" })[m
+[31m-                            </li>[m
+[31m-                        }[m
+[31m-                        else[m
+[31m-                        {[m
+[31m-                            <li>[m
+[31m-                                <button class="w3view-cart" onclick="location.href='@Url.Action("Index", "Home")'" style="background: none; position: relative;">[m
+[31m-                                    <img src="~/Images/store.png" alt="Giỏ hàng" style="width: 100%;" />[m
+[31m-                                </button>[m
+[31m-                            </li>[m
+[31m-                        }[m
+[31m-                    }[m
+                     <li>[m
+                         @if (khachHang != null)[m
+                         {[m
+[31m-                            if (ViewBag.CartBackStore == null)[m
+[31m-                            {[m
+[31m-                                <button class="w3view-cart" onclick="location.href='@Url.Action("Orders", "DonHangDats")'" style="background: none; position: relative;">[m
+[31m-                                    <img src="~/Images/shopping_cart.png" alt="Giỏ hàng" style="width: 100%;" />[m
+[31m-                                    @if (ViewBag.SoLuongHangDat != null && ViewBag.SoLuongHangDat > 0)[m
+[31m-                                    {[m
+[31m-                                        <span class="badge badge-light" style="position: absolute; top: 0; right: -50%; background: #FF5722; color: white;">[m
+[31m-                                            @ViewBag.SoLuongHangDat[m
+[31m-                                        </span>[m
+[31m-                                    }[m
+[31m-                                </button>[m
+[31m-                            }[m
+[31m-                            else[m
+[31m-                            {[m
+[31m-                                <button class="w3view-cart" onclick="location.href='@Url.Action("Index", "Home")'" style="background: none; position: relative;">[m
+[31m-                                    <img src="~/Images/store.png" alt="Giỏ hàng" style="width: 100%;" />[m
+[31m-                                </button>[m
+[31m-                            }[m
+[32m+[m[32m                            <button class="w3view-cart" style="background: none;">[m
+[32m+[m[32m                                <img src="~/Images/shopping_cart.png" alt="Giỏ hàng" style="width: 100%;" />[m
+[32m+[m[32m                            </button>[m
+                         }[m
+                     </li>[m
+                     <li>[m

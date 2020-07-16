@@ -29,7 +29,7 @@ namespace FreeTime1.Models
         [Display(Name = "Kiểu Giảm Giá")]
         public string KieuGiamGia { get; set; }
         public decimal TongDonHang { get; set; }
-        public Boolean DaDuyet { get; set; }
+        public bool DaDuyet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HangDonHangXuat> HangDonHangXuats { get; set; }
         public virtual KhachHang KhachHang { get; set; }

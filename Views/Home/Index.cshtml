@@ -10,16 +10,37 @@
 @section styles {
     <link rel="stylesheet" type="text/css" href="~/Content/product.css">
     <link rel="stylesheet" type="text/css" href="~/Content/form.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/noti.css">
+
 }
 
+@section scripts {
+    <script src="~/Scripts/noti.js"></script>
+}
 @if (nguoiDung != null)
 {
-    <div>
-        <img src="~/imgs/homePage.png/ ">
-    </div>
+<div>
+    <img src="~/imgs/homePage.png"  /> 
+</div>
 }
 else
 {
+    if (ViewBag.ThongBao != null)
+    {
+        <div class="noti">
+            <div class="noti-content">
+                <div class="noti-header">
+                    Thông báo!
+                    <div class="noti-close">
+                        đóng
+                    </div>
+                </div>
+                <div class="noti-body">
+                    @ViewBag.ThongBao
+                </div>
+            </div>
+        </div>
+    }
     <div class="ads-grid">
         <div class="container">
             <h3 class="tittle-w3l">

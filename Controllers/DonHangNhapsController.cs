@@ -20,6 +20,7 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             var donHangNhaps = db.DonHangNhaps.Include(d => d.NhaCungCap);
+            decimal TongGiaTriNhap = 0;
             foreach (DonHangNhap donHangNhap in donHangNhaps)
             {
                 donHangNhap.TongDonHang = 0;
@@ -42,7 +43,9 @@ namespace FreeTime1.Controllers
                         donHangNhap.TongDonHang -= donHangNhap.TongDonHang / 100 * decimal.Parse(donHangNhap.GiamGia);
                     }
                 }
+                TongGiaTriNhap += donHangNhap.TongDonHang;
             }
+            ViewBag.TongGiaTriNhap = TongGiaTriNhap;
             return View(donHangNhaps);
         }
         // GET: DonHangNhaps/Details/5
@@ -361,8 +364,10 @@ namespace FreeTime1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMauHangs([Bind(Include = "MaMH,TenMH,DonVi,Anh,ChuThich")] MauHang mauHang)
+        public ActionResult CreateMauHangs(string MaDHN, string MaMH, string TenMH, string DonVi, string ChuThich)
         {
+            var donHangNhap = db.DonHangNhaps.Where(d => d.MaDHN == MaDHN).FirstOrDefault();
+            MauHang mauHang = db.MauHangs.Single(d => d.MaMH == MaMH);
             if (ModelState.IsValid)
             {
 
@@ -388,7 +393,7 @@ namespace FreeTime1.Controllers
                 return View("Index", db.MauHangs.ToList());
             }
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
-            return View("Create");
+            return View("CreateDocument");
         }
 
         public ActionResult DeleteInStock(string MaDHN, string MaH)

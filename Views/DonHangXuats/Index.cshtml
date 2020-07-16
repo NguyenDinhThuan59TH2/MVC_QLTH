@@ -14,7 +14,102 @@
 
 @section scripts {
     <script src="~/Scripts/noti.js"></script>
+    <script src="~/Scripts/number.js"></script>
+    <script type="text/javascript">
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        document.querySelector('#in-hoa-don-xuat').addEventListener('click', () => {
+            const MaDHX = []
+            const HoTen = []
+            const TongDonHang = []
+            const tongGiaTriXuat = '@ViewBag.TongGiaTriXuat'
+            const GiamGia = []
+            const KieuGiamGia = []
+            const NgayThucHien = []
+            const ngayBD = '@ViewBag.NgayXuat'
+            const ngayKT = '@ViewBag.NgayThucHienKT'
+            const ngayXuat = !ngayBD && !ngayKT ? 'Toàn thời gian' : ngayBD == ngayKT ? `trong ngày ${ngayKT}` : `từ ngày ${ngayBD} đến ngày ${ngayKT}`
+            @foreach (var item in Model)
+            {
+                var giamGia = item.GiamGia;
+                if (giamGia == null) { giamGia = "0"; }
+                @:MaDHX.push('@item.MaDHX');
+                @:HoTen.push('@item.KhachHang.HoTen')
+                @:TongDonHang.push(@item.TongDonHang ? @item.TongDonHang : '');
+                @:NgayThucHien.push('@item.NgayXuat' ? '@item.NgayXuat' : '');
+                @:GiamGia.push(@item.GiamGia);
+                @:KieuGiamGia.push('@item.KieuGiamGia' ? '@item.KieuGiamGia' : '');
+            }
+            const danhSachDonHangXuat = []
+            for (let i = 0; i < MaDHX.length; i++) {
+                danhSachDonHangXuat.push({
+                    MaDHX: MaDHX[i],
+                    HoTen: HoTen[i],
+                    TongDonHang: TongDonHang[i],
+                    NgayThucHien: NgayThucHien[i],
+                    GiamGia: GiamGia[i],
+                    KieuGiamGia: KieuGiamGia[i]
+                })
+            }
+            const printWindow = window.open('', '_blank')
+            printWindow.open()
+            printWindow.document.write(`
+                <html>
+                  <head>
+                  </head>
+                  <body>
+                    <div style="width: 100%">
+                      <div style="width: 100%; text-align: center;">
+                        TẠP HÓA PHÚC THẢO
+                        <h4 style="margin: 15px 0;">BÁO CÁO ĐƠN HÀNG XUẤT</h4>
+                        <h4 style="margin: 15px 0;">Thời gian: ${ngayXuat}</h4>
+                      </div>
+                      <table style="width: 100%; white-space: nowrap; margin-top: 15px; border-collapse: collapse;">
+                        <tbody>
+                          <tr style="border-bottom: 1px solid; border-top: 1px solid;">
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">STT</th>
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">Mã đơn hàng xuất</th>
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">Tên khách hàng</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Ngày xuất</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Giảm giá</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Tổng đơn hàng</th>
+                          </tr>
+                          ${danhSachDonHangXuat.map((donHangXuat, index) => {
+                              const giamGia = `${numberWithCommas(donHangXuat.GiamGia ? parseFloat(donHangXuat.GiamGia) : 0)}${donHangXuat.KieuGiamGia}`
+                            return `
+                              <tr>
+                                <td style="padding-left: 3px; text-align: center; border: 1px solid #000">${index + 1}</td>
+                                <td style="padding-left: 3px; border: 1px solid #000">${donHangXuat.MaDHX}</td>
+                                <td style="padding-left: 3px; border: 1px solid #000">${donHangXuat.HoTen}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${donHangXuat.NgayThucHien}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${giamGia}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${numberWithCommas(parseFloat(donHangXuat.TongDonHang))}</td>
+                              </tr>
+                            `
+                          }).join('')}
+                        </tbody>
+                      </table>
+                      <table style="width: 100%; white-space: nowrap">
+                        <tbody>
+                            <tr>
+                            <td style="text-align: right"><h5 style="margin: 0">Tổng giá trị xuất:</h5 style="margin:0"></td>
+                            <td style="width: 110px; text-align: right"><h4 style="margin:0">${numberWithCommas(parseFloat(tongGiaTriXuat))}</h4></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                  </body>
+                </html>
+            `)
+            printWindow.document.close()
+            printWindow.focus()
+            printWindow.print()
+            printWindow.close()
+        })
+    </script>
 }
+
 
 @if (ViewBag.XoaThanhCong != null)
 {
@@ -105,7 +200,8 @@
         <a href="@Url.Action("Create", new {})" class="btn btn-success btn-sm">
             <i class="fa fa-plus"></i>
             <span>Tạo đơn hàng xuất</span>
-        </a>
+        </a>        
+        <button id="in-hoa-don-xuat" class="btn-print">In hóa đơn xuất</button>
     </div>
     @grid.GetHtml(
         tableStyle: "table table-bordered table-hover",
@@ -134,7 +230,8 @@
         <span>Xem thêm</span>
     </a>
 </div>
-            ),
-            }
-            )
-        </div>
+),
+}
+)
+</div>
+

@@ -92,7 +92,25 @@ create table DonHangXuat(
 	NgayXuat DATETIME not null,
 	GiamGia varchar(10),
 	KieuGiamGia Nvarchar(100),
-	DaDuyet bit not null,
+	DaDuyet bit not null
+)
+
+create table DonHangDat(
+	MaDHD VARCHAR(10) primary key not null,
+	MaKH VARCHAR(10)  not null,
+	NgayBatDau DATETIME not null,
+	NgayDat DATETIME,
+	NgayGiao DATETIME,
+	NgayHoanThanh DATETIME,
+	TrangThai NVARCHAR(30) not null,
+	DaXoa bit not null
+)
+
+create table HangDonHangDat(
+	MaDHD VARCHAR(10) not null,
+	MaH VARCHAR(10) not null,
+	SoLuong int NOT NULL,
+	PRIMARY KEY (MaDHD,MaH)
 )
 
 
@@ -208,24 +226,36 @@ insert into Hang values
 	('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','10','30000'),
 	('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','10','15000'),
 	('H4','MH2','NCC4','2021/12/12','2020/5/8','120000','10','130000'),
-	('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','10','300000'),
+	('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','7','300000'),
 	('H6','MH4','NCC5','2021/09/12','2020/5/8','300000','10','330000')
 
 
 insert into DonHangNhap values
-	('DHN1','NCC1','2020/8/12','10',N'%', '0'),
-	('DHN2','NCC2','2020/8/12','10000',N'VNĐ', '0'),
-	('DHN3','NCC3','2020/8/12','20000',N'VNĐ', '0'),
-	('DHN4','NCC4','2020/8/12','15',N'%', '0'),
+	('DHN1','NCC1','2020/8/12','10',N'%', '1'),
+	('DHN2','NCC2','2020/8/12','10000',N'VNĐ', '1'),
+	('DHN3','NCC3','2020/8/12','20000',N'VNĐ', '1'),
+	('DHN4','NCC4','2020/8/12','15',N'%', '1'),
 	('DHN5','NCC5','2020/8/12','25',N'%', '0')
 
 
 insert into DonHangXuat values
-	('DHX1','KH1','2020/11/11','10',N'%', '0'),
-	('DHX2','KH2','2020/11/11','10000',N'VNĐ', '0'),
-	('DHX3','KH3','2020/11/11','20000',N'VNĐ', '0'),
-	('DHX4','KH4','2020/11/11','15',N'%', '0'),
+	('DHX1','KH1','2020/11/11','10',N'%', '1'),
+	('DHX2','KH2','2020/11/11','10000',N'VNĐ', '1'),
+	('DHX3','KH3','2020/11/11','20000',N'VNĐ', '1'),
+	('DHX4','KH4','2020/11/11','15',N'%', '1'),
 	('DHX5','KH5','2020/11/11','25',N'%', '0')
+
+insert into DonHangDat values
+	('DHD1','KH2','2020/11/11',NULL,NULL,NULL,N'Đang đặt', '0'),
+	('DHD2','KH3','2020/11/11','2020/11/11',NULL,NULL,N'Đã đặt', '0'),
+	('DHD3','KH4','2020/11/11','2020/11/11','2020/11/11',NULL,N'Đang giao', '0'),
+	('DHD4','KH5','2020/11/11','2020/11/11','2020/11/11','2020/11/11',N'Đã thanh toán', '0')
+
+insert into HangDonHangDat values
+	('DHD1','H1','1'),
+	('DHD2','H2','1'),
+	('DHD3','H3','1'),
+	('DHD4','H5','3')
 
 insert into HangDonHangNhap values
 	('DHN1','H1','10'),
