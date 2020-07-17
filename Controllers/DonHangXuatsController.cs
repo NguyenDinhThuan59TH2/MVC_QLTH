@@ -334,6 +334,7 @@ namespace FreeTime1.Controllers
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             DonHangXuat donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX && d.DaDuyet == false && d.DaXoa == false).Include(d => d.HangDonHangXuats).FirstOrDefault();
             if (donHangXuat == null) return RedirectToAction("Index");
+            if (donHangXuat.HangDonHangXuats.Count() == 0) return RedirectToAction("EditDocument", new { MaDHX = MaDHX, Loi = "Đơn hàng rỗng" });
             bool khongDuHang = false;
             foreach (HangDonHangXuat hangDonHangXuat in donHangXuat.HangDonHangXuats)
             {
