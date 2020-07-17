@@ -45,5 +45,9 @@ namespace FreeTime1.Controllers
             Session.Clear();
             return RedirectToAction("Index", "Home");
         }
+        public ActionResult Registration()
+        {
+            return View();
+        }
     }
 }

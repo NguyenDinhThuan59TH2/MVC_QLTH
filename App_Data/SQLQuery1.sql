@@ -234,7 +234,7 @@ insert into DonHangNhap values
 	('DHN2','NCC2','2020/8/12','10000',N'VNĐ', '1'),
 	('DHN3','NCC3','2020/8/12','20000',N'VNĐ', '1'),
 	('DHN4','NCC4','2020/8/12','15',N'%', '1'),
-	('DHN5','NCC5','2020/8/12','25',N'%', '1')
+	('DHN5','NCC5','2020/8/12','25',N'%', '0')
 
 
 insert into DonHangXuat values
@@ -270,4 +270,4 @@ insert into HangDonHangXuat values
 	('DHX4','H4','8'),
 	('DHX5','H5','9')
 
-select * from KhachHang
+select * from TaiKhoanKhachHang

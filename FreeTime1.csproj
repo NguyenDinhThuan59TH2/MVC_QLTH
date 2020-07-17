@@ -518,6 +518,7 @@
     <Content Include="Views\DonHangDats\Order.cshtml" />
     <Content Include="Views\DonHangNhaps\CreateMauHangs.cshtml" />
     <Content Include="Views\DonHangDats\History.cshtml" />
+    <Content Include="Views\Login\Registration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />

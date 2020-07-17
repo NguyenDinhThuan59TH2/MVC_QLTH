@@ -148,15 +148,24 @@ namespace FreeTime1.Controllers
 
         public ActionResult Details(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DonHangDat donHangDat = db.DonHangDats.Find(id);
+            DonHangDat donHangDat = db.DonHangDats.Where(d => d.MaDHD == id).Include(d => d.HangDonHangDats).FirstOrDefault();
             if (donHangDat == null)
             {
                 return HttpNotFound();
             }
+            decimal tongDonHang = 0;
+            foreach (HangDonHangDat hangDonHangDat in donHangDat.HangDonHangDats)
+            {
+                hangDonHangDat.Hang = db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).Include(d => d.MauHang).FirstOrDefault();
+                tongDonHang += hangDonHangDat.SoLuong * hangDonHangDat.Hang.GiaBan;
+            }
+            donHangDat.TongDonHang = tongDonHang;
             return View(donHangDat);
         }
         public ActionResult Create()

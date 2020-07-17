@@ -95,6 +95,20 @@
                         @Html.ValidationMessageFor(model => model.NgayNhap, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.DaDuyet,"Trạng thái")
+                    </div>
+                    <div>
+                        <div class="checkbox">
+
+                            Đã duyệt @Html.RadioButtonFor(model => model.DaDuyet, "True", true) &nbsp;
+                            Chưa duyệt @Html.RadioButtonFor(model => model.DaDuyet, "False",false)
+                            @Html.ValidationMessageFor(model => model.DaDuyet, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-footer">
