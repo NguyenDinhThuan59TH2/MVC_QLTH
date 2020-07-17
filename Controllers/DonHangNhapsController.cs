@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -78,7 +80,7 @@ namespace FreeTime1.Controllers
             }
             ViewBag.TongDonHang = String.Format("{0:n0}", TongDonHang);
             ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();
-            ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();
+            ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC && d.DaNhap == true).Include(d => d.MauHang).ToList();
             ViewBag.Loi = Loi;
             return View("Create", donHangNhap);
         }
@@ -93,7 +95,7 @@ namespace FreeTime1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var hangDonHangNhaps = db.HangDonHangNhaps.Where(hangDonHangNhap => hangDonHangNhap.MaDHN == id).Include(hangDonHangNhap => hangDonHangNhap.DonHangNhap);
-            decimal TongDonHang = 0;
+            decimal TongDonhang = 0;
             decimal TongChuaThue = 0;
             foreach (var hangDonHangNhap in hangDonHangNhaps)
             {
@@ -103,8 +105,8 @@ namespace FreeTime1.Controllers
                 hangDonHangNhap.DonHangNhap.NhaCungCap = NhaCungCap;
                 hangDonHangNhap.Hang = Hang;
                 hangDonHangNhap.Hang.MauHang = MauHang;
-                TongDonHang += hangDonHangNhap.SoLuong * hangDonHangNhap.Hang.GiaNhap;
-                TongChuaThue += hangDonHangNhap.SoLuong * hangDonHangNhap.Hang.GiaNhap; ;
+                TongDonhang += hangDonHangNhap.SoLuong * hangDonHangNhap.Hang.GiaNhap;
+                TongChuaThue += hangDonHangNhap.SoLuong * hangDonHangNhap.Hang.GiaNhap;
             }
             if (hangDonHangNhaps == null)
             {
@@ -115,14 +117,14 @@ namespace FreeTime1.Controllers
             {
                 if (donHangNhap.KieuGiamGia == "VNĐ")
                 {
-                    TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
+                    TongDonhang -= decimal.Parse(donHangNhap.GiamGia);
                 } else if (donHangNhap.KieuGiamGia == "%") {
-                    TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangNhap.GiamGia);
+                    TongDonhang -= TongDonhang / 100 * decimal.Parse(donHangNhap.GiamGia);
                 }
             }
 
             ViewBag.TongChuaThue = TongChuaThue;
-            ViewBag.TongDonHang = TongDonHang;
+            ViewBag.TongDonhang = TongDonhang;
             ViewBag.MaDHN = donHangNhap.MaDHN;
             ViewBag.TenNCC = donHangNhap.NhaCungCap.TenNCC;
             ViewBag.NgayNhap = donHangNhap.NgayNhap;
@@ -256,7 +258,7 @@ namespace FreeTime1.Controllers
                 ViewBag.Loi = "Số lượng phải lớn hơn 0";
                 loi = true;
             } else {
-                hang.SoLuong = int.Parse(SoLuong);
+                hang.SoLuong = 0;
             }
             if (GiaNhap == "")
             {
@@ -291,8 +293,9 @@ namespace FreeTime1.Controllers
                 hang.MaMH = MaMH;
                 hang.MaNCC = donHangNhap.MaNCC;
                 hang.NgayNhap = donHangNhap.NgayNhap;
+                hang.DaNhap = false;
                 HangDonHangNhap hangDonHangNhap = new HangDonHangNhap();
-                hangDonHangNhap.SoLuong = 0;
+                hangDonHangNhap.SoLuong = int.Parse(SoLuong);
                 hangDonHangNhap.MaH = hang.MaH;
                 hangDonHangNhap.MaDHN = donHangNhap.MaDHN;
                 db.Hangs.Add(hang);
@@ -469,7 +472,7 @@ namespace FreeTime1.Controllers
             }
             ViewBag.TongDonHang = String.Format("{0:n0}", TongDonHang);
             ViewBag.MauHangs = db.MauHangs.ToList();
-            ViewBag.Hangs = db.Hangs.Include(d => d.MauHang).ToList();
+            ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();
             return View("Create", donHangNhap);
         }
         public ActionResult DeleteDocument(string MaDHN)
@@ -494,6 +497,7 @@ namespace FreeTime1.Controllers
             foreach (HangDonHangNhap hangDonHangNhap in donHangNhap.HangDonHangNhaps)
             {
                 Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangNhap.MaH).Include(d => d.MauHang).FirstOrDefault();
+                hang.DaNhap = true;
                 hang.SoLuong += hangDonHangNhap.SoLuong;
             }
             donHangNhap.DaDuyet = true;

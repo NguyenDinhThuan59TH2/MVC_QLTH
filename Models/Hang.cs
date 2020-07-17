@@ -40,6 +40,7 @@ namespace FreeTime1.Models
         public int SoLuong { get; set; }
         [Display(Name = "Giá bán")]
         public decimal GiaBan { get; set; }
+        public bool DaNhap { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HangDonHangNhap> HangDonHangNhaps { get; set; }

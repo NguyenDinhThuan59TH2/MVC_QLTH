@@ -54,6 +54,7 @@
           <Property Name="GiaNhap" Type="money" Nullable="false" />
           <Property Name="SoLuong" Type="int" Nullable="false" />
           <Property Name="GiaBan" Type="money" Nullable="false" />
+          <Property Name="DaNhap" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="HangDonHangDat">
           <Key>
@@ -371,6 +372,7 @@
           <NavigationProperty Name="MauHang" Relationship="Self.FK_MauHang_Hang" FromRole="Hang" ToRole="MauHang" />
           <NavigationProperty Name="NhaCungCap" Relationship="Self.FK_NhaCungCap_Hang" FromRole="Hang" ToRole="NhaCungCap" />
           <NavigationProperty Name="HangDonHangDats" Relationship="QLTapHoaModel.FK_Hang_DonHangDat" FromRole="Hang" ToRole="HangDonHangDat" />
+          <Property Name="DaNhap" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="HangDonHangNhap">
           <Key>
@@ -749,6 +751,7 @@
           <EntitySetMapping Name="Hangs">
             <EntityTypeMapping TypeName="QLTapHoaModel.Hang">
               <MappingFragment StoreEntitySet="Hang">
+                <ScalarProperty Name="DaNhap" ColumnName="DaNhap" />
                 <ScalarProperty Name="MaH" ColumnName="MaH" />
                 <ScalarProperty Name="MaMH" ColumnName="MaMH" />
                 <ScalarProperty Name="MaNCC" ColumnName="MaNCC" />

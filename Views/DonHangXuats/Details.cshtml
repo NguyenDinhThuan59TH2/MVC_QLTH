@@ -20,8 +20,9 @@
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
         document.querySelector('#in-hoa-don').addEventListener('click', () => {
-            const MaDHN = []
-            const NgayXuat = []
+            const MaDHX = []
+            const MaDHX1 = '@ViewBag.MaDHX'
+            const NgayXuat = '@ViewBag.NgayXuat.ToString("dd/MM/yyyy")'
             const HoTen = []
             const MaMH = []
             const TenMH = []
@@ -35,8 +36,7 @@
             const danhsachDonHangNhap = []
             @foreach (var item in Model)
             {
-
-                @:MaDHN.push('@item.MaDHX');
+                @:MaDHX.push('@item.MaDHX');
                 @:NgayXuat.push('@item.DonHangXuat.NgayXuat');
                 @:HoTen.push('@item.DonHangXuat.KhachHang.HoTen');
                 @:MaMH.push('@item.Hang.MaMH');
@@ -45,9 +45,9 @@
                 @:GiaNhap.push('@item.Hang.GiaNhap');
                 @:SoLuong.push('@item.SoLuong');
             }
-            for (let i = 0; i < MaDHN.length; i++) {
+            for (let i = 0; i < MaDHX.length; i++) {
                 danhsachDonHangNhap.push({
-                    MaDHN: MaDHN[i],
+                    MaDHX: MaDHX[i],
                     NgayXuat: NgayXuat[i],
                     HoTen: HoTen[i],
                     MaMH: MaMH[i],
@@ -67,7 +67,7 @@
                     <div style="width: 100%">
                       <div style="width: 100%; text-align: center;">
                         TẠP HÓA PHÚC THẢO
-                        <h4 style="margin: 15px 0;">HÓA ĐƠN XUẤT: ${MaDHN} </h4 >
+                        <h4 style="margin: 15px 0;">HÓA ĐƠN XUẤT: ${MaDHX} </h4 >
                         <h5> Ngày xuất: ${NgayXuat} </h5>
                         <h5> Tên khách hàng: ${HoTen} </h5>
                       </div>
@@ -86,7 +86,7 @@
                             return `
                               <tr>
                                 <td style="padding-left: 3px; text-align: center; border: 1px solid #000">${index + 1}</td>
-                                <td style="padding-left: 3px; border: 1px solid #000">${donHangNhap.MaDHN}</td>
+                                <td style="padding-left: 3px; border: 1px solid #000">${donHangNhap.MaDHX}</td>
                                 <td style="padding-left: 3px; border: 1px solid #000">${donHangNhap.MaMH}</td>
                                 <td style="padding-left: 3px; border: 1px solid #000">${donHangNhap.TenMH}</td>
                                 <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${donHangNhap.HanSuDung}</td>

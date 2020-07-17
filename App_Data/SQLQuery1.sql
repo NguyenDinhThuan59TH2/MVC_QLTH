@@ -73,6 +73,7 @@ create table Hang(
 	GiaNhap money NOT NULL,
 	SoLuong int NOT NULL,
 	GiaBan money not null,
+	DaNhap bit not null,
 	--DonViTinh NVARCHAR(20) NOT NULL,
 
 )
@@ -224,11 +225,11 @@ insert into TaiKhoanKhachHang values
 	('KH5', 'tuong.ngo', '$MYHASH$V1$10000$oqgMYomAysw1sF5JiXq9IXv7e2+0evXP6NFeTM+18Lfbepfh')
 
 insert into Hang values
-	('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','5','10000'),
-	('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','4','30000'),
-	('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','2','15000'),
-	('H4','MH2','NCC4','2021/12/12','2020/5/8','120000','2','130000'),
-	('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','8','300000')
+	('H1','MH1','NCC1','2021/12/31','2010/5/8','5000','5','10000', '1'),
+	('H2','MH2','NCC2','2021/01/12','2020/5/8','20000','4','30000', '1'),
+	('H3','MH3','NCC3','2021/04/20','2020/5/8','10000','2','15000', '1'),
+	('H4','MH2','NCC4','2021/12/12','2020/5/8','120000','2','130000', '1'),
+	('H5','MH5','NCC5','2021/05/21','2020/5/8','300000','8','300000', '1')
 
 
 insert into DonHangNhap values
