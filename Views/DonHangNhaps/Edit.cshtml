@@ -52,10 +52,10 @@
                 <input name="MaDHN" value="@Model.MaDHN" class="hide form-input" />
                 <div class="form-field">
                     <div class="form-label">
-                        @Html.LabelFor(model => model.MaNCC)
+                        @Html.LabelFor(model => model.NhaCungCap.TenNCC)
                     </div>
                     <div>
-                        <input class="form-input" name="HoTen" multiple value="@Model.MaNCC" />
+                        <input class="form-input" name="HoTen" multiple value="@Model.NhaCungCap.TenNCC" />
                     </div>
                 </div>
                 <div class="form-field">
@@ -87,6 +87,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-field">
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.DaDuyet)
+                    </div>
+                    <div>
+                        <div class="form-radio-group">
+                            @Html.RadioButtonFor(model => model.DaDuyet, true, true) Đã duyệt
+                            @Html.RadioButtonFor(model => model.DaDuyet, false, false) Chưa duyệt
+                            @Html.ValidationMessageFor(model => model.DaDuyet, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -97,61 +109,3 @@
     </div>
 }
 
-@*@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Đơn hàng nhập</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.MaDHN)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MaNCC, "MaNCC", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("MaNCC", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.MaNCC, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NgayNhap, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NgayNhap.ToString("mm/dd/yyyy"), new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NgayNhap, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GiamGia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GiamGia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GiamGia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.KieuGiamGia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.KieuGiamGia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.KieuGiamGia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lưu" class="btn btn-success btn-sm" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
-        <i class="fa fa-arrow-left"></i>
-        <span>
-            Quay về
-        </span>
-    </a>
-</div>*@
