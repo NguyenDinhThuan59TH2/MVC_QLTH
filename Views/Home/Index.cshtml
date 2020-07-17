@@ -5,12 +5,14 @@
     FreeTime1.Models.NguoiDung nguoiDung = Session["nguoiDung"] as FreeTime1.Models.NguoiDung;
     FreeTime1.Models.KhachHang khachHang = Session["khachHang"] as FreeTime1.Models.KhachHang;
     Layout = nguoiDung == null ? "~/Views/Shared/_Layout_Ban_Hang.cshtml" : "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
 }
 
 @section styles {
     <link rel="stylesheet" type="text/css" href="~/Content/product.css">
     <link rel="stylesheet" type="text/css" href="~/Content/form.css">
     <link rel="stylesheet" type="text/css" href="~/Content/noti.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/search.css">
 
 }
 
@@ -19,9 +21,9 @@
 }
 @if (nguoiDung != null)
 {
-<div>
-    <img src="~/imgs/homePage.png"  /> 
-</div>
+    <div>
+        <img src="~/imgs/homePage.png" />
+    </div>
 }
 else
 {
@@ -53,17 +55,34 @@ else
             </h3>
             <div class="side-bar col-md-3">
                 <div class="left-side">
-                    <h3 class="agileits-sear-head">Food Preference</h3>
-                    <ul>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Vegetarian</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Non-Vegetarian</span>
-                        </li>
-                    </ul>
+                    <h3 class="agileits-sear-head">Loại mặt hàng</h3>
+                    <a href="@Url.Action("Index")" class="btn search-clear">
+                        <i class="fa fa-trash-o"></i>
+                        <span>Xóa</span>
+                    </a>
+                    @using (Html.BeginForm("SearchGroups", "Home", FormMethod.Post))
+                    {
+                        <input type="submit" value="Tìm" class="btn btn-success btn-sm order-submit" />
+                        <ul>
+                            @if (ViewBag.NhomHangs != null)
+                            {
+                                foreach (FreeTime1.Models.NhomHang nhomHang in ViewBag.NhomHangs)
+                                {
+                                    <li>
+                                        @if (ViewBag.MaNHS != null && ViewBag.MaNHS[i++] == "checked")
+                                        {
+                                            <input type="checkbox" name="@nhomHang.MaNH" class="checked" checked>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" name="@nhomHang.MaNH" class="checked">
+                                        }
+                                        <span class="span">@nhomHang.TenNH</span>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    }
                 </div>
             </div>
             <div class="agileinfo-ads-display col-md-9">
