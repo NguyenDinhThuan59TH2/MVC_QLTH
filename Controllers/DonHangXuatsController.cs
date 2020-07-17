@@ -51,7 +51,7 @@ namespace FreeTime1.Controllers
             return View(donHangXuats.ToList());
         }
 
-        public ActionResult EditDocument(string MaDHX)
+        public ActionResult EditDocument(string MaDHX, string Loi = null)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
@@ -77,6 +77,7 @@ namespace FreeTime1.Controllers
             ViewBag.TongDonHang = String.Format("{0:n0}", TongDonHang);
             ViewBag.MauHangs = db.MauHangs.ToList();
             ViewBag.Hangs = db.Hangs.Where(d => d.SoLuong > 0).Include(d => d.MauHang).ToList();
+            ViewBag.Loi = Loi;
             return View("Create", donHangXuat);
         }
 
@@ -248,7 +249,6 @@ namespace FreeTime1.Controllers
                     hangDonHangXuat.MaDHX = donHangXuat.MaDHX;
                     db.HangDonHangXuats.Add(hangDonHangXuat);
                 }
-                hang.SoLuong -= int.Parse(SoLuong);
                 db.SaveChanges();
             }
             donHangXuat.KhachHang = db.KhachHangs.Where(d => d.MaKH == donHangXuat.MaKH).FirstOrDefault();
@@ -285,7 +285,6 @@ namespace FreeTime1.Controllers
                 if (HDHX != null)
                 {
                     db.HangDonHangXuats.Remove(HDHX);
-                    hang.SoLuong += HDHX.SoLuong;
                     db.SaveChanges();
                 }
             }
@@ -324,6 +323,36 @@ namespace FreeTime1.Controllers
             }
             var donHangXuats = db.DonHangXuats.Include(d => d.KhachHang);
             return RedirectToAction("Index", new { XoaThanhCong = "Xóa đơn hàng " + MaDHX + " thành công" });
+        }
+
+        public ActionResult VerifyDocument(string MaDHX)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            DonHangXuat donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX && d.DaDuyet == false && d.DaXoa == false).Include(d => d.HangDonHangXuats).FirstOrDefault();
+            if (donHangXuat == null) return RedirectToAction("Index");
+            bool khongDuHang = false;
+            foreach (HangDonHangXuat hangDonHangXuat in donHangXuat.HangDonHangXuats)
+            {
+                hangDonHangXuat.Hang = db.Hangs.Where(d => d.MaH == hangDonHangXuat.MaH).FirstOrDefault();
+                if (hangDonHangXuat.SoLuong > hangDonHangXuat.Hang.SoLuong)
+                {
+                    khongDuHang = true;
+                    break;
+                }
+            }
+            if (khongDuHang)
+            {
+                return RedirectToAction("EditDocument", new { MaDHX = MaDHX, Loi = "Không đủ số lượng để xuất" });
+            }
+            foreach (HangDonHangXuat hangDonHangXuat in donHangXuat.HangDonHangXuats)
+            {
+                Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangXuat.MaH).Include(d => d.MauHang).FirstOrDefault();
+                hang.SoLuong -= hangDonHangXuat.SoLuong;
+            }
+            donHangXuat.DaDuyet = true;
+            db.SaveChanges();
+            return RedirectToAction("Index", new { XoaThanhCong = "Duyệt đơn hàng " + MaDHX + " thành công!" });
         }
 
         // GET: DonHangXuats/Edit/5

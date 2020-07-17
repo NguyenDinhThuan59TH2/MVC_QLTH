@@ -50,7 +50,7 @@ namespace FreeTime1.Controllers
             return View(donHangNhaps);
         }
 
-        public ActionResult EditDocument (string MaDHN)
+        public ActionResult EditDocument (string MaDHN, string Loi = null)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
@@ -76,6 +76,7 @@ namespace FreeTime1.Controllers
             ViewBag.TongDonHang = String.Format("{0:n0}", TongDonHang);
             ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();
             ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();
+            ViewBag.Loi = Loi;
             return View("Create", donHangNhap);
         }
 
@@ -283,9 +284,8 @@ namespace FreeTime1.Controllers
                 hang.MaMH = MaMH;
                 hang.MaNCC = donHangNhap.MaNCC;
                 hang.NgayNhap = donHangNhap.NgayNhap;
-                System.Diagnostics.Debug.WriteLine("HanSuDung: ", HanSuDung);
                 HangDonHangNhap hangDonHangNhap = new HangDonHangNhap();
-                hangDonHangNhap.SoLuong = int.Parse(SoLuong);
+                hangDonHangNhap.SoLuong = 0;
                 hangDonHangNhap.MaH = hang.MaH;
                 hangDonHangNhap.MaDHN = donHangNhap.MaDHN;
                 db.Hangs.Add(hang);
@@ -342,7 +342,6 @@ namespace FreeTime1.Controllers
                     hangDonHangNhap.MaDHN = donHangNhap.MaDHN;
                     db.HangDonHangNhaps.Add(hangDonHangNhap);
                 }
-                hang.SoLuong += int.Parse(SoLuong);
                 db.SaveChanges();
 
             }
@@ -441,7 +440,6 @@ namespace FreeTime1.Controllers
                 if(HDHN != null)
                 {
                     db.HangDonHangNhaps.Remove(HDHN);
-                    hang.SoLuong -= HDHN.SoLuong;
                     db.SaveChanges();
                 }
             }
@@ -479,6 +477,23 @@ namespace FreeTime1.Controllers
             }
             return RedirectToAction("Index", new { XoaThanhCong = "Xóa đơn hàng " + MaDHN + " thành công" });
         }
+
+        public ActionResult VerifyDocument(string MaDHN)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            DonHangNhap donHangNhap = db.DonHangNhaps.Where(d => d.MaDHN == MaDHN && d.DaDuyet == false && d.DaXoa == false).Include(d => d.HangDonHangNhaps).FirstOrDefault();
+            if (donHangNhap == null) return RedirectToAction("Index");
+            foreach (HangDonHangNhap hangDonHangNhap in donHangNhap.HangDonHangNhaps)
+            {
+                Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangNhap.MaH).Include(d => d.MauHang).FirstOrDefault();
+                hang.SoLuong += hangDonHangNhap.SoLuong;
+            }
+            donHangNhap.DaDuyet = true;
+            db.SaveChanges();
+            return RedirectToAction("Index", new { XoaThanhCong = "Duyệt đơn hàng " + MaDHN + " thành công!" });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MaDHN,MaNCC,NgayNhap,GiamGia,KieuGiamGia")] DonHangNhap donHangNhap)
