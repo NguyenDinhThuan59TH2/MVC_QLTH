@@ -16,8 +16,9 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             List<DoanhThu> doanhThus = new List<DoanhThu>();
-            var DonHangNhaps = db.DonHangNhaps.Include(d => d.HangDonHangNhaps).ToList();
-            var DonHangXuats = db.DonHangXuats.Include(d => d.HangDonHangXuats).ToList();
+            var DonHangNhaps = db.DonHangNhaps.Where(d => d.DaDuyet == true).Include(d => d.HangDonHangNhaps).ToList();
+            var DonHangXuats = db.DonHangXuats.Where(d => d.DaDuyet == true).Include(d => d.HangDonHangXuats).ToList();
+            var donHangDats = db.DonHangDats.Where(d => d.TrangThai == "Đã thanh toán").Include(d => d.HangDonHangDats).ToList();
             decimal TongGiaTriNhap = 0;
             decimal TongGiaTriXuat = 0;
             foreach (var DonHangNhap in DonHangNhaps)
@@ -69,6 +70,24 @@ namespace FreeTime1.Controllers
                 TongGiaTriXuat += TongDonHang;
                 doanhThus.Add(doanhThu);
             }
+            foreach (DonHangDat donHangDat in donHangDats)
+            {
+                System.Diagnostics.Debug.WriteLine("MaDHD: ", donHangDat.MaDHD);
+                DoanhThu doanhThu = new DoanhThu();
+                doanhThu.MaDH = donHangDat.MaDHD;
+                doanhThu.GiamGia = "0";
+                doanhThu.KieuGiamGia = "VNĐ";
+                doanhThu.LoaiDonHang = "Xuất";
+                doanhThu.NgayThucHien = (DateTime) donHangDat.NgayHoanThanh;
+                decimal TongDonHang = 0;
+                foreach (var hangDonHangDat in donHangDat.HangDonHangDats)
+                {
+                    TongDonHang += hangDonHangDat.SoLuong * db.Hangs.Where(d => d.MaH == hangDonHangDat.MaH).First().GiaBan;
+                }
+                doanhThu.TongDonHang = TongDonHang;
+                TongGiaTriXuat += TongDonHang;
+                doanhThus.Add(doanhThu);
+            }
             ViewBag.TongGiaTriNhap = TongGiaTriNhap;
             ViewBag.TongGiaTriXuat = TongGiaTriXuat;
             return View(doanhThus);
@@ -106,8 +125,9 @@ namespace FreeTime1.Controllers
             List<DoanhThu> doanhThus = new List<DoanhThu>();
             decimal TongGiaTriNhap = 0;
             decimal TongGiaTriXuat = 0;
-            var DonHangNhaps = !TimKiemLoaiDonHang || LoaiDonHang == "Nhập" ? db.DonHangNhaps.Include(d => d.HangDonHangNhaps).ToList() : null;
-            var DonHangXuats = !TimKiemLoaiDonHang || LoaiDonHang == "Xuất" ? db.DonHangXuats.Include(d => d.HangDonHangXuats).ToList() : null;
+            var DonHangNhaps = !TimKiemLoaiDonHang || LoaiDonHang == "Nhập" ? db.DonHangNhaps.Where(d => d.DaDuyet == true).Include(d => d.HangDonHangNhaps).ToList() : null;
+            var DonHangXuats = !TimKiemLoaiDonHang || LoaiDonHang == "Xuất" ? db.DonHangXuats.Where(d => d.DaDuyet == true).Include(d => d.HangDonHangXuats).ToList() : null;
+            var DonHangDats = !TimKiemLoaiDonHang || LoaiDonHang == "Xuất" ? db.DonHangDats.Where(d => d.TrangThai == "Đã thanh toán").Include(d => d.HangDonHangDats).ToList() : null;
             if (!TimKiemLoaiDonHang || LoaiDonHang == "Nhập")
             {
                 foreach (var DonHangNhap in DonHangNhaps)
@@ -170,6 +190,30 @@ namespace FreeTime1.Controllers
                         &&
                         ((TimKiemNgayThucHien && NgayThucHienBDDate <= DonHangXuat.NgayXuat && DonHangXuat.NgayXuat <= NgayThucHienKTDate) || !TimKiemNgayThucHien)    
                     ) {
+                        TongGiaTriXuat += TongDonHang;
+                        doanhThu.TongDonHang = TongDonHang;
+                        doanhThus.Add(doanhThu);
+                    }
+                }
+                foreach (var DonHangDat in DonHangDats)
+                {
+                    DoanhThu doanhThu = new DoanhThu();
+                    doanhThu.MaDH = DonHangDat.MaDHD;
+                    doanhThu.GiamGia = "0";
+                    doanhThu.KieuGiamGia = "VNĐ";
+                    doanhThu.LoaiDonHang = "Xuất";
+                    doanhThu.NgayThucHien = (DateTime) DonHangDat.NgayHoanThanh;
+                    decimal TongDonHang = 0;
+                    foreach (var HangDonhangDat in DonHangDat.HangDonHangDats)
+                    {
+                        TongDonHang += HangDonhangDat.SoLuong * db.Hangs.Where(d => d.MaH == HangDonhangDat.MaH).First().GiaBan;
+                    }
+                    if (
+                        ((TimKiemGiaTriDonHang && GiaTriDonHangBDDecimal <= TongDonHang && TongDonHang <= GiaTriDonHangKTDecimal) || !TimKiemGiaTriDonHang)
+                        &&
+                        ((TimKiemNgayThucHien && NgayThucHienBDDate <= DonHangDat.NgayHoanThanh && DonHangDat.NgayHoanThanh <= NgayThucHienKTDate) || !TimKiemNgayThucHien)
+                    )
+                    {
                         TongGiaTriXuat += TongDonHang;
                         doanhThu.TongDonHang = TongDonHang;
                         doanhThus.Add(doanhThu);
