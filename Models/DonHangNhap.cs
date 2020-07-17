@@ -35,6 +35,7 @@ namespace FreeTime1.Models
         public decimal TongDonHang { get; set; }
         [Display(Name = "Trạng thái")]
         public bool DaDuyet { get; set; }
+        public bool DaXoa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HangDonHangNhap> HangDonHangNhaps { get; set; }
         public virtual NhaCungCap NhaCungCap { get; set; }
