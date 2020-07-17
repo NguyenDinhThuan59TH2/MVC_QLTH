@@ -92,7 +92,8 @@ namespace FreeTime1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var hangDonHangXuats = db.HangDonHangXuats.Where(hangDonHangXuat => hangDonHangXuat.MaDHX == id).Include(hangDonHangNhap => hangDonHangNhap.DonHangXuat);
-            decimal TongDonhang = 0;
+            decimal TongDonHang = 0;
+            decimal TongChuaThue = 0;
             foreach (var hangDonHangXuat in hangDonHangXuats)
             {
                 var KhachHang = db.KhachHangs.Where(d => d.MaKH == hangDonHangXuat.DonHangXuat.MaKH).FirstOrDefault();
@@ -101,7 +102,8 @@ namespace FreeTime1.Controllers
                 hangDonHangXuat.DonHangXuat.KhachHang = KhachHang;
                 hangDonHangXuat.Hang = Hang;
                 hangDonHangXuat.Hang.MauHang = MauHang;
-                TongDonhang += hangDonHangXuat.SoLuong * hangDonHangXuat.Hang.GiaBan;
+                TongDonHang += hangDonHangXuat.SoLuong * hangDonHangXuat.Hang.GiaBan;
+                TongChuaThue += hangDonHangXuat.SoLuong * hangDonHangXuat.Hang.GiaBan;
             }
             if (hangDonHangXuats == null)
             {
@@ -112,16 +114,17 @@ namespace FreeTime1.Controllers
             {
                 if (donHangXuat.KieuGiamGia == "VNĐ")
                 {
-                    TongDonhang -= decimal.Parse(donHangXuat.GiamGia);
+                    TongDonHang -= decimal.Parse(donHangXuat.GiamGia);
                 }
                 else if (donHangXuat.KieuGiamGia == "%")
                 {
-                    TongDonhang -= TongDonhang / 100 * decimal.Parse(donHangXuat.GiamGia);
+                    TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangXuat.GiamGia);
                 }
                 ViewBag.GiamGia = String.Format("{0:n0}", decimal.Parse(donHangXuat.GiamGia));
                 ViewBag.KieuGiamGia = donHangXuat.KieuGiamGia;
             }
-            ViewBag.TongDonhang = String.Format("{0:n0}", TongDonhang) + "VNĐ";
+            ViewBag.TongDonHang = TongDonHang;
+            ViewBag.TongChuaThue = TongChuaThue;
             ViewBag.MaDHX = donHangXuat.MaDHX;
             ViewBag.TenKH = donHangXuat.KhachHang.HoTen;
             ViewBag.NgayXuat = donHangXuat.NgayXuat;

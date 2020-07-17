@@ -12,6 +12,120 @@
     <link rel="stylesheet" type="text/css" href="~/Content/partition.css">
 }
 
+@section scripts {
+    <script src="~/Scripts/noti.js"></script>
+    <script src="~/Scripts/number.js"></script>
+    <script type="text/javascript">
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        document.querySelector('#in-hoa-don').addEventListener('click', () => {
+            const MaDHN = []
+            const NgayNhap = []
+            const TenNCC = []
+            const MaMH = []
+            const TenMH = []
+            const HanSuDung = []
+            const GiaNhap = []
+            const SoLuong = []
+            const TongDonHang = '@ViewBag.TongDonHang'
+            const TongChuaThue = '@ViewBag.TongChuaThue'
+            const GiamGia = '@ViewBag.GiamGia'
+            const KieuGiamGia = '@ViewBag.KieuGiamGia'
+            const danhsachDonHangNhap = []
+            @foreach (var item in Model)
+            {
+
+                @:MaDHN.push('@item.MaDHN');
+                @:NgayNhap.push('@item.DonHangNhap.NgayNhap');
+                @:TenNCC.push('@item.DonHangNhap.NhaCungCap.TenNCC');
+                @:MaMH.push('@item.Hang.MaMH');
+                @:TenMH.push('@item.Hang.MauHang.TenMH');
+                @:HanSuDung.push('@item.Hang.HanSuDung');
+                @:GiaNhap.push('@item.Hang.GiaNhap');
+                @:SoLuong.push('@item.SoLuong');
+            }
+            for (let i = 0; i < MaDHN.length; i++) {
+                danhsachDonHangNhap.push({
+                    MaDHN: MaDHN[i],
+                    NgayNhap: NgayNhap[i],
+                    TenNCC: TenNCC[i],
+                    MaMH: MaMH[i],
+                    TenMH: TenMH[i],
+                    HanSuDung: HanSuDung[i],
+                    GiaNhap: GiaNhap[i],
+                    SoLuong: SoLuong[i]
+                })
+            }
+            const printWindow = window.open('', '_blank')
+            printWindow.open()
+            printWindow.document.write(`
+                <html>
+                  <head>
+                  </head>
+                  <body>
+                    <div style="width: 100%">
+                      <div style="width: 100%; text-align: center;">
+                        TẠP HÓA PHÚC THẢO
+                        <h4 style="margin: 15px 0;">HÓA ĐƠN NHẬP: ${MaDHN} </h4 >
+                        <h5> Ngày nhập: ${NgayNhap} </h5>
+                        <h5> Tên nhà cung cấp: ${TenNCC} </h5>
+                      </div>
+                      <table style="width: 100%; white-space: nowrap; margin-top: 15px; border-collapse: collapse;">
+                        <tbody>
+                          <tr style="border-bottom: 1px solid; border-top: 1px solid;">
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">STT</th>
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">Mã đơn hàng nhập</th>
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">Mã mẫu hàng</th>
+                            <th style="border-left: 1px solid #000; border-right: 1px solid #000;">Tên mẫu hàng</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Hạn sử dụng</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Giá nhập</th>
+                            <th style="width: 100px; border-left: 1px solid #000; border-right: 1px solid #000;">Số lượng</th>
+                          </tr>
+                          ${danhsachDonHangNhap.map((donHangNhap, index) => {
+                            return `
+                              <tr>
+                                <td style="padding-left: 3px; text-align: center; border: 1px solid #000">${index + 1}</td>
+                                <td style="padding-left: 3px; border: 1px solid #000">${donHangNhap.MaDHN}</td>
+                                <td style="padding-left: 3px; border: 1px solid #000">${donHangNhap.MaMH}</td>
+                                <td style="padding-left: 3px; border: 1px solid #000">${donHangNhap.TenMH}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${donHangNhap.HanSuDung}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${donHangNhap.GiaNhap}</td>
+                                <td style="width: 100px; text-align: right; padding-right: 3px; border: 1px solid #000">${donHangNhap.SoLuong}</td>
+
+                              </tr>
+                            `
+                          }).join('')}
+                        </tbody>
+                      </table>
+                      <table style="width: 100%; white-space: nowrap">
+                        <tbody>
+                            <tr>
+                                <td style="text-align: right"><h5 style="margin: 0">Tổng số: </h5 style="margin:0"></td>
+                                <td style="width: 110px; text-align: right"><h4 style="margin:0">${numberWithCommas(parseFloat(TongChuaThue))} VND</h4></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right"><h5 style="margin: 0">Giảm giá</h5 style="margin:0"></td>
+                                <td style="width: 110px; text-align: right"><h4 style="margin:0">${GiamGia} ${KieuGiamGia}</h4 ></td >
+                            </tr>
+                            <tr>
+                                <td style="text-align: right"><h5 style="margin: 0">Tổng tiền phải trả:</h5 style="margin:0"></td>
+                                <td style="width: 110px; text-align: right"><h4 style="margin:0">${numberWithCommas(parseFloat(TongDonHang))} VND</h4></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                  </body>
+                </html>
+            `)
+            printWindow.document.close()
+            printWindow.focus()
+            printWindow.print()
+            printWindow.close()
+        })
+    </script>
+}
+
 <div>
     <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
         <i class="fa fa-arrow-left"></i>
@@ -51,12 +165,13 @@
         Tổng đơn hàng:
     </div>
     <div class="text-content">
-        @ViewBag.TongDonhang
+        @ViewBag.TongDonHang
     </div>
 </div>
 <div class="grid">
     <div class="grid-action">
-       <div class="text-content">Danh sách hàng nhập</div>
+        <div class="text-content">Danh sách hàng nhập</div>
+        <button id="in-hoa-don" class="btn-print">In hóa đơn nhập</button>
     </div>
     @grid.GetHtml(
         tableStyle: "table table-bordered table-hover",
@@ -67,7 +182,7 @@
         columns: new[]
         {
             grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
-            grid.Column("Hang.MauHang.TenMH","Tên mặc hàng"),
+            grid.Column("Hang.MauHang.TenMH","Tên mặt hàng"),
             grid.Column("Hang.HanSuDung","Hạn sửa dụng",format:@item => @item.Hang.HanSuDung.ToString(string.Format("dd/MM/yyyy"))  ),
             grid.Column("Hang.GiaNhap","Giá nhập",format:@item => @item.Hang.GiaNhap.ToString("#,##0.")),
             grid.Column("SoLuong","Số lượng")
