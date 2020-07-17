@@ -20,15 +20,16 @@
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
         document.querySelector('#in-hoa-don').addEventListener('click', () => {
+            const MaDHN1 = '@ViewBag.MaDHN'
             const MaDHN = []
-            const NgayNhap = []
-            const TenNCC = []
+            const NgayNhap = '@ViewBag.NgayNhap.ToString(string.Format("dd/MM/yyyy"))'
+            const TenNCC = '@ViewBag.TenNCC'
             const MaMH = []
             const TenMH = []
             const HanSuDung = []
             const GiaNhap = []
             const SoLuong = []
-            const TongDonHang = '@ViewBag.TongDonHang'
+            const TongDonhang = '@ViewBag.TongDonhang'
             const TongChuaThue = '@ViewBag.TongChuaThue'
             const GiamGia = '@ViewBag.GiamGia'
             const KieuGiamGia = '@ViewBag.KieuGiamGia'
@@ -37,8 +38,6 @@
             {
 
                 @:MaDHN.push('@item.MaDHN');
-                @:NgayNhap.push('@item.DonHangNhap.NgayNhap');
-                @:TenNCC.push('@item.DonHangNhap.NhaCungCap.TenNCC');
                 @:MaMH.push('@item.Hang.MaMH');
                 @:TenMH.push('@item.Hang.MauHang.TenMH');
                 @:HanSuDung.push('@item.Hang.HanSuDung');
@@ -48,8 +47,6 @@
             for (let i = 0; i < MaDHN.length; i++) {
                 danhsachDonHangNhap.push({
                     MaDHN: MaDHN[i],
-                    NgayNhap: NgayNhap[i],
-                    TenNCC: TenNCC[i],
                     MaMH: MaMH[i],
                     TenMH: TenMH[i],
                     HanSuDung: HanSuDung[i],
@@ -67,7 +64,7 @@
                     <div style="width: 100%">
                       <div style="width: 100%; text-align: center;">
                         TẠP HÓA PHÚC THẢO
-                        <h4 style="margin: 15px 0;">HÓA ĐƠN NHẬP: ${MaDHN} </h4 >
+                        <h4 style="margin: 15px 0;">HÓA ĐƠN NHẬP: ${MaDHN1} </h4 >
                         <h5> Ngày nhập: ${NgayNhap} </h5>
                         <h5> Tên nhà cung cấp: ${TenNCC} </h5>
                       </div>
@@ -110,7 +107,7 @@
                             </tr>
                             <tr>
                                 <td style="text-align: right"><h5 style="margin: 0">Tổng tiền phải trả:</h5 style="margin:0"></td>
-                                <td style="width: 110px; text-align: right"><h4 style="margin:0">${numberWithCommas(parseFloat(TongDonHang))} VND</h4></td>
+                                <td style="width: 110px; text-align: right"><h4 style="margin:0">${numberWithCommas(parseFloat(TongDonhang))} VND</h4></td>
                             </tr>
                         </tbody>
                         </table>
@@ -165,7 +162,7 @@
         Tổng đơn hàng:
     </div>
     <div class="text-content">
-        @ViewBag.TongDonHang
+        @ViewBag.TongDonhang
     </div>
 </div>
 <div class="grid">

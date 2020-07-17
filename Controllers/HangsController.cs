@@ -20,7 +20,7 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
                 return RedirectToAction("Index", "Login");
-            var hangs = db.Hangs.Include(h => h.MauHang).Include(h => h.NhaCungCap);
+            var hangs = db.Hangs.Where(d => d.DaNhap == true).Include(h => h.MauHang).Include(h => h.NhaCungCap);
             return View(hangs.ToList());
         }
 
@@ -98,8 +98,9 @@ namespace FreeTime1.Controllers
                 ((TimKiemGiaBan && GiaBanBDDecimal <= Hang.GiaBan && Hang.GiaBan <= GiaBanBDDecimal) || !TimKiemGiaBan) &&
                 ((TimKiemNgayNhap && NgayNhapBDDate <= Hang.NgayNhap && Hang.NgayNhap <= NgayNhapKTDate) || !TimKiemNgayNhap) &&
                 ((TimKiemHSD && HanSuDungBDDate <= Hang.HanSuDung && Hang.HanSuDung <= HanSuDungKTDate) || !TimKiemHSD) &&
-                (TenNCC == "" || Hang.NhaCungCap.TenNCC.Contains(TenNCC))
-                );
+                (TenNCC == "" || Hang.NhaCungCap.TenNCC.Contains(TenNCC)) &&
+                Hang.DaNhap == true
+            );
             return View("Index", Hangs);
         }
 
