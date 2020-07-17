@@ -119,6 +119,12 @@ else
                     Xóa đơn hàng
                 </span>
             </a>
+            <a href="@Url.Action("VerifyDocument", new { MaDHX = Model.MaDHX })" class="btn btn-success btn-sm">
+                <i class="fa fa-trash-o"></i>
+                <span>
+                    Duyệt hoàn thành
+                </span>
+            </a>
         </div>
         <h2 class="text-title">Đơn hàng xuất @Model.MaDHX</h2>
         <div class="partition partition-col">

@@ -1,42 +1,113 @@
 ﻿@model FreeTime1.Models.DonHangDat
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Chi Tiết Đơn Hàng Đặt";
+    var grid = new WebGrid(Model.HangDonHangDats, canPage: true, defaultSort: "MaH", rowsPerPage: 10);
 }
 
-<h2>Details</h2>
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/search.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/grid.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/checkbox.css">
+}
 
 <div>
-    <h4>DonHangDat</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.NgayDat)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NgayDat)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TrangThai)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TrangThai)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.KhachHang.HoTen)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.KhachHang.HoTen)
-        </dd>
-
-    </dl>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MaDHD }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<h2 class="text-title">Đơn hàng đặt @Model.MaDHD</h2>
+<div class="search">
+    <div class="search-group">
+        <table class="search-table">
+            <tr class="search-table-tr">
+                <td class="search-table-td">
+                    <img src="~/Images/KhachHangs/@Model.KhachHang.Anh" alt="@Model.KhachHang.HoTen" style=" height: 50px; border-radius: 50%;" />
+                </td>
+            </tr>
+        </table>
+        <table class="search-table">
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Tên khách hàng: </div>
+                </td>
+                <td class="search-table-td">
+                    @Model.KhachHang.HoTen
+                </td>
+            </tr>
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Địa chỉ: </div>
+                </td>
+                <td class="search-table-td">
+                    @Model.KhachHang.DiaChi
+                </td>
+            </tr>
+        </table>
+        <table class="search-table">
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Số điện thoại: </div>
+                </td>
+                <td class="search-table-td">
+                    @Model.KhachHang.SDT
+                </td>
+            </tr>
+            <tr class="search-table-tr">
+                <td class="search-table-td search-label">
+                    <div>Tổng tiền: </div>
+                </td>
+                <td class="search-table-td" style="color: green; font-weight: bold;">
+                    @(Model.TongDonHang)VNĐ
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="grid">
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: true,
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+        columns: new[]
+        {
+            grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("MaH","Mã hàng"),
+grid.Column("Hang.MauHang.TenMH","Mặt hàng"  ),
+grid.Column("SoLuong","Số lượng đặt",format:
+@<div>
+    @item.SoLuong @item.Hang.MauHang.DonVi
+</div>),
+grid.Column("Hang.GiaBan","Giá bán",format:
+@<div>
+    @(item.Hang.GiaBan)VNĐ
+</div>
+),
+grid.Column("Hang.HanSuDung","Hạn sử dụng",format:@item => @item.Hang.HanSuDung != null ? @item.Hang.HanSuDung.ToString(string.Format("dd/MM/yyyy")) : ""),
+grid.Column("","Tổng",format:
+@<div style="color: green; font-weight: bold;">
+    @(item.SoLuong * item.Hang.GiaBan)VNĐ
+</div>
+),
+grid.Column("","",format:
+@<div>
+    @if (item.SoLuong <= item.Hang.SoLuong)
+    {
+    <div style="color: green; font-weight: bold;">Đủ hàng</div>
+    }
+    else
+    {
+    <div style="color: red; font-weight: bold;">Thiếu @(item.SoLuong - item.Hang.SoLuong) @item.Hang.MauHang.DonVi</div>
+    }
+</div>
+),
+}
+)
+</div>

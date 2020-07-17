@@ -115,15 +115,21 @@ else
                 </span>
             </a>
             <a href="@Url.Action("CreateMauHangs", "DonHangNhaps", new { id = "" })" class="btn btn-success btn-sm">
-                        <i class="fa fa-plus"></i>
-                        <span>
-                            Thêm mẫu hàng mới
-                        </span>
+                <i class="fa fa-plus"></i>
+                <span>
+                    Thêm mẫu hàng mới
+                </span>
             </a>
             <a href="@Url.Action("DeleteDocument", new { MaDHN = Model.MaDHN })" class="btn btn-danger btn-sm">
                 <i class="fa fa-trash-o"></i>
                 <span>
                     Xóa đơn hàng
+                </span>
+            </a>
+            <a href="@Url.Action("VerifyDocument", new { MaDHN = Model.MaDHN })" class="btn btn-success btn-sm">
+                <i class="fa fa-trash-o"></i>
+                <span>
+                    Duyệt hoàn thành
                 </span>
             </a>
         </div>

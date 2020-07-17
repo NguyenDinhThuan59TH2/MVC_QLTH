@@ -15,12 +15,12 @@ namespace FreeTime1.Controllers
         private QLTapHoaEntities db = new QLTapHoaEntities();
 
         // GET: DonHangXuats
-        public ActionResult Index()
+        public ActionResult Index(string XoaThanhCong = null)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
                 return RedirectToAction("Index", "Login");
-            var donHangXuats = db.DonHangXuats.Include(d => d.KhachHang);
+            var donHangXuats = db.DonHangXuats.Where(d => d.DaXoa == false).Include(d => d.KhachHang);
             decimal TongGiaTriXuat = 0;
             foreach (DonHangXuat donHangXuat in donHangXuats)
             {
@@ -47,7 +47,38 @@ namespace FreeTime1.Controllers
                 TongGiaTriXuat += donHangXuat.TongDonHang;
             }
             ViewBag.TongGiaTriXuat = TongGiaTriXuat;
+            ViewBag.XoaThanhCong = XoaThanhCong;
             return View(donHangXuats.ToList());
+        }
+
+        public ActionResult EditDocument(string MaDHX, string Loi = null)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            DonHangXuat donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX && d.DaXoa == false && d.DaDuyet == false).FirstOrDefault();
+            if (donHangXuat == null) return RedirectToAction("Index");
+            donHangXuat.KhachHang = db.KhachHangs.Where(d => d.MaKH == donHangXuat.MaKH).FirstOrDefault();
+            donHangXuat.HangDonHangXuats = db.HangDonHangXuats.Where(d => d.MaDHX == donHangXuat.MaDHX).ToList();
+            decimal TongDonHang = 0;
+            foreach (var hangDonHangXuat in donHangXuat.HangDonHangXuats)
+            {
+                hangDonHangXuat.Hang = db.Hangs.Where(d => d.MaH == hangDonHangXuat.MaH).FirstOrDefault();
+                hangDonHangXuat.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == hangDonHangXuat.Hang.MaMH).FirstOrDefault();
+                TongDonHang += hangDonHangXuat.SoLuong * hangDonHangXuat.Hang.GiaBan;
+            }
+            if (donHangXuat.KieuGiamGia == "%" && donHangXuat.GiamGia != null)
+            {
+                TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangXuat.GiamGia);
+            }
+            else if (donHangXuat.KieuGiamGia == "VNĐ" && donHangXuat.GiamGia != null)
+            {
+                TongDonHang -= decimal.Parse(donHangXuat.GiamGia);
+            }
+            ViewBag.TongDonHang = String.Format("{0:n0}", TongDonHang);
+            ViewBag.MauHangs = db.MauHangs.ToList();
+            ViewBag.Hangs = db.Hangs.Where(d => d.SoLuong > 0).Include(d => d.MauHang).ToList();
+            ViewBag.Loi = Loi;
+            return View("Create", donHangXuat);
         }
 
         // GET: DonHangXuats/Details/5
@@ -122,11 +153,12 @@ namespace FreeTime1.Controllers
                 NgayXuatBDDate = DateTime.ParseExact(NgayXuatBD, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
                 NgayXuatKTDate = DateTime.ParseExact(NgayXuatKT, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
             }
-            var DonHangXuats = db.DonHangXuats.Include(DonHangNhap => DonHangNhap.KhachHang).Where(DonHangXuat =>
-                (MaDHX == "" || DonHangXuat.MaDHX.Contains(MaDHX)) &&
-                (TenKH == "" || DonHangXuat.KhachHang.HoTen.Contains(TenKH)) &&
-                (KieuGiamGia == null || DonHangXuat.KieuGiamGia.Contains(KieuGiamGia)) &&
-                ((TimKiemNgayNhap && NgayXuatBDDate <= DonHangXuat.NgayXuat && DonHangXuat.NgayXuat <= NgayXuatKTDate) || !TimKiemNgayNhap)
+            var DonHangXuats = db.DonHangXuats.Include(DonHangNhap => DonHangNhap.KhachHang).Where(d =>
+                (MaDHX == "" || d.MaDHX.Contains(MaDHX)) &&
+                (TenKH == "" || d.KhachHang.HoTen.Contains(TenKH)) &&
+                (KieuGiamGia == null || d.KieuGiamGia.Contains(KieuGiamGia)) &&
+                ((TimKiemNgayNhap && NgayXuatBDDate <= d.NgayXuat && d.NgayXuat <= NgayXuatKTDate) || !TimKiemNgayNhap) &&
+                d.DaXoa == false
             );
             ViewBag.MaDHX = MaDHX;
             ViewBag.TenKH = TenKH;
@@ -155,6 +187,7 @@ namespace FreeTime1.Controllers
                 {
                     donHangXuat.KieuGiamGia = "%";
                 }
+                donHangXuat.DaXoa = false;
                 db.DonHangXuats.Add(donHangXuat);
                 db.SaveChanges();
                 donHangXuat.KhachHang = db.KhachHangs.Where(d => d.MaKH == donHangXuat.MaKH).FirstOrDefault();
@@ -187,7 +220,7 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
                 return RedirectToAction("Index", "Login");
-            var donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX).FirstOrDefault();
+            var donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX && d.DaDuyet == false && d.DaXoa == false).FirstOrDefault();
             Hang hang = db.Hangs.Single(d => d.MaH == MaH);
             bool loi = false;
             if (SoLuong == "")
@@ -219,7 +252,6 @@ namespace FreeTime1.Controllers
                     hangDonHangXuat.MaDHX = donHangXuat.MaDHX;
                     db.HangDonHangXuats.Add(hangDonHangXuat);
                 }
-                hang.SoLuong -= int.Parse(SoLuong);
                 db.SaveChanges();
             }
             donHangXuat.KhachHang = db.KhachHangs.Where(d => d.MaKH == donHangXuat.MaKH).FirstOrDefault();
@@ -249,14 +281,13 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
                 return RedirectToAction("Index", "Login");
-            var donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX).FirstOrDefault();
+            var donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX && d.DaDuyet == false && d.DaXoa == false).FirstOrDefault();
             Hang hang = db.Hangs.Single(d => d.MaH == MaH);
             if (hang != null) {
                 var HDHX = db.HangDonHangXuats.Where(d => d.MaDHX == MaDHX && d.MaH == MaH).FirstOrDefault();
                 if (HDHX != null)
                 {
                     db.HangDonHangXuats.Remove(HDHX);
-                    hang.SoLuong += HDHX.SoLuong;
                     db.SaveChanges();
                 }
             }
@@ -287,21 +318,44 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
                 return RedirectToAction("Index", "Login");
-            DonHangXuat donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX).FirstOrDefault();
+            DonHangXuat donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX && d.DaDuyet == false && d.DaXoa == false).FirstOrDefault();
             if (donHangXuat != null)
             {
-                var HangDonHangXuats = db.HangDonHangXuats.Where(d => d.MaDHX == MaDHX).Include(d => d.Hang).ToList();
-                foreach(HangDonHangXuat hangDonHangXuat in HangDonHangXuats)
-                {
-                    hangDonHangXuat.Hang.SoLuong += hangDonHangXuat.SoLuong;
-                    db.HangDonHangXuats.Remove(hangDonHangXuat);
-                }
-                db.DonHangXuats.Remove(donHangXuat);
+                donHangXuat.DaXoa = true;
                 db.SaveChanges();
-                ViewBag.XoaThanhCong = "Xóa đơn hàng " + MaDHX +" thành công";
             }
             var donHangXuats = db.DonHangXuats.Include(d => d.KhachHang);
-            return View("Index", donHangXuats.ToList());
+            return RedirectToAction("Index", new { XoaThanhCong = "Xóa đơn hàng " + MaDHX + " thành công" });
+        }
+
+        public ActionResult VerifyDocument(string MaDHX)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            DonHangXuat donHangXuat = db.DonHangXuats.Where(d => d.MaDHX == MaDHX && d.DaDuyet == false && d.DaXoa == false).Include(d => d.HangDonHangXuats).FirstOrDefault();
+            if (donHangXuat == null) return RedirectToAction("Index");
+            bool khongDuHang = false;
+            foreach (HangDonHangXuat hangDonHangXuat in donHangXuat.HangDonHangXuats)
+            {
+                hangDonHangXuat.Hang = db.Hangs.Where(d => d.MaH == hangDonHangXuat.MaH).FirstOrDefault();
+                if (hangDonHangXuat.SoLuong > hangDonHangXuat.Hang.SoLuong)
+                {
+                    khongDuHang = true;
+                    break;
+                }
+            }
+            if (khongDuHang)
+            {
+                return RedirectToAction("EditDocument", new { MaDHX = MaDHX, Loi = "Không đủ số lượng để xuất" });
+            }
+            foreach (HangDonHangXuat hangDonHangXuat in donHangXuat.HangDonHangXuats)
+            {
+                Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangXuat.MaH).Include(d => d.MauHang).FirstOrDefault();
+                hang.SoLuong -= hangDonHangXuat.SoLuong;
+            }
+            donHangXuat.DaDuyet = true;
+            db.SaveChanges();
+            return RedirectToAction("Index", new { XoaThanhCong = "Duyệt đơn hàng " + MaDHX + " thành công!" });
         }
 
         // GET: DonHangXuats/Edit/5
