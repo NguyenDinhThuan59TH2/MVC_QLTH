@@ -15,11 +15,11 @@ namespace FreeTime1.Controllers
         private QLTapHoaEntities db = new QLTapHoaEntities();
 
         // GET: DonHangNhaps
-        public ActionResult Index()
+        public ActionResult Index(string XoaThanhCong = null)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
-            var donHangNhaps = db.DonHangNhaps.Include(d => d.NhaCungCap);
+            var donHangNhaps = db.DonHangNhaps.Where(d => d.DaXoa == false).Include(d => d.NhaCungCap);
             decimal TongGiaTriNhap = 0;
             foreach (DonHangNhap donHangNhap in donHangNhaps)
             {
@@ -45,9 +45,40 @@ namespace FreeTime1.Controllers
                 }
                 TongGiaTriNhap += donHangNhap.TongDonHang;
             }
+            ViewBag.XoaThanhCong = XoaThanhCong;
             ViewBag.TongGiaTriNhap = TongGiaTriNhap;
             return View(donHangNhaps);
         }
+
+        public ActionResult EditDocument (string MaDHN)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
+            DonHangNhap donHangNhap = db.DonHangNhaps.Where(d => d.MaDHN == MaDHN && d.DaXoa == false && d.DaDuyet == false).FirstOrDefault();
+            if (donHangNhap == null) return RedirectToAction("Index");
+            donHangNhap.NhaCungCap = db.NhaCungCaps.Where(d => d.MaNCC == donHangNhap.MaNCC).FirstOrDefault();
+            donHangNhap.HangDonHangNhaps = db.HangDonHangNhaps.Where(d => d.MaDHN == donHangNhap.MaDHN).ToList();
+            decimal TongDonHang = 0;
+            foreach (var hangDonHangNhap in donHangNhap.HangDonHangNhaps)
+            {
+                hangDonHangNhap.Hang = db.Hangs.Where(d => d.MaH == hangDonHangNhap.MaH).FirstOrDefault();
+                hangDonHangNhap.Hang.MauHang = db.MauHangs.Where(d => d.MaMH == hangDonHangNhap.Hang.MaMH).FirstOrDefault();
+                TongDonHang = hangDonHangNhap.SoLuong * hangDonHangNhap.Hang.GiaNhap;
+            }
+            if (donHangNhap.KieuGiamGia == "%" && donHangNhap.GiamGia != null)
+            {
+                TongDonHang -= TongDonHang / 100 * decimal.Parse(donHangNhap.GiamGia);
+            }
+            else if (donHangNhap.KieuGiamGia == "VNĐ" && donHangNhap.GiamGia != null)
+            {
+                TongDonHang -= decimal.Parse(donHangNhap.GiamGia);
+            }
+            ViewBag.TongDonHang = String.Format("{0:n0}", TongDonHang);
+            ViewBag.MauHangs = db.MauHangs.Where(d => d.DaXoa == false).ToList();
+            ViewBag.Hangs = db.Hangs.Where(d => d.MaNCC == donHangNhap.MaNCC).Include(d => d.MauHang).ToList();
+            return View("Create", donHangNhap);
+        }
+
         // GET: DonHangNhaps/Details/5
         public ActionResult Details(string id)
         {
@@ -120,11 +151,12 @@ namespace FreeTime1.Controllers
                 NgayNhapBDDate = DateTime.ParseExact(NgayNhapBD, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
                 NgayNhapKTDate = DateTime.ParseExact(NgayNhapKT, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
             }
-            var DonHangNhaps = db.DonHangNhaps.Include(DonHangNhap => DonHangNhap.NhaCungCap).Where(DonHangNhap =>
-                (MaDHN == "" || DonHangNhap.MaDHN.Contains(MaDHN)) &&
-                (TenNCC == "" || DonHangNhap.NhaCungCap.TenNCC.Contains(TenNCC)) &&
-                (KieuGiamGia == null || DonHangNhap.KieuGiamGia.Contains(KieuGiamGia)) &&
-                ((TimKiemNgayNhap && NgayNhapBDDate <= DonHangNhap.NgayNhap && DonHangNhap.NgayNhap <= NgayNhapKTDate) || !TimKiemNgayNhap)
+            var DonHangNhaps = db.DonHangNhaps.Include(DonHangNhap => DonHangNhap.NhaCungCap).Where(d =>
+                (MaDHN == "" || d.MaDHN.Contains(MaDHN)) &&
+                (TenNCC == "" || d.NhaCungCap.TenNCC.Contains(TenNCC)) &&
+                (KieuGiamGia == null || d.KieuGiamGia.Contains(KieuGiamGia)) &&
+                ((TimKiemNgayNhap && NgayNhapBDDate <= d.NgayNhap && d.NgayNhap <= NgayNhapKTDate) || !TimKiemNgayNhap) &&
+                d.DaXoa == false
             );
             foreach (DonHangNhap donHangNhap in DonHangNhaps)
             {
@@ -170,6 +202,7 @@ namespace FreeTime1.Controllers
                 {
                     donHangNhap.KieuGiamGia = "%";
                 }
+                donHangNhap.DaXoa = false;
                 db.DonHangNhaps.Add(donHangNhap);
                 db.SaveChanges();
                 donHangNhap.NhaCungCap = db.NhaCungCaps.Where(d => d.MaNCC == donHangNhap.MaNCC).FirstOrDefault();
@@ -438,21 +471,13 @@ namespace FreeTime1.Controllers
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
-            DonHangNhap donHangNhap = db.DonHangNhaps.Where(d => d.MaDHN == MaDHN).FirstOrDefault();
+            DonHangNhap donHangNhap = db.DonHangNhaps.Where(d => d.MaDHN == MaDHN && d.DaDuyet == false && d.DaXoa == false).FirstOrDefault();
             if (donHangNhap != null)
             {
-                var HangDonHangNhaps = db.HangDonHangNhaps.Where(d => d.MaDHN == MaDHN).Include(d => d.Hang).ToList();
-                foreach (HangDonHangNhap hangDonHangNhap in HangDonHangNhaps)
-                {
-                    hangDonHangNhap.Hang.SoLuong -= hangDonHangNhap.SoLuong;
-                    db.HangDonHangNhaps.Remove(hangDonHangNhap);
-                }
-                db.DonHangNhaps.Remove(donHangNhap);
+                donHangNhap.DaXoa = true;
                 db.SaveChanges();
-                ViewBag.XoaThanhCong = "Xóa đơn hàng " + MaDHN + " thành công";
             }
-            var donHangNhaps = db.DonHangNhaps.Include(d => d.NhaCungCap);
-            return View("Index", donHangNhaps.ToList());
+            return RedirectToAction("Index", new { XoaThanhCong = "Xóa đơn hàng " + MaDHN + " thành công" });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
