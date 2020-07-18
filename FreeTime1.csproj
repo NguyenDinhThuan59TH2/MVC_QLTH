@@ -457,7 +457,6 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\KhachHangs\Create.cshtml" />
     <Content Include="Views\KhachHangs\Delete.cshtml" />
-    <Content Include="Views\KhachHangs\Details.cshtml" />
     <Content Include="Views\KhachHangs\Edit.cshtml" />
     <Content Include="Views\KhachHangs\Index.cshtml" />
     <Content Include="Views\NguoiDungs\Create.cshtml" />
@@ -472,7 +471,6 @@
     <Content Include="Views\NhaCungCaps\Index.cshtml" />
     <Content Include="Views\NhomHangs\Create.cshtml" />
     <Content Include="Views\NhomHangs\Delete.cshtml" />
-    <Content Include="Views\NhomHangs\Details.cshtml" />
     <Content Include="Views\NhomHangs\Edit.cshtml" />
     <Content Include="Views\NhomHangs\Index.cshtml" />
     <Content Include="Views\MauHangs\Create.cshtml" />
@@ -519,6 +517,7 @@
     <Content Include="Views\DonHangNhaps\CreateMauHangs.cshtml" />
     <Content Include="Views\DonHangDats\History.cshtml" />
     <Content Include="Views\Login\Registration.cshtml" />
+    <Content Include="Views\MauHangs\Group.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />

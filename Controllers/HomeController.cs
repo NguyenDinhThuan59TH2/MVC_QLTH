@@ -31,7 +31,7 @@ namespace FreeTime1.Controllers
                 {
                     ViewBag.ThongBao = ThongBao;
                 }
-                ViewBag.NhomHangs = db.NhomHangs.ToList();
+                ViewBag.NhomHangs = db.NhomHangs.Where(d => d.DaXoa == false).ToList();
                 return View(db.Hangs.Where(i => i.SoLuong > 0).Include(i => i.MauHang).ToList());
             }
             return View();
@@ -70,7 +70,7 @@ namespace FreeTime1.Controllers
                         MaMHS.Add(mauHang.MaMH);
                     }
                 }
-                var nhomHangs = db.NhomHangs.ToList();
+                var nhomHangs = db.NhomHangs.Where(d => d.DaXoa == false).ToList();
                 var viewBagMaNHS = new string[nhomHangs.Count()];
                 int i = 0;
                 foreach (NhomHang nhom in nhomHangs)

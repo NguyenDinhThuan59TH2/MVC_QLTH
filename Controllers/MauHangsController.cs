@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using FreeTime1.Models;
@@ -20,6 +21,10 @@ namespace FreeTime1.Controllers
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) 
                 return RedirectToAction("Index", "Login");
+            if (TempData["TaoThanhCong"] != null)
+            {
+                ViewBag.TaoThanhCong = TempData["TaoThanhCong"].ToString();
+            }
             return View(db.MauHangs.Where(i => i.DaXoa == false).ToList());
         }
 
@@ -40,6 +45,69 @@ namespace FreeTime1.Controllers
             }
             return View(mauHang);
         }
+
+        public ActionResult Group (string MaMH)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
+            MauHang mauHang = db.MauHangs.Where(d => d.MaMH == MaMH && d.DaXoa == false).Include(d => d.NhomHangs).FirstOrDefault();
+            if (mauHang == null)
+            {
+                TempData["TaoThanhCong"] = "Không tìm thấy mẫu hàng đã chọn";
+                return RedirectToAction("Index");
+            }
+            List<string> MaNHS = new List<string>();
+            foreach(NhomHang nhomHang in mauHang.NhomHangs)
+            {
+                MaNHS.Add(nhomHang.MaNH);
+            }
+            var nhomHangs = db.NhomHangs.Where(d => d.DaXoa == false).ToList();
+            foreach(NhomHang nhomHang in nhomHangs)
+            {
+                if (MaNHS.Contains(nhomHang.MaNH))
+                {
+                    nhomHang.Thuoc = true;
+                }
+            }
+            ViewBag.nhomHangs = nhomHangs;
+            return View(mauHang);
+        }
+        
+        public ActionResult TimKiemNhomHang (string MaMH, string MaNH, string TenNH)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
+            MauHang mauHang = db.MauHangs.Where(d => d.MaMH == MaMH && d.DaXoa == false).Include(d => d.NhomHangs).FirstOrDefault();
+            if (mauHang == null)
+            {
+                TempData["TaoThanhCong"] = "Không tìm thấy mẫu hàng đã chọn";
+                return RedirectToAction("Index");
+            }
+            List<string> MaNHS = new List<string>();
+            foreach (NhomHang nhomHang in mauHang.NhomHangs)
+            {
+                MaNHS.Add(nhomHang.MaNH);
+            }
+            var nhomHangs = db.NhomHangs.Where(d =>
+                d.DaXoa == false &&
+                (MaNH == "" || d.MaNH.Contains(MaNH)) &&
+                (TenNH == "" || d.TenNH.Contains(TenNH))
+            ).ToList();
+            foreach (NhomHang nhomHang in nhomHangs)
+            {
+                if (MaNHS.Contains(nhomHang.MaNH))
+                {
+                    nhomHang.Thuoc = true;
+                }
+            }
+            ViewBag.MaNH = MaNH;
+            ViewBag.TenNH = TenNH;
+            ViewBag.nhomHangs = nhomHangs;
+            return View("Group", mauHang);
+        }
+
         public ActionResult TimKiem(string MaMH, string TenMH, string DonVi, string ChuThich)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
@@ -203,6 +271,38 @@ namespace FreeTime1.Controllers
             db.SaveChanges();
             ViewBag.XoaThanhCong = "Xóa khách hàng " + mauHang.TenMH + " thành công!";
             return View("Index", db.MauHangs.Where(i=>i.DaXoa==false).ToList());
+        }
+
+        [HttpPost]
+        public ActionResult SetGroup(FormCollection formCollection)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
+            List<string> MaNHS = new List<string>(formCollection.AllKeys);
+            string MaMH = formCollection["MaMH"];
+            MaNHS.Remove(MaMH);
+            MauHang mauHang = db.MauHangs.Where(d => d.MaMH == MaMH && d.DaXoa == false).Include(d => d.NhomHangs).FirstOrDefault();
+            if (mauHang == null)
+            {
+                TempData["TaoThanhCong"] = "Không tìm thấy mẫu hàng đã chọn";
+                return RedirectToAction("Index");
+            }
+            foreach (NhomHang nhomHang in mauHang.NhomHangs.ToList())
+            {
+                mauHang.NhomHangs.Remove(nhomHang);
+            }
+            foreach(string MaNH in MaNHS)
+            {
+                NhomHang nhomHang = db.NhomHangs.Where(d => d.MaNH == MaNH && d.DaXoa == false).FirstOrDefault();
+                if (nhomHang != null)
+                {
+                    mauHang.NhomHangs.Add(nhomHang);
+                }
+            }
+            db.SaveChanges();
+            TempData["TaoThanhCong"] = "Thiết lập nhóm cho " + mauHang.TenMH + " thành công!";
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

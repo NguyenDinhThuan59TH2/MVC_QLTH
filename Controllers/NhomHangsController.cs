@@ -19,7 +19,15 @@ namespace FreeTime1.Controllers
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
             if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
-            return View(db.NhomHangs.ToList());
+            if (TempData["TaoThanhCong"] != null)
+            {
+                ViewBag.TaoThanhCong = TempData["TaoThanhCong"].ToString();
+            }
+            if (TempData["XoaThanhCong"] != null)
+            {
+                ViewBag.XoaThanhCong = TempData["XoaThanhCong"].ToString();
+            }
+            return View(db.NhomHangs.Where(d => d.DaXoa == false).ToList());
         }
 
         // GET: NhomHangs/Details/5
@@ -40,7 +48,20 @@ namespace FreeTime1.Controllers
             return View(nhomHang);
         }
 
-        // GET: NhomHangs/Create
+        public ActionResult TimKiem(string MaNH, string TenNH)
+        {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
+            var nhomHangs = db.NhomHangs.Where(d =>
+                (MaNH == "" || d.MaNH.Contains(MaNH)) &&
+                (TenNH == "" || d.TenNH.Contains(TenNH)) &&
+                d.DaXoa == false
+            );
+            ViewBag.MaNH = MaNH;
+            ViewBag.TaiKhoan = TenNH;
+            return View("Index", nhomHangs);
+        }
         public ActionResult Create()
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
@@ -54,10 +75,20 @@ namespace FreeTime1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaNH,TenNH")] NhomHang nhomHang)
+        public ActionResult Create([Bind(Include = "TenNH")] NhomHang nhomHang)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null) return RedirectToAction("Index", "Login");
             if (ModelState.IsValid)
             {
+                if (db.NhomHangs.Where(d => d.TenNH == nhomHang.TenNH).FirstOrDefault() != null)
+                {
+                    TempData["TaoThanhCong"] = "Tên nhóm hàng đã tồn tại";
+                    return RedirectToAction("Index");
+                }
+                int count = db.NhomHangs.Count() + 1;
+                nhomHang.MaNH = "NH" + count.ToString();
+                nhomHang.DaXoa = false;
                 db.NhomHangs.Add(nhomHang);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -88,16 +119,24 @@ namespace FreeTime1.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaNH,TenNH")] NhomHang nhomHang)
+        public ActionResult Edit(string MaNH, string TenNH)
         {
-            if (ModelState.IsValid)
+            NhomHang nhomHang = db.NhomHangs.SingleOrDefault(n => n.MaNH == MaNH && n.DaXoa == false);
+            System.Diagnostics.Debug.WriteLine("MaNH: ", MaNH);
+            System.Diagnostics.Debug.WriteLine("TenNH: ", TenNH);
+            if (db.NhomHangs.Where(d => d.TenNH == TenNH).FirstOrDefault() != null)
             {
-                db.Entry(nhomHang).State = EntityState.Modified;
+                TempData["TaoThanhCong"] = "Tên nhóm hàng đã tồn tại";
+                return RedirectToAction("Index");
+            }
+            if (nhomHang != null)
+            {
+                nhomHang.TenNH = TenNH;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(nhomHang);
+            ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
+            return View();
         }
 
         // GET: NhomHangs/Delete/5
@@ -123,9 +162,13 @@ namespace FreeTime1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
+            NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
+            if (sNguoiDung == null || db.NguoiDungs.Where(d => d.MaND == sNguoiDung.MaND).FirstOrDefault() == null)
+                return RedirectToAction("Index", "Login");
             NhomHang nhomHang = db.NhomHangs.Find(id);
-            db.NhomHangs.Remove(nhomHang);
+            nhomHang.DaXoa = true;
             db.SaveChanges();
+            TempData["XoaThanhCong"] = "Xóa nhóm hàng " + nhomHang.TenNH + " thành công!";
             return RedirectToAction("Index");
         }
 

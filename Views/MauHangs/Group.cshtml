@@ -1,0 +1,89 @@
+﻿@model FreeTime1.Models.MauHang
+
+@{
+    ViewBag.Title = "Nhóm Mẫu Hàng";
+    var grid = new WebGrid(ViewBag.nhomHangs, canPage: true, defaultSort: "TenNH", rowsPerPage: 10);
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/search.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/grid.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/text.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/checkbox.css">
+}
+<div>
+    <a href="@Url.Action("Index", new {})" class="btn btn-primary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+        <span>
+            Quay về
+        </span>
+    </a>
+</div>
+<h2 class="text-title">@Model.TenMH</h2>
+<div class="search">
+    @using (Html.BeginForm("TimKiemNhomHang", "MauHangs", FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+        <input name="MaMH" value="@Model.MaMH" class="hide form-input" />
+        <div class="search-group">
+            <table class="search-table">
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Mã nhóm hàng</div>
+                    </td>
+                    <td class="search-table-td">
+                        <input type="text" name="MaNH" value="@ViewBag.MaNH" class="search-input" />
+                    </td>
+                </tr>
+            </table>
+            <table class="search-table">
+                <tr class="search-table-tr">
+                    <td class="search-table-td search-label">
+                        <div>Tên nhóm hàng</div>
+                    </td>
+                    <td class="search-table-td">
+                        <input type="text" name="TenNH" value="@ViewBag.TenNH" class="search-input" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="search-footer">
+            <input type="submit" name="submit" value="Tìm kiếm" class="btn search-submit" />
+        </div>
+    }
+</div>
+<div class="grid">
+    <form action="@Url.Action("SetGroup", "MauHangs")" method="post">
+        <div class="grid-action">
+            <input type="submit" value="Lưu" class="btn btn-success btn-sm" />
+        </div>
+        <input name="MaMH" value="@Model.MaMH" class="hide form-input" />
+        @grid.GetHtml(
+            tableStyle: "table table-bordered table-hover",
+            footerStyle: "grid-footer",
+            fillEmptyRows: true,
+            mode: WebGridPagerModes.Numeric,
+            alternatingRowStyle: "alternatingRowStyle",
+            columns: new[]
+            {
+                grid.Column("","", format:
+                @<div class="funkyradio">
+                    <div class="funkyradio-primary">
+                        @if (item.Thuoc == true)
+                        {
+                            <input type="checkbox" name="@item.MaNH" id="@item.MaNH" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="@item.MaNH" id="@item.MaNH" />
+                        }
+                        <label for="@item.MaNH" style="margin: 0px;">Thuộc nhóm</label>
+                    </div>
+                </div>
+                ),
+                grid.Column("MaNH","Mã nhóm hàng"),
+                grid.Column("TenNH","Tên nhóm hàng"),
+            }
+        )
+    </form>
+</div>
