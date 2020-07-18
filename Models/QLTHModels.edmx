@@ -149,6 +149,7 @@
           </Key>
           <Property Name="MaNH" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="TenNH" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="DaXoa" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TaiKhoanKhachHang">
           <Key>
@@ -462,6 +463,7 @@
           <Property Name="MaNH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TenNH" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="MauHangs" Relationship="Self.MauHangNhomHang" FromRole="NhomHang" ToRole="MauHang" />
+          <Property Name="DaXoa" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Hang_DonHangNhap">
           <End Role="Hang" Type="Self.Hang" Multiplicity="1" />
@@ -840,6 +842,7 @@
           <EntitySetMapping Name="NhomHangs">
             <EntityTypeMapping TypeName="QLTapHoaModel.NhomHang">
               <MappingFragment StoreEntitySet="NhomHang">
+                <ScalarProperty Name="DaXoa" ColumnName="DaXoa" />
                 <ScalarProperty Name="MaNH" ColumnName="MaNH" />
                 <ScalarProperty Name="TenNH" ColumnName="TenNH" />
               </MappingFragment>

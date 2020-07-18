@@ -27,6 +27,7 @@ create table MauHang(
 create table NhomHang(
 	MaNH varchar(10) primary key not null,
 	TenNH nvarchar(300) not null,
+	DaXoa bit not null,
 )
 
 create table MauHangNhomHang(
@@ -187,11 +188,11 @@ INSERT INTO MauHang VALUES
 	('MH31',N'Sữa cô gái hà lan - lốc 4 hộp',N'lốc',N'suahopCoGaiHaLan.jpg',N'Sữa Hộp nhập theo thùng, bán thùng và lẻ', '0')
 
 Insert into NhomHang Values
-	('NH1',N'Bánh Kẹo'),
-	('NH2',N'Bia Rượu'),
-	('NH3',N'Gia Dụng'),
-	('NH4',N'Vàng Mã'),
-	('NH5',N'Nước Giải Khát')
+	('NH1',N'Bánh Kẹo', '0'),
+	('NH2',N'Bia Rượu', '0'),
+	('NH3',N'Gia Dụng', '0'),
+	('NH4',N'Vàng Mã', '0'),
+	('NH5',N'Nước Giải Khát', '0')
 
 
 

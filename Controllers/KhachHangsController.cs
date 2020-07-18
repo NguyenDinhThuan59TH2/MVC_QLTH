@@ -73,9 +73,6 @@ namespace FreeTime1.Controllers
             ViewBag.GioiTinh = GioiTinh;
             return View("Index", KhachHangs);
         }
-
-
-
         private bool CheckFileType(string fileName)
         {
             string ext = System.IO.Path.GetExtension(fileName);
@@ -226,7 +223,7 @@ namespace FreeTime1.Controllers
             //     return View("Index",db.KhachHangs.ToList());
             // }
             khachHang.DaXoa = true;
-          //  db.KhachHangs.Remove(khachHang);
+            // db.KhachHangs.Remove(khachHang);
             db.SaveChanges();
             ViewBag.XoaThanhCong = "Xóa khách hàng " + khachHang.HoTen + " thành công!";
             return View("Index", db.KhachHangs.Where( i=> i.DaXoa == false).ToList());
