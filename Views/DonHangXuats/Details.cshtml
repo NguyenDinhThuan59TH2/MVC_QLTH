@@ -37,8 +37,6 @@
             @foreach (var item in Model)
             {
                 @:MaDHX.push('@item.MaDHX');
-                @:NgayXuat.push('@item.DonHangXuat.NgayXuat');
-                @:HoTen.push('@item.DonHangXuat.KhachHang.HoTen');
                 @:MaMH.push('@item.Hang.MaMH');
                 @:TenMH.push('@item.Hang.MauHang.TenMH');
                 @:HanSuDung.push('@item.Hang.HanSuDung');
@@ -67,7 +65,7 @@
                     <div style="width: 100%">
                       <div style="width: 100%; text-align: center;">
                         TẠP HÓA PHÚC THẢO
-                        <h4 style="margin: 15px 0;">HÓA ĐƠN XUẤT: ${MaDHX} </h4 >
+                        <h4 style="margin: 15px 0;">HÓA ĐƠN XUẤT: ${MaDHX1} </h4 >
                         <h5> Ngày xuất: ${NgayXuat} </h5>
                         <h5> Tên khách hàng: ${HoTen} </h5>
                       </div>
