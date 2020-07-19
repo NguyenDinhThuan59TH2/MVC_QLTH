@@ -43,6 +43,23 @@
                 <ul style="display: flex; justify-content: flex-end;">
                     @if (khachHang != null)
                     {
+                        <li style="font-size: 15px; font-weight: bold; display: flex; justify-content: center; align-items: center;">
+                            <img src="~/Images/KhachHangs/@khachHang.Anh" style="width: 40px; height: 40px; border-radius: 50%;" />
+                        </li>
+                        if (ViewBag.Info == null)
+                        {
+                            <li style="font-size: 15px; font-weight: bold; display: flex; justify-content: center; align-items: center;">
+                                @Html.ActionLink("Thông tin cá nhân", "Info", "KhachHangs", new { MaKH = khachHang.MaKH }, new { @style = "color: #ffac2f;" })
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <button class="w3view-cart" onclick="location.href='@Url.Action("Index", "Home")'" style="background: none; position: relative;">
+                                    <img src="~/Images/store.png" alt="Giỏ hàng" style="width: 100%;" />
+                                </button>
+                            </li>
+                        }
                         if (ViewBag.HistoryBackStore == null)
                         {
                             <li style="font-size: 15px; font-weight: bold; display: flex; justify-content: center; align-items: center;">
@@ -80,23 +97,33 @@
                                 </button>
                             }
                         }
-                    </li>
-                    <li>
                         @if (khachHang == null)
                         {
+                        <li>
                             <a href="#" data-toggle="modal" data-target="#myModal2">
                                 @Html.ActionLink("Đăng nhập", "Index", "Login")
                             </a>
-                        }
-                        else
-                        {
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
                             <p style="text-align: center;">@khachHang.HoTen</p>
                             <a href="#" data-toggle="modal" data-target="#myModal2">
                                 @Html.ActionLink("Đăng xuất", "Logout", "Login")
                             </a>
+                        </li>
+                    }
+                        @if (khachHang == null)
+                        {
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#myModal2">
+                                    @Html.ActionLink("Đăng ký", "Registration", "Login")
+                                </a>
+                            </li>
                         }
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
             </div>
         </div>
     </div>

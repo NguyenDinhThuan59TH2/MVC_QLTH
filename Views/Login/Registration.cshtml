@@ -1,7 +1,125 @@
-﻿
+﻿@model FreeTime1.Models.RegisterModel
+
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_LayoutRegister.cshtml";
 }
 
-<h2>Registration</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRANG ĐĂNG KÝ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Transitive register form a Flat Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
+    <script type="application/x-javascript">
+         addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+        function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href="~/Asset/Register/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="~/Asset/Register/css/font-awesome.css">
+    <link href="//fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+</head>
+<body>
+    @using (Html.BeginForm("Registration", "Login", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="w3ls-headding">
+            <h1><span>T</span>ẠP <span>H</span>ÓA <span>P</span>HÚC <span>T</span>HẢO</h1>
+        </div>
+        <div class="agile-main">
+            @*<div class="agile-left">
 
+            </div>*@
+            <div class="agile-right">
+                <form action="#" method="post">
+                    <div class="agile-right-h2">
+                        <h2> Đăng Ký</h2>
+                    </div>
+                    <div class="form-group">
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="alert alert-success">@ViewBag.Success</div>
+                        }
+                        <div class="text-error h6" style=" color: red; font-weight: bold; margin-bottom: 10px; font-size: 17px;">
+                            @Html.ValidationMessage("AddModelError")
+                        </div>
+                    </div>
+                    <div class="clear" style="color:white">
+                        Họ và tên
+                    </div>
+                    <div class="w3l-name">
+                        <span><i class="fa fa-user" aria-hidden="true"></i></span>
+                        @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new {  @required = "", @placeholder = "Họ và tên", @type = "text", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clear" style="color:white">
+                        Số điện thoại
+                    </div>
+                    <div class="w3l-name">
+                        <span><i class="fa fa-phone" aria-hidden="true"></i></span>
+                        @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @required = "", @placeholder = "Số điện thoại", @type = "text", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clear" style="color:white">
+                        Ngày sinh
+                    </div>
+                    <div class="w3l-name">
+                        <span><i class="fa fa-birthday-cake" aria-hidden="true"></i></span>
+                        @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @required = "", @placeholder = "Ngày sinh", @type = "date", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clear" style="color:white">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="w3l-email">
+                        <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @required = "", @placeholder = "Email", @type = "email", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clear" style="color:white">
+                        Tài khoản
+                    </div>
+                    <div class="w3l-name">
+                        <span><i class="fa fa-user" aria-hidden="true"></i></span>
+                        @Html.EditorFor(model => model.TaiKhoan, new { htmlAttributes = new { @required = "", @placeholder = "Tài khoản", @type = "text", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.TaiKhoan, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clear" style="color:white">
+                        Mật khẩu
+                    </div>
+                    <div class="w3l-psw">
+                        <span><i class="fa fa-lock" aria-hidden="true"></i></span>
+                        <input type="password" name="MatKhau" placeholder="Mật khẩu" required="" value="" />
+                        @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clear" style="color:white">
+                        Xác nhận lại mật khẩu
+                    </div>
+                    <div class="w3l-cpsw">
+                        <span><i class="fa fa-lock" aria-hidden="true"></i></span>
+                        <input type="password" name="XacNhanMatKhau" placeholder="Xác nhận mật khẩu" required="" value="" />
+                        @Html.ValidationMessageFor(model => model.XacNhanMatKhau, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="w3l-submit" style=" display: flex; justify-content: center; align-items: center; flex-direction: row-reverse;">
+                        <input type="submit" value="Đăng ký">
+                        @Html.ActionLink("Đăng nhập", "Index", null, new { @style= "color: #fff; font - size: 17px; font-weight: bold; text-decoration: none;", @class = "signuplink" })
+                    </div>
+                </form>
+            </div>
+            <div class="clear"></div>
+        </div>
+    }
+</body>
+<footer>
+    <p>&copy; Design by Five brother</a></p>
+</footer>
+</html>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

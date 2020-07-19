@@ -38,5 +38,7 @@ namespace FreeTime1.Models
         public virtual DbSet<HangDonHangDat> HangDonHangDats { get; set; }
         public virtual DbSet<DonHangNhap> DonHangNhaps { get; set; }
         public virtual DbSet<DonHangXuat> DonHangXuats { get; set; }
+
+        public System.Data.Entity.DbSet<FreeTime1.Models.RegisterModel> RegisterModels { get; set; }
     }
 }

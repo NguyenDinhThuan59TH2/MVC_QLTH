@@ -45,6 +45,16 @@ namespace FreeTime1.Controllers
             return View();
         }
 
+        public ActionResult Info ()
+        {
+            KhachHang skhachHang = Session["khachHang"] as KhachHang;
+            if (skhachHang == null) return RedirectToAction("Index", "Login");
+            KhachHang khachHang = db.KhachHangs.Where(d => d.MaKH == skhachHang.MaKH).FirstOrDefault();
+            if (khachHang == null) return RedirectToAction("Index", "Login");
+            ViewBag.Info = true;
+            return View(khachHang);
+        }
+
         public ActionResult TimKiem(string MaKH, string Email, string GioiTinh, string HoTen, string SDT, string DiaChi)
         {
             NguoiDung sNguoiDung = Session["nguoiDung"] as NguoiDung;
@@ -190,6 +200,36 @@ namespace FreeTime1.Controllers
                 return RedirectToAction("Index");
             }
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CusEdit(string MaKH, string HoTen, string SDT, string DiaChi, string Email)
+        {
+            KhachHang khachHang = db.KhachHangs.SingleOrDefault(n => n.MaKH == MaKH && n.DaXoa == false);
+            if (khachHang != null)
+            {
+                var Anh = Request.Files["Anh"];
+                if (Anh.FileName != "")
+                {
+                    if (!CheckFileType(Anh.FileName))
+                    {
+                        ViewBag.LoiFile = "Kiểu File không được hỗ trợ!";
+                        return View(khachHang);
+                    }
+                    string FileName = System.IO.Path.GetFileName(Anh.FileName);
+                    var path = Server.MapPath("/Images/KhachHangs/" + FileName);
+                    Anh.SaveAs(path);
+                    khachHang.Anh = FileName;
+                }
+                khachHang.HoTen = HoTen;
+                khachHang.SDT = SDT;
+                khachHang.DiaChi = DiaChi;
+                khachHang.Email = Email;
+                db.SaveChanges();
+                Session["khachHang"] = khachHang;
+                return RedirectToAction("Info");
+            }
             return View();
         }
 
