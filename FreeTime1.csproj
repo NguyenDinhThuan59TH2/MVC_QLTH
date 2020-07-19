@@ -201,6 +201,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QLTHModels.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\TaiKhoanKhachHang.cs">
       <DependentUpon>QLTHModels.tt</DependentUpon>
     </Compile>
@@ -355,6 +356,11 @@
     <Content Include="Asset\Login\css\style.css" />
     <Content Include="Asset\Login\images\startLogin.jpg" />
     <Content Include="Asset\Login\images\women.jpg" />
+    <Content Include="Asset\Register\css\font-awesome.css" />
+    <Content Include="Asset\Register\css\style.css" />
+    <Content Include="Asset\Register\fonts\fontawesome-webfont.svg" />
+    <Content Include="Asset\Register\images\left1.jpg" />
+    <Content Include="Asset\Register\images\bg.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -374,7 +380,9 @@
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\text.css" />
     <Content Include="Images\433ffe79300419.5cbf252374433.jpg" />
+    <Content Include="Images\bg.jpg" />
     <Content Include="Images\HUY.jpg" />
+    <Content Include="Images\left1.jpg" />
     <Content Include="Images\MacDinh.png" />
     <Content Include="Images\person10.png" />
     <Content Include="Images\person11.png" />
@@ -426,6 +434,13 @@
     <Content Include="Asset\InDex\fonts\FontAwesome.otf" />
     <Content Include="Asset\InDex\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Asset\InDex\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Asset\Register\fonts\Exo2-Regular.ttf" />
+    <Content Include="Asset\Register\fonts\fontawesome-webfont.eot" />
+    <Content Include="Asset\Register\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Asset\Register\fonts\fontawesome-webfont.woff" />
+    <Content Include="Asset\Register\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Asset\Register\fonts\FontAwesome.otf" />
+    <Content Include="Asset\Register\fonts\PT_Sans-Web-Regular.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -516,8 +531,10 @@
     <Content Include="Views\DonHangDats\Order.cshtml" />
     <Content Include="Views\DonHangNhaps\CreateMauHangs.cshtml" />
     <Content Include="Views\DonHangDats\History.cshtml" />
+    <Content Include="Views\Shared\_LayoutRegister.cshtml" />
     <Content Include="Views\Login\Registration.cshtml" />
     <Content Include="Views\MauHangs\Group.cshtml" />
+    <Content Include="Views\KhachHangs\Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\NguoiDungs\" />
