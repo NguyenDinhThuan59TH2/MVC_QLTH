@@ -24,9 +24,9 @@
                 <img class="order-stock-img" src="~/Images/MauHangs/@hangDonHangDat.Hang.MauHang.Anh" alt="@hangDonHangDat.Hang.MauHang.TenMH" />
                 <div class="order-stock-info">
                     <div class="order-stock-info-name">@hangDonHangDat.Hang.MauHang.TenMH</div>
-                    <div class="order-stock-info-price">Đơn giá: 1 @hangDonHangDat.Hang.MauHang.DonVi/ @hangDonHangDat.Hang.GiaBan VNĐ</div>
+                    <div class="order-stock-info-price">Đơn giá: 1 @hangDonHangDat.Hang.MauHang.DonVi/ @String.Format("{0:n0}", hangDonHangDat.Hang.GiaBan) VNĐ</div>
                     <div class="order-stock-info-count">Đang đặt: @hangDonHangDat.SoLuong @hangDonHangDat.Hang.MauHang.DonVi</div>
-                    <div class="order-stock-info-total">Tổng: @(hangDonHangDat.SoLuong*hangDonHangDat.Hang.GiaBan)VNĐ</div>
+                    <div class="order-stock-info-total">Tổng: @String.Format("{0:n0}", (hangDonHangDat.SoLuong * hangDonHangDat.Hang.GiaBan))</div>
                 </div>
                 @using (Html.BeginForm("DeleteOrder", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
@@ -38,7 +38,7 @@
             }
         </div>
         <div class="order-body-right">
-            <div>Tổng cộng: @Tong VNĐ</div>
+            <div>Tổng cộng: @String.Format("{0:n0}", Tong) VNĐ</div>
             @using (Html.BeginForm("OrderDocument", "DonHangDats", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <input class="form-input hide" name="MaKH" value="@khachHang.MaKH" />

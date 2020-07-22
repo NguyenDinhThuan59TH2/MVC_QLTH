@@ -93,7 +93,7 @@ else
                             <img class="product-img" src="~/Images/MauHangs/@item.MauHang.Anh" />
                             <div class="product-info">
                                 <div class="product-info-name">@item.MauHang.TenMH</div>
-                                <div class="product-info-price">1 @item.MauHang.DonVi/ @item.GiaBan</div>
+                                <div class="product-info-price">1 @item.MauHang.DonVi/ @String.Format("{0:n0}", item.GiaBan)</div>
                                 <div class="product-info-count">Còn @item.SoLuong @item.MauHang.DonVi</div>
                                 <div class="product-info-des">@item.MauHang.ChuThich</div>
                                 <div class="product-action">

@@ -63,7 +63,7 @@
                     <div>Tổng tiền: </div>
                 </td>
                 <td class="search-table-td" style="color: green; font-weight: bold;">
-                    @(Model.TongDonHang)VNĐ
+                    @String.Format("{0:n0}", Model.TongDonHang) VNĐ
                 </td>
             </tr>
         </table>
@@ -85,15 +85,11 @@ grid.Column("SoLuong","Số lượng đặt",format:
 @<div>
     @item.SoLuong @item.Hang.MauHang.DonVi
 </div>),
-grid.Column("Hang.GiaBan","Giá bán",format:
-@<div>
-    @(item.Hang.GiaBan)VNĐ
-</div>
-),
+grid.Column("Hang.GiaBan","Giá bán",format:@item => @item.Hang.GiaBan.ToString("#,##0.")),
 grid.Column("Hang.HanSuDung","Hạn sử dụng",format:@item => @item.Hang.HanSuDung != null ? @item.Hang.HanSuDung.ToString(string.Format("dd/MM/yyyy")) : ""),
 grid.Column("","Tổng",format:
 @<div style="color: green; font-weight: bold;">
-    @(item.SoLuong * item.Hang.GiaBan)VNĐ
+    @String.Format("{0:n0}",item.SoLuong * item.Hang.GiaBan)VNĐ
 </div>
 ),
 grid.Column("","",format:

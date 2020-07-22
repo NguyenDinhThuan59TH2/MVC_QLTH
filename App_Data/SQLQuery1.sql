@@ -275,3 +275,6 @@ insert into HangDonHangXuat values
 	('DHX5','H5','9')
 
 select * from TaiKhoanKhachHang
+select *
+From Hang join HangDonHangXuat on HangDonHangXuat.MaH = Hang.MaH
+Where HangDonHangXuat.MaDHX = 'DHX1'

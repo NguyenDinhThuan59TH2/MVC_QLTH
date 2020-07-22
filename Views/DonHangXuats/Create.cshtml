@@ -185,12 +185,12 @@ else
                                         Mặt hàng
                                     </div>
                                     <div>
-                                        <select name="MaH" id="maHang">
+                                        <select name="MaH" id="maHang" class="form-input">
                                             @foreach (var hang in ViewBag.Hangs)
                                             {
                                                 <option value="@hang.MaH">
                                                     <p>@hang.MauHang.TenMH - @hang.SoLuong@hang.MauHang.DonVi</p>
-                                                    <p>Giá bán: @hang.GiaBan</p>
+                                                    <p>Giá bán:@String.Format("{0:n0}", hang.GiaBan)</p>
                                                     <p>Hạn sử dụng: @hang.HanSuDung</p>
                                                 </option>
                                             }
@@ -232,7 +232,7 @@ else
                                     grid.Column("Hang.MauHang.TenMH","Tên mặt hàng"),
                                     grid.Column("SoLuong","Số lượng xuất"  ),
                                     grid.Column("Hang.MauHang.DonVi","Đơn vị tính"  ),
-                                    grid.Column("Hang.GiaNhap","Giá bán"),
+                                    grid.Column("Hang.GiaNhap","Giá bán",format:@item => @item.Hang.GiaNhap.ToString("#,##0.")),
                                     grid.Column("Hang.HanSuDung","Hạn sử dụng",format:@item => @item.Hang.HanSuDung.ToString(string.Format("dd/MM/yyyy"))),
                                     grid.Column("", "", format:
 @<div>
