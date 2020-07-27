@@ -41,13 +41,13 @@
                     <img src="~/Images/MauHangs/@hangDonHangDat.Hang.MauHang.Anh" alt="@hangDonHangDat.Hang.MauHang.TenMH" style="width: 30%; margin-right: 1%;" />
                     <div style="width: 69%">
                         <div class="history-stock-name">@hangDonHangDat.Hang.MauHang.TenMH</div>
-                        <div class="history-stock-count">@hangDonHangDat.SoLuong@hangDonHangDat.Hang.MauHang.DonVi: @(hangDonHangDat.SoLuong*hangDonHangDat.Hang.GiaBan)VNĐ</div>
-                        <div class="history-stock-price">Giá: @(hangDonHangDat.Hang.GiaBan)VNĐ/1@(hangDonHangDat.Hang.MauHang.DonVi)</div>
+                        <div class="history-stock-count">@hangDonHangDat.SoLuong@hangDonHangDat.Hang.MauHang.DonVi:@String.Format("{0:n0}", (hangDonHangDat.SoLuong * hangDonHangDat.Hang.GiaBan)) VNĐ</div>
+                        <div class="history-stock-price">Giá: @String.Format("{0:n0}", (hangDonHangDat.Hang.GiaBan))VNĐ / 1@(hangDonHangDat.Hang.MauHang.DonVi)</div>
                     </div>
                 </div>
                 }
             </div>
-            <div class="history-doc-total">Tổng đơn hàng: @(donHangDat.TongDonHang)VNĐ</div>
+            <div class="history-doc-total">Tổng đơn hàng: @String.Format("{0:n0}", (donHangDat.TongDonHang)) VNĐ</div>
         </div>
         }
     </div>

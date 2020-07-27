@@ -166,7 +166,7 @@ namespace FreeTime1.Controllers
 
                 var Anh = Request.Files["Anh"];
                 mauHang.Anh = "Default.jpg";
-                if (Anh != null)
+                if (Anh.FileName != "")
                 {
                     if (!CheckFileType(Anh.FileName))
                     {
