@@ -145,7 +145,7 @@ namespace FreeTime1.Controllers
                 db.KhachHangs.Add(khachHang);
                 db.SaveChanges();
                 ViewBag.TaoThanhCong = "Thêm khách hàng " + khachHang.HoTen + " thành công!";
-                return View("Index", db.KhachHangs.ToList());
+                return RedirectToAction("Index");
             }
             ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => System.Diagnostics.Debug.WriteLine(x.ErrorMessage + "\n"));
             return View(khachHang);
