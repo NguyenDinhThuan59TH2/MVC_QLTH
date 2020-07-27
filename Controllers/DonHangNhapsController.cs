@@ -290,17 +290,42 @@ namespace FreeTime1.Controllers
             }
             if (!loi)
             {
-                hang.MaMH = MaMH;
-                hang.MaNCC = donHangNhap.MaNCC;
-                hang.NgayNhap = donHangNhap.NgayNhap;
-                hang.DaNhap = false;
                 HangDonHangNhap hangDonHangNhap = new HangDonHangNhap();
                 hangDonHangNhap.SoLuong = int.Parse(SoLuong);
                 hangDonHangNhap.MaH = hang.MaH;
                 hangDonHangNhap.MaDHN = donHangNhap.MaDHN;
-                db.Hangs.Add(hang);
-                db.HangDonHangNhaps.Add(hangDonHangNhap);
-                db.SaveChanges();
+                Hang hangTim = db.Hangs.Where(d =>
+                    d.GiaBan == hang.GiaBan &&
+                    d.GiaNhap == hang.GiaNhap &&
+                    d.HanSuDung == hang.HanSuDung
+                ).FirstOrDefault();
+                if (hangTim != null)
+                {
+                    HangDonHangNhap hangDonHangNhapTim = db.HangDonHangNhaps.Where(d =>
+                        d.MaDHN == donHangNhap.MaDHN &&
+                        d.MaH == hangTim.MaH
+                    ).FirstOrDefault();
+                    if (hangDonHangNhapTim != null)
+                    {
+                        hangDonHangNhapTim.SoLuong += int.Parse(SoLuong);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.HangDonHangNhaps.Add(hangDonHangNhap);
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    hang.MaMH = MaMH;
+                    hang.MaNCC = donHangNhap.MaNCC;
+                    hang.NgayNhap = donHangNhap.NgayNhap;
+                    hang.DaNhap = false;
+                    db.Hangs.Add(hang);
+                    db.HangDonHangNhaps.Add(hangDonHangNhap);
+                    db.SaveChanges();
+                }
             }
             donHangNhap.NhaCungCap = db.NhaCungCaps.Where(d => d.MaNCC == donHangNhap.MaNCC).FirstOrDefault();
             donHangNhap.HangDonHangNhaps = db.HangDonHangNhaps.Where(d => d.MaDHN == donHangNhap.MaDHN).ToList();
