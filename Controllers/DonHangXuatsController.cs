@@ -160,6 +160,31 @@ namespace FreeTime1.Controllers
                 ((TimKiemNgayNhap && NgayXuatBDDate <= d.NgayXuat && d.NgayXuat <= NgayXuatKTDate) || !TimKiemNgayNhap) &&
                 d.DaXoa == false
             );
+            decimal TongGiaTriXuat = 0;
+            foreach (DonHangXuat donHangXuat in DonHangXuats)
+            {
+                donHangXuat.TongDonHang = 0;
+                var hangDonHangXuats = db.HangDonHangXuats.Where(d => d.MaDHX == donHangXuat.MaDHX);
+                foreach (HangDonHangXuat hangDonHangXuat in hangDonHangXuats)
+                {
+                    Hang hang = db.Hangs.Where(d => d.MaH == hangDonHangXuat.MaH).First();
+                    donHangXuat.TongDonHang += hangDonHangXuat.SoLuong * hang.GiaBan;
+                }
+                // tinh giam gia
+                if (donHangXuat.KieuGiamGia != "" && donHangXuat.GiamGia != null)
+                {
+                    if (donHangXuat.KieuGiamGia == "VNĐ")
+                    {
+                        donHangXuat.TongDonHang -= Math.Round(decimal.Parse(donHangXuat.GiamGia), 0);
+                    }
+                    else if (donHangXuat.KieuGiamGia == "%")
+                    {
+                        donHangXuat.TongDonHang -= Math.Round(donHangXuat.TongDonHang / 100 * decimal.Parse(donHangXuat.GiamGia), 0);
+
+                    }
+                }
+                TongGiaTriXuat += donHangXuat.TongDonHang;
+            }
             ViewBag.MaDHX = MaDHX;
             ViewBag.TenKH = TenKH;
             ViewBag.NgayNhapBD = NgayXuatBD;
